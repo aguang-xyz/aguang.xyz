@@ -13,7 +13,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "update": "scp -r ./build root@aguang.xyz:/var/www/html"
+    "update": "scp -r ./build/* root@aguang.xyz:/var/www/html/"
   },
   "eslintConfig": {
     "extends": "react-app"

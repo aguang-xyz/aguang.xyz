@@ -5,5 +5,5 @@ This project is my personal blog [www.aguang.xyz](http://www.aguang.xyz/) and wa
 ## How to update
 
 ```
-npm run build update
+npm run build && npm run update
 ```
