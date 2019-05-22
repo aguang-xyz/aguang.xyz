@@ -191,12 +191,13 @@ class HomePage extends React.Component {
               <ChevronLeftIcon />
             </IconButton>
           </div>
+					
+          <Divider />
 
 					<List>
 						{items}
 					</List>
           
-					<Divider />
 				</Drawer>
 
 				<main className={classes.content}>
