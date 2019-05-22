@@ -106,6 +106,13 @@ const styles = theme => ({
       width: theme.spacing.unit * 9,
     },
   },
+	content: {
+		flexGrow: 1,
+		padding: theme.spacing.unit * 3,
+		height: '100vh',
+		overflow: 'auto',
+		boxSizing: 'border-box',
+	}
 })
 
 
@@ -185,8 +192,6 @@ class HomePage extends React.Component {
             </IconButton>
           </div>
 
-					<Divider />
-
 					<List>
 						{items}
 					</List>
@@ -194,9 +199,11 @@ class HomePage extends React.Component {
 					<Divider />
 				</Drawer>
 
-				<ScrollTop
-					text="back to top"
-				/>
+				<main className={classes.content}>
+					<ScrollTop
+						text="back to top"
+					/>
+				</main>
 			</div>
 		)
 	}
