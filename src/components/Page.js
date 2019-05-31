@@ -17,34 +17,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import PeopleIcon from '@material-ui/icons/People';
+import StarIcon from '@material-ui/icons/Star';
+import PersonIcon from '@material-ui/icons/Person';
 
-import { GoMarkGithub } from 'react-icons/go';
+import { GoMarkGithub, GoMail } from 'react-icons/go';
 
-import ScrollTop from "react-scrolltop-button";
+import ReactMarkdown from 'react-markdown';
 
 const drawerWidth = 240;
-
-// TODO
-
-const items = (
-  /*
-	<div>
-		{Array.apply(null, { length: 50 }).map((i) => (
-
-			<ListItem button key={i}>
-				<ListItemIcon>
-					<PeopleIcon />
-				</ListItemIcon>
-				<ListItemText
-					primary="Category 1"
-				/>
-			</ListItem>
-		))}
-	</div>
-  */
-  []
-)
 
 const styles = theme => ({
 	root: {
@@ -82,6 +62,8 @@ const styles = theme => ({
   menuButtonHidden: {
     display: 'none',
   },
+  menuIcon: {
+  },
 	title: {
     flexGrow: 1,
   },
@@ -109,6 +91,7 @@ const styles = theme => ({
 	content: {
 		flexGrow: 1,
 		padding: theme.spacing.unit * 3,
+		paddingTop: theme.spacing.unit * 10,
 		height: '100vh',
 		overflow: 'auto',
 		boxSizing: 'border-box',
@@ -116,7 +99,7 @@ const styles = theme => ({
 })
 
 
-class HomePage extends React.Component {
+class Page extends React.Component {
 
 	state = {
 		showDrawer: false,
@@ -127,21 +110,21 @@ class HomePage extends React.Component {
 	};
 
 	handleDrawerClose = () => {
-		console.log('close..');
-
 		this.setState({ showDrawer: false });
 	};
+
+  handleGoEmail = () => {
+		window.location.assign('mailto:aguang@aguang.xyz');
+  };
 
 	handleGoToGithub = () => {
 		window.location.assign('https://github.com/aguang-xyz');
 	};
 
 	render() {
-		const { classes } = this.props
-
-	console.log(this.state.showDrawer)
-
-		return (
+		const { classes, menu, body } = this.props
+		
+    return (
 			<div className={classes.root}>
 				<AppBar
 					position="absolute"
@@ -172,8 +155,12 @@ class HomePage extends React.Component {
             >
               Aguang's Blog
             </Typography>
-
-						<IconButton color="inherit" onClick={this.handleGoToGithub}>
+						
+            <IconButton color="inherit" onClick={this.handleGoEmail}>
+              <GoMail />
+            </IconButton>
+						
+            <IconButton color="inherit" onClick={this.handleGoToGithub}>
               <GoMarkGithub />
             </IconButton>
 					</Toolbar>
@@ -194,20 +181,31 @@ class HomePage extends React.Component {
 					
           <Divider />
 
-					<List>
-						{items}
-					</List>
-          
+          <ListItem button onClick={() => window.location.assign('/#/post/latest/1')}>
+            <ListItemIcon className={classes.menuIcon}>
+              <StarIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Latest Posts"
+            />
+          </ListItem>
+ 
+          <ListItem button onClick={() => window.location.assign('/#/post/about/myself')}>
+            <ListItemIcon className={classes.menuIcon}>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="About Myself"
+            />
+          </ListItem>         
 				</Drawer>
 
 				<main className={classes.content}>
-					<ScrollTop
-						text="back to top"
-					/>
+          {body}
 				</main>
 			</div>
 		)
 	}
 } 
 
-export default withStyles(styles)(HomePage);
+export default withStyles(styles)(Page);

@@ -13,7 +13,7 @@ export default function WelcomePage() {
         </p>
         <a
           className="WelcomePage-link"
-          href="#/home"
+          href="#/post/latest/1"
         >
           Learn More
         </a>

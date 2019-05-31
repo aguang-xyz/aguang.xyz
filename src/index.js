@@ -7,12 +7,12 @@ import * as serviceWorker from './plugins/serviceWorker';
 import './index.css';
 
 import WelcomePage from './components/WelcomePage';
-import HomePage from './components/HomePage';
+import PostPage from './components/PostPage';
 
 const Index = () => (
   <Router>
     <Route path="/" exact component={WelcomePage} />
-    <Route path="/home" exact component={HomePage} />
+    <Route path="/post/:category/:name" exact component={PostPage} />
   </Router>
 );
 
