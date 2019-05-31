@@ -2,6 +2,7 @@
   "name": "aguang.xyz",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://aguang.xyz/",
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
