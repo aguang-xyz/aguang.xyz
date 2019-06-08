@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import ReactLatex from 'react-latex';
 import ReactHighlight from 'react-highlight';
 import Axios from 'axios';
 
 import 'highlight.js/styles/github.css';
 import 'github-markdown-css/github-markdown.css';
+
+import 'katex/dist/katex.css';
 
 import Page from './Page';
 
@@ -53,6 +56,11 @@ export default class PostPage extends React.Component {
             <ReactMarkdown
               source={this.state.content}
               renderers={{
+                text: (text) => (
+                  <p2>
+                    <ReactLatex>{text.value}</ReactLatex>
+                  </p2>
+                ),
                 code: (code) => (
                   <ReactHighlight
                     className={code.language}
