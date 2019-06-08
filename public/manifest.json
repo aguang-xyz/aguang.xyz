@@ -1,5 +1,6 @@
 {
  "name": "Aguang's Blog",
+ "display": "standalone",
  "images": [
   {
    "src": "\/images\/android-icon-36x36.png",
