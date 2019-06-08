@@ -98,7 +98,7 @@ const styles = theme => ({
 		boxSizing: 'border-box',
 	},
   contentFoot: {
-    height: '28px',
+    height: '50px',
   },
 })
 
