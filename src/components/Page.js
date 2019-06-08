@@ -29,6 +29,7 @@ const drawerWidth = 240;
 const styles = theme => ({
 	root: {
 		display: 'flex',
+    overflow: 'hidden'
 	},
 	appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -95,7 +96,10 @@ const styles = theme => ({
 		height: '100vh',
 		overflow: 'auto',
 		boxSizing: 'border-box',
-	}
+	},
+  contentFoot: {
+    height: '28px',
+  },
 })
 
 
@@ -202,6 +206,8 @@ class Page extends React.Component {
 
 				<main className={classes.content}>
           {body}
+          
+          <div className={classes.contentFoot}/>
 				</main>
 			</div>
 		)
