@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+
 import ReactLatex from 'react-latex';
 import ReactHighlight from 'react-highlight';
+
+import RemarkMathPlugin from "remark-math";
+
 import Axios from 'axios';
 
 import 'highlight.js/styles/github.css';
@@ -55,11 +59,13 @@ export default class PostPage extends React.Component {
           <article className="markdown-body">
             <ReactMarkdown
               source={this.state.content}
+              plugins={[RemarkMathPlugin]}
               renderers={{
-                text: (text) => (
-                  <p2>
-                    <ReactLatex>{text.value}</ReactLatex>
-                  </p2>
+                math: (text) => (
+                  <ReactLatex>{"$$" + text.value + "$$"}</ReactLatex>
+                ),
+                inlineMath: (text) => (
+                  <ReactLatex>{"$" + text.value + "$"}</ReactLatex>
                 ),
                 code: (code) => (
                   <ReactHighlight
