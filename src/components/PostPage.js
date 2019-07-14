@@ -20,6 +20,7 @@ import Page from './Page';
 export default class PostPage extends React.Component {
 
   state = {
+    path: '',
     content: '',
     commentId: ''
   };
@@ -32,7 +33,10 @@ export default class PostPage extends React.Component {
 
     const path = '/posts/' + category + '/' + name + '.md';
 
-    this.setState({ commentId: 'post::' + path });
+    this.setState({
+      path: path,
+      commentId: 'post::' + path
+    });
 
     Axios
       .get('/posts/' + category + '/' + name + '.md')
@@ -60,6 +64,8 @@ export default class PostPage extends React.Component {
   }
 
   render() {
+    const url = window.location.protocol + '//' + window.location.host + this.state.path
+
     return (
       <Page
         body={
@@ -84,10 +90,15 @@ export default class PostPage extends React.Component {
               }}
             />
 
-            <CommentEmbed
-              commentId={this.state.commentId}
-              showMedia={true}
+            <DiscussionEmbed
+              shortname = 'aguang-xyz'
+              config={{
+                url: url,
+                identifier: this.state.commentId,
+                title: 'article'
+              }}
             />
+
           </article>
         }
       />
