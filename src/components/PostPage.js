@@ -95,7 +95,7 @@ export default class PostPage extends React.Component {
               config={{
                 url: url,
                 identifier: this.state.commentId,
-                title: 'article'
+                title: "aguang.xyz"
               }}
             />
 
