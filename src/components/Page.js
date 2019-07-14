@@ -18,6 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import StarIcon from '@material-ui/icons/Star';
 import PersonIcon from '@material-ui/icons/Person';
+import MoviesIcon from '@material-ui/icons/LocalMovies';
 
 import { GoMarkGithub, GoMail } from 'react-icons/go';
 
@@ -191,6 +192,15 @@ class Page extends React.Component {
             />
           </ListItem>
  
+          <ListItem button onClick={() => window.location.assign('/#/post/movies/1')}>
+            <ListItemIcon className={classes.menuIcon}>
+              <MoviesIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Shared Movies"
+            />
+          </ListItem>
+
           <ListItem button onClick={() => window.location.assign('/#/post/about/myself')}>
             <ListItemIcon className={classes.menuIcon}>
               <PersonIcon />
@@ -198,7 +208,7 @@ class Page extends React.Component {
             <ListItemText
               primary="About Myself"
             />
-          </ListItem>         
+          </ListItem>
 				</Drawer>
 
 				<main className={classes.content}>
