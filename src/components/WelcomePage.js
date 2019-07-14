@@ -4,6 +4,7 @@ import './WelcomePage.css';
 import logo from '../images/logo.svg';
 
 export default function WelcomePage() {
+
   return (
     <div className="WelcomePage">
       <header className="WelcomePage-header">
@@ -13,7 +14,7 @@ export default function WelcomePage() {
         </p>
         <a
           className="WelcomePage-link"
-          href="#/post/latest/1"
+          href="#/post/articles/latest"
         >
           Learn More
         </a>

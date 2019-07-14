@@ -21,6 +21,7 @@
 
 .WelcomePage-link {
   color: #61dafb;
+  text-decoration: none;
 }
 
 @keyframes WelcomePage-logo-spin {
