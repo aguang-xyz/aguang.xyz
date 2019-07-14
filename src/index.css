@@ -20,3 +20,8 @@ code {
   height: 100%;
   overflow: hidden;
 }
+
+.markdown-body iframe {
+
+  width: 100%;
+}

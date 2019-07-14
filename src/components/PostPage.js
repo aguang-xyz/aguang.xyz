@@ -8,6 +8,8 @@ import RemarkMathPlugin from "remark-math";
 
 import Axios from 'axios';
 
+import { DiscussionEmbed, CommentCount, CommentEmbed } from 'disqus-react';
+
 import 'highlight.js/styles/github.css';
 import 'github-markdown-css/github-markdown.css';
 
@@ -19,6 +21,7 @@ export default class PostPage extends React.Component {
 
   state = {
     content: '',
+    commentId: ''
   };
 
   reload(props) {
@@ -26,6 +29,10 @@ export default class PostPage extends React.Component {
     const { match: { params } } = props;
     const category = params.category.replace(/\./g, '');
     const name = params.name.replace(/\./g, '');
+
+    const path = '/posts/' + category + '/' + name + '.md';
+
+    this.setState({ commentId: 'post::' + path });
 
     Axios
       .get('/posts/' + category + '/' + name + '.md')
@@ -75,6 +82,11 @@ export default class PostPage extends React.Component {
                   </ReactHighlight>
                 )
               }}
+            />
+
+            <CommentEmbed
+              commentId={this.state.commentId}
+              showMedia={true}
             />
           </article>
         }
