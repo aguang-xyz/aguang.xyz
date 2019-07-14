@@ -183,7 +183,7 @@ class Page extends React.Component {
 					
           <Divider />
 
-          <ListItem button onClick={() => window.location.assign('/#/post/latest/1')}>
+          <ListItem button onClick={() => window.location.assign('/#/post/articles/latest')}>
             <ListItemIcon className={classes.menuIcon}>
               <StarIcon />
             </ListItemIcon>
@@ -192,7 +192,7 @@ class Page extends React.Component {
             />
           </ListItem>
  
-          <ListItem button onClick={() => window.location.assign('/#/post/movies/1')}>
+          <ListItem button onClick={() => window.location.assign('/#/post/movies/latest')}>
             <ListItemIcon className={classes.menuIcon}>
               <MoviesIcon />
             </ListItemIcon>

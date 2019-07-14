@@ -17,6 +17,12 @@ import 'katex/dist/katex.css';
 
 import Page from './Page';
 
+const DISQUS_BLACK_LIST = [
+  '/posts/articles/latest.md',
+  '/posts/movies/latest.md',
+  '/posts/about/myself.md',
+];
+
 export default class PostPage extends React.Component {
 
   state = {
@@ -63,6 +69,17 @@ export default class PostPage extends React.Component {
     this.reload(props);
   }
 
+  shouldShowDisqus() {
+
+    for (var i = 0; i < DISQUS_BLACK_LIST.length; i++) {
+      if (DISQUS_BLACK_LIST[i] == this.state.path) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   render() {
     const url = window.location.protocol + '//' + window.location.host + this.state.path
 
@@ -90,14 +107,16 @@ export default class PostPage extends React.Component {
               }}
             />
 
-            <DiscussionEmbed
-              shortname = 'aguang-xyz'
-              config={{
-                url: url,
-                identifier: this.state.commentId,
-                title: "aguang.xyz"
-              }}
-            />
+            {this.shouldShowDisqus() ? (
+              <DiscussionEmbed
+                shortname = 'aguang-xyz'
+                config={{
+                  url: url,
+                  identifier: this.state.commentId,
+                  title: "aguang.xyz"
+                }}
+              />
+            ) : null}
 
           </article>
         }
