@@ -18,6 +18,7 @@ import 'katex/dist/katex.css';
 import Page from './Page';
 
 const DISQUS_BLACK_LIST = [
+  '',
   '/posts/articles/latest.md',
   '/posts/movies/latest.md',
   '/posts/about/myself.md',
