@@ -4,7 +4,7 @@ I'm Aguang, a guy who enjoys programming since fourteen years old.
 
 ## EDUCATION
 
-* Sep 2019 to June 2021 in **[University of Auckland](https://www.auckland.ac.nz/en.html)**
+* Sep 2019 to Jun 2021 in **[University of Auckland](https://www.auckland.ac.nz/en.html)**
   * **Master's Degree of Professional Studies in Data Science**
 
 * Sep 2013 to Jun 2017 in **[ZheJiang University](http://www.zju.edu.cn/)**
