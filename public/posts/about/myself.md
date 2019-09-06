@@ -1,8 +1,11 @@
 ## PERSONAL PROFILE
 
-I'm Aguang, a guy who enjoys programming.
+I'm Aguang, a guy who enjoys programming since fourteen years old.
 
 ## EDUCATION
+
+* Sep 2019 to June 2021 in **[University of Auckland](https://www.auckland.ac.nz/en.html)**
+  * **Master's Degree of Professional Studies in Data Science**
 
 * Sep 2013 to Jun 2017 in **[ZheJiang University](http://www.zju.edu.cn/)**
   * **Bachelor's Degree of Computer Science**
@@ -28,4 +31,4 @@ I'm Aguang, a guy who enjoys programming.
 
   * ** Used Programming Languages **: `Pascal` `C` `C++` `Go` `Java` `Javascript` `Python`
   * ** Front-end Skills**: `React` `React Native`
-  * ** Back-end Skills**: `Redis` `MySQL` `HBase` `MongoDB` `Spring` `Node.js`
+  * ** Back-end Skills**: `Redis` `MySQL` `HBase` `MongoDB` `Spring Framework` `Node.js`

@@ -191,15 +191,6 @@ class Page extends React.Component {
               primary="Latest Posts"
             />
           </ListItem>
- 
-          <ListItem button onClick={() => window.location.assign('/#/post/movies/latest')}>
-            <ListItemIcon className={classes.menuIcon}>
-              <MoviesIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary="Shared Movies"
-            />
-          </ListItem>
 
           <ListItem button onClick={() => window.location.assign('/#/post/about/myself')}>
             <ListItemIcon className={classes.menuIcon}>
