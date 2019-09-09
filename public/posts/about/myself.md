@@ -1,6 +1,6 @@
 ## PERSONAL PROFILE
 
-I'm Aguang, a guy who enjoys programming since fourteen years old.
+I'm Aguang, a guy who enjoys programming since 13 yrs old.
 
 ## EDUCATION
 
