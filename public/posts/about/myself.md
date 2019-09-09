@@ -12,7 +12,7 @@ I'm Aguang, a guy who enjoys programming since fourteen years old.
 
 ## WORK EXPERIENCE
 
-* Nov 2018 to July 2019 in **[Ant Financial](https://en.wikipedia.org/wiki/Ant_Financial)**
+* Jul 2018 to July 2019 in **[Ant Financial](https://en.wikipedia.org/wiki/Ant_Financial)**
   * **Software Engineer**
 * Jul 2017 to Jun 2018 in **[Pinduoduo Inc](https://en.wikipedia.org/wiki/Pinduoduo)**
   * **DevOps Engineer**
