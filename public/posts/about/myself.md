@@ -4,11 +4,11 @@ I'm Aguang, a guy who enjoys programming since 13 yrs old.
 
 ## EDUCATION
 
-* Sep 2019 to Jun 2021 in **[University of Auckland](https://www.auckland.ac.nz/en.html)**
-  * **Master's Degree of Professional Studies in Data Science**
+* Sep 2019 to Jan 2021 in **[University of Auckland](https://www.auckland.ac.nz/en.html)**
+  * **Master of Professional Studies in Data Science**
 
 * Sep 2013 to Jun 2017 in **[ZheJiang University](http://www.zju.edu.cn/)**
-  * **Bachelor's Degree of Computer Science**
+  * **Bachelor of Engineering in Computer Science and Technology**
 
 ## WORK EXPERIENCE
 
@@ -17,7 +17,7 @@ I'm Aguang, a guy who enjoys programming since 13 yrs old.
 * Jul 2017 to Jun 2018 in **[Pinduoduo Inc](https://en.wikipedia.org/wiki/Pinduoduo)**
   * **DevOps Engineer**
 * Apr 2016 to Oct 2016 in **[Huawei](https://en.wikipedia.org/wiki/Huawei) Central Software Institute**
-  * **Practice Algorithm Engineer**
+  * **Algorithm Engineer Intern**
 
 ## HONORS
 
@@ -27,6 +27,10 @@ I'm Aguang, a guy who enjoys programming since 13 yrs old.
   * Nov 2012 **First Prize** in **[NOIP 2012](http://www.noi.cn/)**
   * Nov 2011 **First Prize** in **[NOIP 2011](http://www.noi.cn/)**
 
+## CERTIFICATIONS
+
+  * [Free Code Camp](https://www.freecodecamp.org/)
+    * [Responsive Web Design Certificate](https://www.freecodecamp.org/certification/aguang/responsive-web-design)
 ## SKILLS
 
   * ** Used Programming Languages **: `Pascal` `C` `C++` `Go` `Java` `Javascript` `Python`
