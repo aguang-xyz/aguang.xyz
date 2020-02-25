@@ -21,10 +21,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && mv build docs",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "update": "scp -r ./build/* root@aguang.xyz:/var/www/html/"
+    "update": "scp -r ./docs/* root@aguang.xyz:/var/www/html/"
   },
   "eslintConfig": {
     "extends": "react-app"
