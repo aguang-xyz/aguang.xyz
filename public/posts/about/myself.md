@@ -31,6 +31,8 @@ I'm Aguang, a guy who enjoys programming since 13 yrs old.
 
   * [Free Code Camp](https://www.freecodecamp.org/)
     * [Responsive Web Design Certificate](https://www.freecodecamp.org/certification/aguang/responsive-web-design)
+    * [JavaScript Algorithms and Data Structures](https://www.freecodecamp.org/certification/aguang/javascript-algorithms-and-data-structures)
+
 ## SKILLS
 
   * ** Used Programming Languages **: `Pascal` `C` `C++` `Go` `Java` `Javascript` `Python`
