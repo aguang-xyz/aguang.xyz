@@ -23,8 +23,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build && mv build docs",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "update": "scp -r ./docs/* root@aguang.xyz:/var/www/html/"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
