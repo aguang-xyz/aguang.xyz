@@ -116,7 +116,7 @@ class Page extends React.Component {
 	};
 
   handleGoEmail = () => {
-		window.location.assign('mailto:aguang@aguang.xyz');
+		window.location.assign('mailto:aguang.xyz@gmail.com');
   };
 
 	handleGoToGithub = () => {
