@@ -20,7 +20,7 @@ import StarIcon from '@material-ui/icons/Star';
 import PersonIcon from '@material-ui/icons/Person';
 import MoviesIcon from '@material-ui/icons/LocalMovies';
 
-import { GoMarkGithub, GoMail } from 'react-icons/go';
+import { IoLogoGithub, IoLogoLinkedin, IoMdMail } from 'react-icons/io';
 
 const drawerWidth = 240;
 
@@ -115,13 +115,17 @@ class Page extends React.Component {
 		this.setState({ showDrawer: false });
 	};
 
-  handleGoEmail = () => {
-		window.location.assign('mailto:aguang.xyz@gmail.com');
-  };
-
 	handleGoToGithub = () => {
 		window.location.assign('https://github.com/aguang-xyz');
 	};
+  
+  handleGoToLinkedin = () => {
+		window.location.assign('https://www.linkedin.com/in/wang-guangrui-80337a193/');
+  };
+  
+  handleGoEmail = () => {
+		window.location.assign('mailto:aguang.xyz@gmail.com');
+  };
 
 	render() {
 		const { classes, menu, body } = this.props
@@ -158,12 +162,16 @@ class Page extends React.Component {
               Aguang's Blog
             </Typography>
 						
-            <IconButton color="inherit" onClick={this.handleGoEmail}>
-              <GoMail />
-            </IconButton>
-						
             <IconButton color="inherit" onClick={this.handleGoToGithub}>
-              <GoMarkGithub />
+              <IoLogoGithub />
+            </IconButton>
+            
+            <IconButton color="inherit" onClick={this.handleGoToLinkedin}>
+              <IoLogoLinkedin />
+            </IconButton>
+
+            <IconButton color="inherit" onClick={this.handleGoEmail}>
+              <IoMdMail />
             </IconButton>
 					</Toolbar>
 				</AppBar>
