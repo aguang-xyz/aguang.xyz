@@ -9,10 +9,14 @@ import './index.css';
 import WelcomePage from './components/WelcomePage';
 import PostPage from './components/PostPage';
 
+import HomePage from './components/v2/HomePage';
+
 const Index = () => (
   <Router>
     <Route path="/" exact component={WelcomePage} />
     <Route path="/post/:category/:name" exact component={PostPage} />
+
+    <Route path="/v2" exact component={HomePage} />
   </Router>
 );
 

@@ -1,0 +1,18 @@
+
+.container {
+  
+  display: grid;
+
+  grid-gap: 1em;
+  
+  background-color: black;
+
+  grid-template-areas:
+    
+    'p1 p1 p1 p2 p2 p3'
+    'p1 p1 p1 p2 p2 p3'
+    'p1 p1 p1 p4 p4 p4'
+    'p5 p6 p6 p4 p4 p4'
+    'p5 p6 p6 p4 p4 p4'
+  ;
+}

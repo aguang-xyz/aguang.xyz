@@ -1,0 +1,37 @@
+.header {
+
+  height: 7rem;
+  background: #000;
+  color: #fff;
+}
+
+.headerTitle {
+  
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-family: serif;
+  
+  display: flex;
+
+  height: 100%;
+  margin: 0;
+}
+
+.headerTitle::before, .headerTitle::after {
+
+  content: ' ';
+  flex: 1;
+}
+
+.headerLink {
+
+  flex: 1;
+  align-self: center;
+  
+  color: #fff;
+  
+  text-align: center;
+  text-decoration: none;
+  
+  letter-spacing: 0.1em;
+}
