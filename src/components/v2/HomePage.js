@@ -3,10 +3,23 @@ import styles from './HomePage.module.css';
 
 import Header from './header';
 
-import PostPreview from './post-preview';
 import PostPreviewContainer from './post-preview-container';
 
 class HomePage extends React.Component {
+
+  getPostIds() {
+
+    return [
+      'spoj/4061',
+      'spoj/34409',
+      'spoj/5732',
+      'spoj/10394',
+      'spoj/5',
+      'spoj/4',
+      'spoj/2',
+      'spoj/1',
+    ];
+  }
 
   render() {
 
@@ -15,8 +28,7 @@ class HomePage extends React.Component {
         <Header />
 
         <PostPreviewContainer
-      
-          ids={[1,2,3,4,5,6,7,8]}
+          ids={this.getPostIds()}
         />
       </div>
     );

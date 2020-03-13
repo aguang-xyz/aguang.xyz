@@ -7,7 +7,7 @@
 
   position: relative;
 
-  background-color: gray;
+  overflow: hidden;
 }
 
 .container::before {
@@ -28,7 +28,7 @@
 
 .container:hover::before {
 
-  background-color: #000;
+  background-color:rgba(0, 0, 0, 0.8);
 }
 
 .container > figcaption {
@@ -42,7 +42,7 @@
  
   box-sizing: border-box;
 
-  padding: 2.7em;
+  padding: 1.0em;
 
   font-size: 1.2em;
   font-family: sans-serif;
@@ -54,11 +54,13 @@
 
 .container:hover > figcaption {
 
-  color: rgba(255, 255, 255, 1.0);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .container > figcaption > p {
 
   display: flex;
   align-self: center;
+  word-break: break-all;
+  margin: 0px;
 }

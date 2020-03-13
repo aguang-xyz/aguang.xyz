@@ -3,6 +3,7 @@
   height: 7rem;
   background: #000;
   color: #fff;
+  position: relative;
 }
 
 .headerTitle {
@@ -34,4 +35,33 @@
   text-decoration: none;
   
   letter-spacing: 0.1em;
+}
+
+.header > nav {
+
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+}
+
+.header > nav > ul {
+
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  margin: 0px;
+  align-items: center;
+  list-style: none;
+  margin-right: 1em;
+}
+
+.header > nav > ul a {
+
+  color: #fff;
+}
+.header > nav > ul svg {
+
+  font-size: 1.5em;
+  margin-right: 0.3em;
 }
