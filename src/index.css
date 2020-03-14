@@ -31,3 +31,8 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #777; 
 }
+
+html {
+
+  overflow-y: scroll;
+}
