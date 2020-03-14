@@ -5,6 +5,11 @@ posts:
   - id: 'about/myself'
     title: 'Personal Profile'
 
+  - id: 'exchange-view'
+    title: 'Exchange Rate Viewer'
+    link: 'http://exchange-rate.aguang.xyz/'
+    image: '/images/projects/exchange-rate-viewer.png'
+
   - id: 'spoj/4061'
     title: 'SPOJ 4061 - MPOLY - Polygon'
 
