@@ -12,16 +12,22 @@ code {
     monospace;
 }
 
-#root {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
+/* width */
+::-webkit-scrollbar {
+  width: 0.5rem;
 }
 
-.markdown-body iframe {
+/* Track */
+::-webkit-scrollbar-track {
+  background: #eee; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #999; 
+}
 
-  width: 100%;
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #777; 
 }
