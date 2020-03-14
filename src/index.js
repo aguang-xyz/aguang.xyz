@@ -6,17 +6,20 @@ import * as serviceWorker from './plugins/serviceWorker';
 
 import './index.css';
 
-import WelcomePage from './components/WelcomePage';
-import PostPage from './components/PostPage';
+import PostPage from './pages/post-page';
 
-import HomePage from './components/v2/HomePage';
+import CategoryPage from './pages/category-page';
 
 const Index = () => (
+
   <Router>
-    <Route path="/" exact component={WelcomePage} />
+    
+    <Route path="/" exact component={CategoryPage} />
+    
+    <Route path="/post/:category" exact component={CategoryPage} />
+
     <Route path="/post/:category/:name" exact component={PostPage} />
 
-    <Route path="/v2" exact component={HomePage} />
   </Router>
 );
 

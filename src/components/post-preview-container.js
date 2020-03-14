@@ -52,24 +52,22 @@ class PostPreviewContainer extends React.Component {
     window.removeEventListener('resize', this._resizeHandler);
   }
 
-  getStyleX(mode, ids) {
+  getStyleX(mode, posts) {
 
     const columns = mode[0].length;
-    const rowsPerGroup = mode.length;
     const itemsPerGroup = mode.reduce((x, y) => Math.max(x, ...y), 0) + 1;
 
-    console.log(`columns = ${columns}`);
-    console.log(`rowsPerGroup = ${rowsPerGroup}`);
-    console.log(`itemsPerGroup = ${itemsPerGroup}`);
+    // console.log(`columns = ${columns}`);
+    // console.log(`itemsPerGroup = ${itemsPerGroup}`);
 
     let areas = '';
     let rows = 0;
 
-    for (let i = 0; i < ids.length; i += itemsPerGroup) {
+    for (let i = 0; i < posts.length; i += itemsPerGroup) {
 
       let matrix = cloneDeep(mode);
 
-      for (let j = 0; j < itemsPerGroup && i + j < ids.length; j++) {
+      for (let j = 0; j < itemsPerGroup && i + j < posts.length; j++) {
 
         matrix = matrix.map(row => row.map(x => x === j ? `p${i + j}` : x));
       }
@@ -84,7 +82,7 @@ class PostPreviewContainer extends React.Component {
       });
     }
 
-    console.log(areas);
+    // console.log(areas);
 
     return {
 
@@ -96,18 +94,18 @@ class PostPreviewContainer extends React.Component {
 
   render() {
 
-    const { ids } = this.props;
+    const { posts } = this.props;
 
     return (
-      <div className={styles.container} style={this.getStyleX(this.state.mode, ids)}>
-        {ids.map((id, i) => (
+      <div className={styles.container} style={this.getStyleX(this.state.mode, posts)}>
+        {posts.map((post, i) => (
           
             <PostPreview
-              key={id}
-              id={id}
+              key={post.id}
               style={{
                 gridArea: `p${i}`,
               }}
+              {...post}
             />
         ))}
       </div>

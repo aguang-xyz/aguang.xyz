@@ -11,7 +11,7 @@ class Header extends React.Component {
     return (
       <header className={styles.header}>
         <p className={styles.headerTitle}>
-          <a href="#" className={styles.headerLink}>
+          <a href="/" className={styles.headerLink}>
             Aguang's Blog
           </a>
         </p>
@@ -19,19 +19,19 @@ class Header extends React.Component {
         <nav>
           <ul>
           <li>
-              <a href="https://github.com/aguang-xyz" target="_blank">
+              <a href="https://github.com/aguang-xyz">
                 <IoLogoGithub />
               </a>
             </li>
 
             <li>
-              <a href="https://www.linkedin.com/in/wang-guangrui-80337a193/" target="_blank">
+              <a href="https://www.linkedin.com/in/wang-guangrui-80337a193/">
                 <IoLogoLinkedin />
               </a>
             </li>
 
             <li>
-              <a href="mailto:aguang.xyz@gmail.com" target="_blank">
+              <a href="mailto:aguang.xyz@gmail.com">
                 <IoMdMail />
               </a>
             </li>

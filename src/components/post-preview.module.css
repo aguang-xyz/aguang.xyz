@@ -3,11 +3,11 @@
 
   display: inline-grid;
 
-  text-decoration: none;
-
   position: relative;
 
   overflow: hidden;
+
+  cursor: pointer;
 }
 
 .container::before {

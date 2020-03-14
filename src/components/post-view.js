@@ -52,9 +52,12 @@ class PostView extends React.Component {
         this.loadContent(this.props.id);
     }
 
-    componentWillReceiveProps(props) {
+    componentDidUpdate(prevProps) {
 
-        this.loadContent(props.id);
+      if (prevProps.id !== this.props.id) {
+
+        this.loadContent(this.props.id);
+      }
     }
 
     renderLatex(value) {
