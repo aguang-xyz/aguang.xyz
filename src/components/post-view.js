@@ -81,8 +81,15 @@ class PostView extends React.Component {
 
     render() {
 
+        const classNames = [ styles.container, 'markdown-body' ];
+
+        if (this.props.preview) {
+
+          classNames.push('preview');
+        }
+
         return (
-            <article className={`${styles.container} markdown-body`}>
+            <article className={`${classNames.join(' ')}`}>
                 <ReactMarkdown
                     source={this.state.content}
                     plugins={[RemarkMathPlugin]}

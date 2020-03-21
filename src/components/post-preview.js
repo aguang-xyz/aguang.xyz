@@ -22,7 +22,7 @@ const getPreview = (post) => {
     return <ImageView src={post.image} />
   }
 
-  return <PostView id={post.id} />
+  return <PostView id={post.id} preview />
 }
 
 

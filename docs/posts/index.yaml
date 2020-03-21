@@ -10,6 +10,14 @@ posts:
     link: 'http://exchange-rate.aguang.xyz/'
     image: '/images/projects/exchange-rate-viewer.png'
 
+  - id: 'data-science'
+    title: 'Data Scicen'
+    link: '#/post/data-science'
+    image: '/images/data-science/background.jpg'
+
+  - id: 'data-science/entropy-and-information-gain'
+    title: 'Entropy and Information Gain'
+
   - id: 'spoj/4061'
     title: 'SPOJ 4061 - MPOLY - Polygon'
 

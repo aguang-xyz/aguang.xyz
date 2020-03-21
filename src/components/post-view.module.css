@@ -1,9 +1,19 @@
 
 .container {
 
-    color: black;
-    background-color: #fff;
-    padding: 1rem;
+  color: black;
+  background-color: #fff;
+  padding: 1rem;
+
+  max-width: 55rem;
+  margin: auto;
+}
+
+.container:global(.preview) {
+
+  max-width: 100% !important;
+  min-height: 100%;
+  min-width: 100%;
 }
 
 /* Image */
