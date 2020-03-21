@@ -11,7 +11,7 @@ posts:
     image: '/images/projects/exchange-rate-viewer.png'
 
   - id: 'data-science'
-    title: 'Data Scicen'
+    title: 'Data Science'
     link: '#/post/data-science'
     image: '/images/data-science/background.jpg'
 
