@@ -11,3 +11,10 @@ git add docs
 git commit - "..."
 git push
 ```
+
+## Dependencies
+
+* react-icons
+* react-markdown
+* react-latex
+

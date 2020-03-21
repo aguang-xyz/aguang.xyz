@@ -10,7 +10,8 @@ import ReactLatex from 'react-latex';
 import 'katex/dist/katex.css';
 
 import ReactHighlight from 'react-highlight';
-import 'highlight.js/styles/github.css';
+import 'highlight.js/styles/solarized-dark.css';
+
 import 'github-markdown-css/github-markdown.css';
 
 import Axios from 'axios';
@@ -81,7 +82,7 @@ class PostView extends React.Component {
     render() {
 
         return (
-            <article className={styles.container}>
+            <article className={`${styles.container} markdown-body`}>
                 <ReactMarkdown
                     source={this.state.content}
                     plugins={[RemarkMathPlugin]}

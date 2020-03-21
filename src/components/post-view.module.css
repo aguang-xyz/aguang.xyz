@@ -6,3 +6,16 @@
     padding: 1rem;
 }
 
+/* Image */
+
+.container p img {
+
+	max-width: 100%;
+}
+
+/* Latex */
+
+.container :global(.katex) {
+
+	margin-left: 1rem;
+}
