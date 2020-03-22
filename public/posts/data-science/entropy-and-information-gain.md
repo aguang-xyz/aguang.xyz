@@ -142,21 +142,62 @@ Similarly, we can caculate the information gains for each attribute:
 
 By considering the information gains of different attributes, `Outlook` could also be most useful to predict whether people play gold.
 
-## 4. What is Information Gain Ratio?
+## 4. Drawbacks of multiple-valued attributes.
 
 So far, we know two approaches to meansure the complexity of a specific attribute and the compexity of the relationship between a specific attribute and the class attribute.
 
 Actually, they are the main ideas of how to select the attribute that best classifies examples in the algorithm [ID3](https://en.wikipedia.org/wiki/ID3_algorithm).
 
+Let's go back to the dataset of playing golf. At this time, we add an attribute `RecordNo`.
+
+| RecordNo | Outlook  | Temperature | Humidity | Windy | Play Golf |
+|:--------:|:--------:|:-----------:|:--------:|:-----:|:---------:|
+|        1 | sunny    | warm        | low      | no    | **yes**   |
+|        2 | sunny    | hot         | medium   | no    | no        |
+|        3 | rainy    | warm        | low      | yes   | no        |
+|        4 | overcast | hot         | high     | no    | no        |
+|        5 | sunny    | warm        | medium   | yes   | **yes**   |
+|        6 | rainy    | hot         | medium   | yes   | no        |
+|        7 | sunny    | warm        | low      | no    | **yes**   |
+|        8 | overcast | warm        | low      | yes   | **yes**   |
+|        9 | rainy    | warm        | high     | no    | no        |
+|       10 | overcast | hot         | medium   | yes   | **yes**   |
+
+Now, we use the same approaches mentioned in section 2. and section 3 to evaluate attribute `RecordNo`.
+
+$$ H(RecordNo) = - 10 \times \frac{1}{10} \log_{2}(\frac{1}{10}) \approx 3.32 $$
+
+$$ IG(Play, RecordNo) = H(Play) - H(Play | RecordNo) = 1 - 10 \times \frac{1}{10} (- \frac{1}{3} \log_{2} \frac{1}{3} - \frac{2}{3} \log_{2} \frac{2}{3}) \approx 0.08$$
+
+Compared the extropy or information gain, attribute `RecordNo` could be quite useful to predict the result.
+
+But, obviously, `RecordNo` means nothing for the result of whether people play golf or not.
+
+## 5. What is Information Gain Ratio?
+
 Now, let's talk about `information gain ratio`, which has been used in the algorithm [C4.5](https://en.wikipedia.org/wiki/C4.5_algorithm), a successor of [ID3](https://en.wikipedia.org/wiki/ID3_algorithm).
 
-### 4.1 The definition of information gain ratio.
+The main idea of `information gain ratio` is basically considering both of the complexity of the attribute it self and the complexity between the attribute and the target classification.
+
+And the purpose is to reduce the bias that we mentioned in section 4. 
+
+### 5.1 The definition of information gain ratio.
 
 Information gain ratio is the ratio between the information gain and the entropy of given attribute:
 
 $$ GR(Y, X) = \frac{IG(Y, X)}{H(X)} $$
 
-The purpose of information gain ratio is reducing the bias when an attribute has multiple different values.
+### 5.2 The answer  through comparing `information gain ratio`.
+
+| Attribute   | Information Gain | Entropy | Information Gain Ratio |
+|:-----------:|:----------------:|:-------:|:----------------------:|
+| RecordNo    | 0.08             | 3.32    | 0.02                   |
+| Outlook     | 0.13             | 1.57    | 0.08                   |
+| Temperature | 0.06             | 0.97    | 0.06                   |
+| Humidity    | 0.08             | 1.52    | 0.05                   |
+| Windy       | 0.02             | 1       | 0.02                   |
+
+By considering the `information gain ratios` of different attributs, `Outlook` could be most useful to predict whether people play golf now.
 
 ### References
 
