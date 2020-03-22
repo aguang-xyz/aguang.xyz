@@ -19,7 +19,7 @@ int* createTargetArray(int* nums, int numsSize, int* index, int indexSize, int* 
         ret[index[i]] = nums[i];
     }
     
-		*returnSize = numsSize;
+    *returnSize = numsSize;
     
     return ret;
 }
