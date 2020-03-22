@@ -27,7 +27,22 @@ class PostView extends React.Component {
 
         content: 'Loading..',
     };
-    
+   
+    parseTitle(markdown) {
+
+      const rows = markdown.split('\n');
+
+      for (let i = 0; i < rows.length; i++) {
+
+        if (rows[i].startsWith('# ')) {
+
+          return rows[i].substring(2);
+        }
+      }
+
+      return null;
+    }
+
     loadContent(id) {
 
         posts
@@ -35,6 +50,13 @@ class PostView extends React.Component {
             .then(ret => {
 
                 if (ret.status === 200) {
+
+                    const title = this.parseTitle(ret.data);
+
+                    if (null !== title && !(this.props.preview)) {
+
+                      document.title = title;
+                    }
 
                     this.setState({ content: ret.data });
                 } else {
