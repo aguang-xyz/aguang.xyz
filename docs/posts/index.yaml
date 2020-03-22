@@ -10,6 +10,11 @@ posts:
     link: 'http://exchange-rate.aguang.xyz/'
     image: '/images/projects/exchange-rate-viewer.png'
 
+  - id: 'leet-code'
+    title: 'Leet Code Weekly'
+    link: '#/post/leet-code'
+    image: '/images/leet-code/background.png'
+
   - id: 'data-science'
     title: 'Data Science'
     link: '#/post/data-science'
