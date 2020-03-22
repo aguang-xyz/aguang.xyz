@@ -1,6 +1,9 @@
 .header {
 
-  height: 7rem;
+  height: 3rem;
+  padding-top: 1rem;
+  border-bottom: 1rem solid black;
+
   background: #000;
   color: #fff;
   position: relative;
@@ -51,7 +54,7 @@
   flex-direction: row;
   height: 100%;
   margin: 0px;
-  align-items: center;
+  align-items: flex-end;
   list-style: none;
   margin-right: 1em;
 }

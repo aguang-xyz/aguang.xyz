@@ -3,6 +3,7 @@ import Axios from 'axios';
 import Yaml from 'js-yaml';
 
 import Header from '../components/header';
+import SearchBox from '../components/search-box';
 import PostPreviewContainer from '../components/post-preview-container';
 
 const posts = Axios.create({
@@ -16,6 +17,7 @@ class CategoryPage extends React.Component {
 
     title: '',
     posts: [],
+    search: '',
   };
 
   loadContent(props) {
@@ -48,6 +50,12 @@ class CategoryPage extends React.Component {
     this.loadContent(this.props);
   }
 
+  filteredPosts() {
+
+    const { search, posts } = this.state;
+
+    return posts.filter(post => post.title.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+  }
 
   render() {
 
@@ -55,8 +63,15 @@ class CategoryPage extends React.Component {
       <div>
         <Header />
 
+        <SearchBox
+          value={this.state.search}
+          onChange={search => {
+            this.setState({ search })
+          }}
+        />
+
         <PostPreviewContainer
-          posts={this.state.posts}
+          posts={this.filteredPosts()}
         />
       </div>
     );

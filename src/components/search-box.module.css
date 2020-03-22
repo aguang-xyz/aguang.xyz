@@ -1,0 +1,33 @@
+.container {
+}
+
+.container input {
+
+  display: block;
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  outline: none;
+  height: 3rem;
+  box-sizing: border-box;
+  
+  border-top: 0px;
+  border-bottom: 0.5rem solid black;
+  border-left: 0px;
+  border-right: 0px;
+
+  transition-property: all;
+  transition-duration: 0.5s;
+}
+
+.container input {
+
+  background-color: #333;
+  color: #fff;
+}
+
+.container input:focus {
+
+  background-color: #fff;
+  color: #000;
+}

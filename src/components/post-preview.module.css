@@ -26,11 +26,6 @@
   transition: 0.5s;
 }
 
-.container:hover::before {
-
-  background-color:rgba(0, 0, 0, 0.8);
-}
-
 .container > figcaption {
 
   position: absolute;
@@ -50,6 +45,11 @@
   color: rgba(255, 255, 255, 0);
   
   transition: 0.5s;
+}
+
+.container:hover::before {
+
+  background-color:rgba(0, 0, 0, 0.8);
 }
 
 .container:hover > figcaption {
