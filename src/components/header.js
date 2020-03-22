@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './header.module.css';
 
 
+import { FaTelegramPlane } from 'react-icons/fa';
 import { IoLogoGithub, IoLogoLinkedin, IoMdMail } from 'react-icons/io';
 
 class Header extends React.Component {
@@ -18,7 +19,14 @@ class Header extends React.Component {
 
         <nav>
           <ul>
-          <li>
+            
+            <li>
+              <a href="https://t.me/aguang_xyz">
+                <FaTelegramPlane />
+              </a>
+            </li>
+
+            <li>
               <a href="https://github.com/aguang-xyz">
                 <IoLogoGithub />
               </a>
