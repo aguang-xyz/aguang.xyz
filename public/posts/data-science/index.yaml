@@ -2,5 +2,8 @@ title: 'Data Science'
 
 posts:
 
+  - id: 'data-science/optimum-covers-of-functional-dependencies'
+    title: 'Optimum Covers of Functional Dependencies'
+
   - id: 'data-science/entropy-and-information-gain'
     title: 'Entropy and Information Gain'

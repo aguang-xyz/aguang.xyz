@@ -86,9 +86,22 @@ class PostView extends React.Component {
     renderLatex(value) {
 
         return (
-            <ReactLatex>
-                {value}
-            </ReactLatex>
+            <span className={styles.latex}>
+              <ReactLatex>
+                  {value}
+              </ReactLatex>
+            </span>
+        );
+    }
+
+    renderInlineLatex(value) {
+
+        return (
+            <span className={styles.latexInline}>
+              <ReactLatex>
+                  {value}
+              </ReactLatex>
+            </span>
         );
     }
 
@@ -117,7 +130,7 @@ class PostView extends React.Component {
                     plugins={[RemarkMathPlugin]}
                     renderers={{
                         math: (text) => this.renderLatex(`$$${text.value}$$`),
-                        inlineMath: (text) => this.renderLatex(`$${text.value}$`),
+                        inlineMath: (text) => this.renderInlineLatex(`$${text.value}$`),
                         code: (code) => this.renderCode(code.language, code.value),
                     }}
                 />
