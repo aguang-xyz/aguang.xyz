@@ -4,7 +4,10 @@ import Yaml from 'js-yaml';
 
 import Header from '../components/header';
 import SearchBox from '../components/search-box';
-import PostPreviewContainer from '../components/post-preview-container';
+
+import GridFlow from '../components/basic/grid-flow';
+
+import PostPreview from '../components/post-preview';
 
 const posts = Axios.create({
 
@@ -60,7 +63,7 @@ class CategoryPage extends React.Component {
   render() {
 
     return (
-      <div>
+      <div style={{ minHeight: '100vh', backgroundColor: '#000' }}>
         <Header />
 
         <SearchBox
@@ -70,9 +73,17 @@ class CategoryPage extends React.Component {
           }}
         />
 
-        <PostPreviewContainer
-          posts={this.filteredPosts()}
-        />
+        <GridFlow>
+
+          {this.filteredPosts().map((post, i) => (
+          
+            <PostPreview
+              key={post.id}
+              {...post}
+            />
+          ))}
+        </GridFlow>
+
       </div>
     );
   }

@@ -1,0 +1,13 @@
+.container {
+
+  display: grid;
+  grid-gap: 0.5rem;
+  background-color: #000;
+}
+
+.container > div {
+
+  display: inline-grid;
+  position: relative;
+  overflow: hidden;
+}
