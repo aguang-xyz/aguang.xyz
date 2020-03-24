@@ -72,5 +72,28 @@ $F$ is **optimal**.
 
 * 2.1 $ \forall G, F $, if $ G = F $ and $G$, $F$ are non-redundant and $\exist X \to W \in G$, then: $\exist Y \to Z \in F \land X \leftrightarrow Y$
 
+## 3. Algorithms
+
+|  Algorithm | Time Complexity |
+|:----------:|:---------------:|
+| Membership | $O(n)$          |
+| Direct Determination | $O(np)$ |
+| Minimum Cover | $O(np)$        |
+| L-minimum, LR-minimum | $O(n^2)$ |
+| Optical Cover | NP-complete |
+| Kernel | $O(n^n)$ |
+
+### 3.1 Membership.
+
+### 3.2 Non-redundant cover.
+
+### 3.3 Decide direct determination.
+
+### 3.4 Minimum Cover
+
+### 3.5 L-minimum and LR-minimum covers
+
+### 3.6 
+
 ## References
 

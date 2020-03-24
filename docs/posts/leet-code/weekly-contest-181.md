@@ -1,4 +1,4 @@
-# Mar 22, 2020 - Leet Code Weekly Contest 181
+# Leet Code Weekly Contest 181
 
 ## 1. [Create Target Array in the Given Order](https://leetcode.com/contest/weekly-contest-181/problems/create-target-array-in-the-given-order/)
 
