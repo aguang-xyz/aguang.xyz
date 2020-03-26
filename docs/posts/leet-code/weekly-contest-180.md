@@ -196,3 +196,208 @@ struct TreeNode* balanceBST(struct TreeNode* root){
 
 Multi-key sort (efficiency, speed), and then scan all the records by the decreasing-order of efficiency, maintain the sum of max-k sppeds.
 
+```{c++}
+template<typename T>
+class leftist_tree {
+
+  private:
+
+    struct node {
+
+      node *left, *right;
+
+      int s;
+
+      T value;
+    };
+
+    node *merge(node *x, node *y) {
+
+      if (x == NULL) {
+
+        return y;
+      }
+
+      if (y == NULL) {
+
+        return x;
+      }
+
+      if (less_than(y->value, x->value)) {
+
+        node *t = x;
+        x = y;
+        y = t;
+      }
+
+      x->right = merge(x->right, y);
+
+      if (x->left == NULL) {
+
+        x->left = x->right;
+        x->right = NULL;
+        x->s = 0;
+      } else {
+
+        if (x->left->s < x->right->s) {
+
+          node *t = x->left;
+          x->left = x->right;
+          x->right = t;
+        }
+
+        x->s = x->right->s + 1;
+      }
+
+      return x;
+    }
+
+    node *create_node(T value) {
+
+      node *x = new node();
+
+      x->left = NULL;
+      x->right = NULL;
+      x->value = value;
+
+      return x;
+    }
+
+    bool (*less_than)(T &x, T &y);
+
+    node *root;
+
+  public:
+
+    static bool small_first(T &x, T &y) {
+
+      return x < y;
+    }
+
+    static bool big_first(T &x, T &y) {
+
+      return x > y;
+    }
+
+    leftist_tree() {
+
+      this->less_than = small_first;
+      this->root = NULL;
+    }
+
+    leftist_tree(bool (*less_than)(T &x, T &y)) {
+
+      this->less_than = less_than;
+      this->root = NULL;
+    }
+
+    bool empty() {
+
+      return root == NULL;
+    }
+
+    T push(const T &x) {
+
+      root = merge(root, create_node(x));
+
+      return x;
+    }
+
+    T pop() {
+
+      node *new_root = merge(root->left, root->right);
+
+      T ret = root->value;
+
+      delete root;
+
+      root = new_root;
+
+      return ret;
+    }
+
+    void merge(leftist_tree<T> &x) {
+
+      if (x.root != NULL) {
+
+        if (less_than == x.less_than) {
+
+          root = merge(root, x.root);
+
+          x.root = NULL;
+        } else {
+
+          while (x.empty() == false) {
+
+            push(x.pop());
+          }
+        }
+      }
+    }
+};
+
+
+class Solution {
+
+    struct engineer {
+
+        int speed, efficiency;
+    };
+
+    static bool engineer_cmp(engineer &x, engineer &y) {
+
+        return x.efficiency > y.efficiency;
+    }
+
+public:
+    int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
+
+        auto engineers = leftist_tree<engineer>(engineer_cmp);
+
+        for (int i = 0; i < n; i++) {
+
+            engineer e = engineer();
+
+            e.speed = speed[i];
+            e.efficiency = efficiency[i];
+
+            engineers.push(e);
+        }
+
+        auto working_speeds = leftist_tree<int>();
+
+        long sum_speed = 0, cnt_working = 0;
+
+        double bestValue = 0;
+        int bestAns = 0;
+
+        while (engineers.empty() == false) {
+
+            engineer e = engineers.pop();
+
+
+            sum_speed += e.speed;
+            cnt_working += 1;
+
+            working_speeds.push(e.speed);
+
+            while (cnt_working > k) {
+
+                sum_speed -= working_speeds.pop();
+
+                cnt_working -= 1;
+            }
+
+            if (log(sum_speed) + log(e.efficiency) > bestValue) {
+
+                bestValue = log(sum_speed) + log(e.efficiency);
+
+                bestAns = (sum_speed * e.efficiency) % 1000000007;
+            }
+
+        }
+
+        return bestAns;
+    }
+};
+```
