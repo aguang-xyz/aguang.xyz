@@ -29,9 +29,10 @@ I'm Grey, a guy who enjoys programming since 13 yrs old.
 
 ## CERTIFICATIONS
 
-  * [Free Code Camp](https://www.freecodecamp.org/)
+  * [freecodecamp.org](https://www.freecodecamp.org/)
     * [Responsive Web Design Certificate](https://www.freecodecamp.org/certification/aguang/responsive-web-design)
     * [JavaScript Algorithms and Data Structures](https://www.freecodecamp.org/certification/aguang/javascript-algorithms-and-data-structures)
+    * [APIs and Microservices](https://www.freecodecamp.org/certification/aguang/apis-and-microservices)
 
 ## SKILLS
 
