@@ -1,0 +1,247 @@
+# FDC - Functional Dependencies' Covers
+
+** HINT: This is a draft. **
+
+[FDC](https://github.com/aguang-xyz/fdc) is a cross-platform c++ library for
+calculating the covers of functional dependencies.
+
+* Status: Developing
+* [API Doc](https://aguang-xyz.github.io/fdc/namespacefdc.html)
+
+## 1. Basic Concepts
+
+### 1.1 Attributes & sets of attributes.
+
+An attribute is a symbol of a single column in relational database model.
+In FDC, we use [`fdc::attr`](https://aguang-xyz.github.io/fdc/namespacefdc.html#a41bc7ebcf5eaef1709d04114c648f60b)
+to represent an single attribute, [`fdc::attrs`](https://aguang-xyz.github.io/fdc/namespacefdc.html#ad130047c2c2e671fd58dd6c069dcdde5)
+to represent a set of attributes.
+
+```c++
+#include <iostream>
+#include <fdc>
+
+using namespace std;
+using namespace fdc;
+
+int main(int argc, char **argv) {
+  
+  auto x = attr("X");
+  auto X = attrs({ attr("X"), attr("Y") });
+
+  cout<<"x = "<<to_str(x)<<endl;
+  cout<<"X = "<<to_str(X)<<endl;
+
+  return 0;
+}
+```
+
+### 1.2 Functional dependencies & sets of functional dependencies
+
+A functional dependency is a relationship between two sets of attributes, represented as below:
+
+$$
+  f: X \to Y
+$$
+
+which indicates that value(s) of X uniquely determines the value(s) of Y.
+
+In FDC, we use [`fdc::fd`](https://aguang-xyz.github.io/fdc/namespacefdc.html#aa9a82a6ea5967445729ae71e5e8065a2)
+to represent a functional dependency and [`fdc::fds`](https://aguang-xyz.github.io/fdc/namespacefdc.html#a7bcb6044ef326f8b3fcefe603dd18fbb)
+to represent a set of functional dependencies.
+
+```c++
+#include <iostream>
+#include <fdc>
+
+using namespace std;
+using namespace fdc;
+
+int main(int argc, char **argv) {
+ 
+  auto X = attrs({ attr("X") });
+  auto Y = attrs({ attr("Y") });
+
+  auto f = fd(X, Y);
+  auto F = fds({ f });
+  
+  cout<<"f = "<<to_str(f)<<endl;
+  cout<<"F = "<<to_str(F)<<endl;
+
+  return 0;
+}
+```
+
+### 1.3 Closure
+
+The **closure** of a given set of functional dependencies $F$ is written $F^+$,
+which is the set of all functional dependencies can be inferred from F.
+
+To construct the **closure** of a given $F$, we follow these rules
+([Armstrong's axioms](https://en.wikipedia.org/wiki/Armstrong%27s_axioms)):
+
+For $V$, $W$, $X$, $Y$, $Z$, subsets of attributes:
+
+* If $X \to Y \in F$, then $X \to Y \in F^+ $
+* $X \to X \in F^+$
+* If $X \to YZ \in F^+$, then $X \to Y \in F^+$
+* If $X \to YZ \in F^+ \land Z \to VW \in F^+$, then $X \to YZV \in F^+$
+
+In FDC, [`fdc::closure_of(fds)`](https://aguang-xyz.github.io/fdc/namespacefdc.html#a96368d32a18a06c946ce13a1175d0af4)
+can be used to get the closure of a given fds `F`.
+
+```c++
+#include <iostream>
+#include <fdc>
+
+using namespace std;
+using namespace fdc;
+
+int main(int argc, char **argv) {
+
+  auto X = attrs({ attr("X") });
+  auto Y = attrs({ attr("Y") });
+  auto Z = attrs({ attr("Z") });
+
+  auto F = fds({
+
+    fd(X, Y),
+    fd(Y, Z),
+    fd(X, Z)
+  });
+
+  cout<<to_str(closure_of(F))<<endl;
+
+  return 0;
+}
+```
+
+### 1.4 Equivalent sets of attributes
+
+For sets of attributes $X$, $Y$ and a set of functional dependencies $F$, if $X \to Y \in F^+ \land Y \to X \in F^+ $,
+then we say $X$ and $Y$ are **equivalent** under $F$, written $ X \leftrightarrow Y $.
+
+In FDC, [`fdc::equal(attrs, attrs, fds)`](https://aguang-xyz.github.io/fdc/namespacefdc.html#aa5c43e3577b5ff0d7c7e2d4093d3f451)
+is related to this.
+ 
+```c++
+#include <iostream>
+#include <fdc>
+
+using namespace std;
+using namespace fdc;
+
+int main(int argc, char **argv) {
+
+  auto X = attrs({ attr("X") });
+  auto Y = attrs({ attr("Y") });
+  auto Z = attrs({ attr("Z") });
+
+  auto F = fds({
+
+    fd(X, Y),
+    fd(Y, Z),
+    fd(Z, X)
+  });
+
+  cout<<equal(X, Y, F)<<endl; // Expected to print 1(true).
+
+  return 0;
+}
+```
+
+### 1.5 Equivalent sets of functional dependencies (cover)
+
+For sets of functional dependencies $F$ and $G$, if $F^+ = G^+$, then we say $F$ and $G$ are **equivalent**,
+written $F = G$, and $F$ is a **cover** of $G$.
+
+In FDC, you can use [`fdc::equal(fds, fds)`](https://aguang-xyz.github.io/fdc/namespacefdc.html#aad6df841a7622ac0c1b8d291d91388c3) or
+[`fdc::is_cover_of(fds, fds)`](https://aguang-xyz.github.io/fdc/namespacefdc.html#a3023396be854f0792414b149cca563c6).
+
+```c++
+#include <iostream>
+#include <fdc>
+
+using namespace std;
+using namespace fdc;
+
+int main(int argc, char **argv) {
+
+  auto X = attrs({ attr("X") });
+  auto Y = attrs({ attr("Y") });
+  auto Z = attrs({ attr("Z") });
+
+  auto F = fds({
+
+    fd(X, Y),
+    fd(Y, Z),
+    fd(X, Z)
+  });
+
+  auto G = fds({
+
+    fd(X, Y),
+    fd(Y, Z),
+  });
+
+  cout<<equal(F, G)<<endl;       // Expected to print 1(true).
+  cout<<is_cover_of(F, G)<<endl; // Expected to print 1(true).
+
+  return 0;
+}
+```
+
+#### 1.6 Non-redundant
+
+For sets of functional dependencies $G$ and $F$, if $ \not \exist G \subset F, G^+ \neq F^+ $, then we say
+$F$ is **non-redundant**.
+
+#### 1.7 Canonical
+
+For a set of functional dependencies $F$, if $F$ is **non-redundant** and $\forall X \to Y \in F$, $ |Y| = 1$ and
+$\not \exist X^`\subset X, X^` \to Y \in F^+$, then we say $F$ is **canonical**.
+
+#### 1.8 Minimum
+
+For a set of functional dependencies $F$, if $\forall G = F, |G| >= |F|$, then we say $F$ is **minimum**.
+
+#### 1.8 L-minimum
+
+For a set of functional dependencies $F$, if $F$ is **minimum** and $\forall X \to Y \in F, \not \exist X^` \subset X \land X^` \to Y \in F$,
+then we say $F$ is **L-minimum**.
+
+#### 1.9 LR-minimum
+
+For a set of functional dependencies $F$, if $F$ is **L-minimum** and $\forall X \to Y \in F, \forall Y^` \subset Y,
+(F - \{X \to Y\}) \bigcup \{X \to Y^`\} \neq F$, then we say $F$ is **LR-minimum**.
+
+#### 1.10 Optimal
+
+For a set of functional dependencies $F$, if $\not \exist G$, where $G$ has fewer attribute symbols than $F$, then we say
+$F$ is **optimal**.
+
+## 2. Algorithms
+
+|  Algorithm | Time Complexity |
+|:----------:|:---------------:|
+| Membership | $O(n)$          |
+| Direct Determination | $O(np)$ |
+| Minimum Cover | $O(np)$        |
+| L-minimum, LR-minimum | $O(n^2)$ |
+| Optical Cover | NP-complete |
+| Kernel | $O(n^n)$ |
+
+### 3.1 Membership.
+
+### 3.2 Non-redundant cover.
+
+### 3.3 Decide direct determination.
+
+### 3.4 Minimum Cover
+
+### 3.5 L-minimum and LR-minimum covers
+
+### 3.6 
+
+## References
+

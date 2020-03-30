@@ -5,20 +5,25 @@ posts:
   - id: 'about/myself'
     title: 'Personal Profile'
 
-  - id: 'exchange-view'
-    title: 'Exchange Rate Viewer'
-    link: 'http://exchange-rate.aguang.xyz/'
-    image: '/images/projects/exchange-rate-viewer.png'
+  - id: 'data-science'
+    title: 'Data Science'
+    link: '#/post/data-science'
+    image: '/images/data-science/background.jpg'
 
   - id: 'leet-code'
     title: 'Leet Code Weekly'
     link: '#/post/leet-code'
     image: '/images/leet-code/background.png'
+  
+  - id: 'algorithms'
+    title: 'Algorithms'
+    link: '#/post/algorithms'
+    image: '/images/algorithms/index.jpg'
 
-  - id: 'data-science'
-    title: 'Data Science'
-    link: '#/post/data-science'
-    image: '/images/data-science/background.jpg'
+  - id: 'exchange-view'
+    title: 'Exchange Rate Viewer'
+    link: 'http://exchange-rate.aguang.xyz/'
+    image: '/images/projects/exchange-rate-viewer.png'
 
   - id: 'data-science/entropy-and-information-gain'
     title: 'Entropy and Information Gain'

@@ -26,19 +26,28 @@ const getPreview = (post) => {
 }
 
 
-const PostPreview = (post) => (
-      
-  <div
-    className={styles.container}
-    style={post.style}
-    onClick={() => window.location.assign(getLink(post))}>
+const PostPreview = (post) => {
 
-    <figcaption>
-      <p>{post.title}</p>
-    </figcaption>
+  const classNames = [ styles.container ];
 
-    {getPreview(post)}
-  </div>
-);
+  if (post.image) {
+
+    classNames.push(styles.imageContainer);
+  }
+
+  return (
+    <div
+      className={classNames.join(' ')}
+      style={post.style}
+      onClick={() => window.location.assign(getLink(post))}>
+
+      <figcaption>
+        <p>{post.title}</p>
+      </figcaption>
+
+      {getPreview(post)}
+    </div>
+  );
+};
 
 export default PostPreview;
