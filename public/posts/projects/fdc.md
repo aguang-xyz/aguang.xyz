@@ -191,15 +191,43 @@ int main(int argc, char **argv) {
 }
 ```
 
-#### 1.6 Non-redundant
+### 1.6 Non-redundant
 
-For sets of functional dependencies $G$ and $F$, if $ \not \exist G \subset F, G^+ \neq F^+ $, then we say
+For sets of functional dependencies $G$ and $F$, if $ \forall G \subset F, G^+ \neq F^+ $, then we say
 $F$ is **non-redundant**.
+
+```c++
+#include <iostream>
+#include <fdc>
+
+using namespace std;
+using namespace fdc;
+
+int main(int argc, char **argv) {
+
+  auto X = attrs({ attr("X") });
+  auto Y = attrs({ attr("Y") });
+  auto Z = attrs({ attr("Z") });
+
+  auto F = fds({
+
+    fd(X, Y),
+    fd(Y, Z),
+    fd(X, Z)
+  });
+
+  cout<<is_non_redundant(F)<<endl;       // Expected to print 0(false),
+                                         // because { X -> Y, Y -> Z } is a
+                                         // possible subset of F.
+
+  return 0;
+}
+```
 
 #### 1.7 Canonical
 
 For a set of functional dependencies $F$, if $F$ is **non-redundant** and $\forall X \to Y \in F$, $ |Y| = 1$ and
-$\not \exist X^`\subset X, X^` \to Y \in F^+$, then we say $F$ is **canonical**.
+$\forall X^`\subset X, X^` \to Y \not \in F^+$, then we say $F$ is **canonical**.
 
 #### 1.8 Minimum
 
