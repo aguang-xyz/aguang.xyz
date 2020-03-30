@@ -259,17 +259,17 @@ $F$ is **optimal**.
 | Optical Cover | NP-complete |
 | Kernel | $O(n^n)$ |
 
-### 3.1 Membership.
+### 2.1 Membership.
 
-### 3.2 Non-redundant cover.
+### 2.2 Non-redundant cover.
 
-### 3.3 Decide direct determination.
+### 2.3 Decide direct determination.
 
-### 3.4 Minimum Cover
+### 2.4 Minimum Cover
 
-### 3.5 L-minimum and LR-minimum covers
+### 2.5 L-minimum and LR-minimum covers
 
-### 3.6 
+### 2.6 
 
 ## References
 
