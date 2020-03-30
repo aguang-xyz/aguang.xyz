@@ -1,0 +1,11 @@
+title: 'Projects'
+
+posts:
+
+  - id: 'exchange-view'
+    title: 'Exchange Rate Viewer'
+    link: 'http://exchange-rate.aguang.xyz/'
+    image: '/images/projects/exchange-rate-viewer.png'
+  
+  - id: 'projects/fdc'
+    title: "FDC - Functional Dependencies' Cover"

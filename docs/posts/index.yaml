@@ -3,7 +3,7 @@ title: 'Articles'
 posts:
 
   - id: 'about/myself'
-    title: 'Personal Profile'
+    title: 'My Profile'
 
   - id: 'data-science'
     title: 'Data Science'
@@ -20,13 +20,13 @@ posts:
     link: '#/post/algorithms'
     image: '/images/algorithms/index.jpg'
 
-  - id: 'exchange-view'
-    title: 'Exchange Rate Viewer'
-    link: 'http://exchange-rate.aguang.xyz/'
-    image: '/images/projects/exchange-rate-viewer.png'
-
   - id: 'data-science/entropy-and-information-gain'
     title: 'Entropy and Information Gain'
+  
+  - id: 'projects'
+    title: 'My Projects'
+    link: '#/post/projects'
+    image: '/images/projects/index.jpg'
 
   - id: 'spoj/4061'
     title: 'SPOJ 4061 - MPOLY - Polygon'
