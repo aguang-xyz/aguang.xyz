@@ -229,6 +229,38 @@ int main(int argc, char **argv) {
 For a set of functional dependencies $F$, if $F$ is **non-redundant** and $\forall X \to Y \in F$, $ |Y| = 1$ and
 $\forall X^`\subset X, X^` \to Y \not \in F^+$, then we say $F$ is **canonical**.
 
+In FDC, [`is_canonical(fds)`](https://aguang-xyz.github.io/fdc/namespacefdc.html#abc0c8d3b283ad8840551e7b22be70688)
+is used to check if a given `F` is cannonical.
+
+```c++
+#include <iostream>
+#include <fdc>
+
+using namespace std;
+using namespace fdc;
+
+int main(int argc, char **argv) {
+
+  auto X = attrs({ attr("X") });
+  auto Y = attrs({ attr("Y") });
+  auto Z = attrs({ attr("Z") });
+
+  auto XY = attrs({ attr("X"), attr("Y") });
+
+  auto F = fds({
+
+    fd(X, Z),
+    fd(XY, Z),
+  });
+
+  cout<<is_canonical(F)<<endl;       // Expected to print 0(false),
+                                     // because X \subset XY and
+                                     // XY \to Z \in F.
+
+  return 0;
+}
+```
+
 #### 1.8 Minimum
 
 For a set of functional dependencies $F$, if $\forall G = F, |G| >= |F|$, then we say $F$ is **minimum**.
