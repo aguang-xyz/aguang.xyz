@@ -14,6 +14,8 @@ import 'highlight.js/styles/solarized-dark.css';
 
 import 'github-markdown-css/github-markdown.css';
 
+import Graphviz from './basic/graphviz.js';
+
 import Axios from 'axios';
 
 const posts = Axios.create({
@@ -106,6 +108,15 @@ class PostView extends React.Component {
     }
 
     renderCode(language, value) {
+
+        // Support graphviz.
+        if (language === "dot") {
+
+					return (
+
+						<Graphviz engine="dot" content={value} />	
+					);
+        }
 
         return (
             <ReactHighlight className={language}>
