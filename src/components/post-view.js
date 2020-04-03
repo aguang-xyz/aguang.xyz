@@ -1,20 +1,13 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import RemarkMathPlugin from "remark-math";
 
 import styles from './post-view.module.css';
 
-import ReactMarkdown from 'react-markdown';
-
-import RemarkMathPlugin from "remark-math";
-
-import ReactLatex from 'react-latex';
-import 'katex/dist/katex.css';
-
-import ReactHighlight from 'react-highlight';
-import 'highlight.js/styles/solarized-dark.css';
-
 import 'github-markdown-css/github-markdown.css';
 
-import Graphviz from './basic/graphviz.js';
+import SourceCode from './basic/source-code.js';
+import Latex from './basic/latex.js';
 
 import Axios from 'axios';
 
@@ -85,46 +78,6 @@ class PostView extends React.Component {
       }
     }
 
-    renderLatex(value) {
-
-        return (
-            <span className={styles.latex}>
-              <ReactLatex>
-                  {value}
-              </ReactLatex>
-            </span>
-        );
-    }
-
-    renderInlineLatex(value) {
-
-        return (
-            <span className={styles.latexInline}>
-              <ReactLatex>
-                  {value}
-              </ReactLatex>
-            </span>
-        );
-    }
-
-    renderCode(language, value) {
-
-        // Support graphviz.
-        if (language === "dot") {
-
-					return (
-
-						<Graphviz engine="dot" content={value} />	
-					);
-        }
-
-        return (
-            <ReactHighlight className={language}>
-                {value}
-            </ReactHighlight>
-        );
-    }
-
     render() {
 
         const classNames = [ styles.container, 'markdown-body' ];
@@ -140,9 +93,18 @@ class PostView extends React.Component {
                     source={this.state.content}
                     plugins={[RemarkMathPlugin]}
                     renderers={{
-                        math: (text) => this.renderLatex(`$$${text.value}$$`),
-                        inlineMath: (text) => this.renderInlineLatex(`$${text.value}$`),
-                        code: (code) => this.renderCode(code.language, code.value),
+
+                        math: (text) => (
+                          <Latex.Block content={`$$${text.value}$$`} />
+                        ),
+                        
+                        inlineMath: (text) => (
+                          <Latex.Inline content={`$${text.value}$`} />
+                        ),
+                        
+                        code: ({language, value}) => (
+                          <SourceCode language={language} content={value} />
+                        ),
                     }}
                 />
             </article>

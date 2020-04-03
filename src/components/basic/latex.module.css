@@ -1,0 +1,13 @@
+.block {
+
+  display: block;
+	margin-left: 1rem;
+  margin-bottom: 16px;
+}
+
+.inline {
+
+  padding: .2em .4em;
+  background-color: rgba(27, 31, 35, .05);
+  font-size: 85%;
+}

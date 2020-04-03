@@ -31,6 +31,13 @@ class Graphviz extends React.Component {
 
     const content = props.content;
 
+    const options = {
+
+      engine,
+      scale: 2,
+      quality: 9,
+    };
+
 		viz
 			.renderString(content, { engine })
 			.then((graph) => {
@@ -45,6 +52,16 @@ class Graphviz extends React.Component {
 
 		this.updateGraph(this.props);
 	}
+
+  componentDidUpdate(prevProps) {
+
+    if (prevProps.engine !== this.props.engine ||
+      prevProps.content !== this.props.content)
+    {
+
+      this.updateGraph(this.props);
+    }
+  }
 
   render() {
 
