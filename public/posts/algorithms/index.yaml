@@ -6,7 +6,7 @@ posts:
     title: 'KMP - Pattern Searching Algorithm'
   
   - id: 'algorithms/ac-auto'
-    title: 'AC Multi-Pattern Searching Algorithm'
+    title: 'AC Automaton Multi-Pattern Searching Algorithm'
   
   - id: 'algorithms/quick-sort'
     title: 'Quick Sort Algorithm'
