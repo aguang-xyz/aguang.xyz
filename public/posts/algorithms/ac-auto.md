@@ -43,7 +43,7 @@ digraph {
 ## Implementation 
 
 ```c++
-#include "trie.cpp"
+#include "trie.hpp"
 
 using namespace std;
 
@@ -133,27 +133,22 @@ class ac_auto {
       // Current state in ac-automaton.
       auto s = root();
 
-      for (int pos = 0; pos < search.length(); ) {
+      for (int pos = 0; pos < search.length(); pos++) {
 
         // `c` is the next character expected to be matched.
         const char c = search[pos];
 
+        // Move to failback-node until character `c` is acceptable or state `s`
+        // goes to empty state.
+        while (s != root() && NULL == s->children[c]) {
+
+          s = s->ext.fail;
+        }
+
+        // Try to accept character `c`.
         if (NULL != s->children[c]) {
 
-          // Accept the character `c`, move state `s` to child-node.
           s = s->children[c];
-          
-          pos++;
-
-        } else if (s == root()) {
-
-          // Since state `s` is already empty, drop chracter `c`.
-          pos++;
-
-        } else {
-
-          //  Move state `s` to failback node.
-          s = s->ext.fail;
         }
 
         // Iterate all suffixes of current state `s`, check if there are any
@@ -164,7 +159,8 @@ class ac_auto {
 
           if (NULL != pattern) {
 
-            ret.insert(pair<int, string>(pos - (*pattern).length(), *pattern));
+            ret.insert(pair<int, string>(pos - (*pattern).length() + 1,
+                                         *pattern));
           }
         }
       }
