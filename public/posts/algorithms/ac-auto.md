@@ -55,8 +55,13 @@ class ac_auto {
 
       trie<ac_ext>::node *fail;
 
+      map<char, trie<ac_ext>::node*> fallback;
+
       string *pattern;
+
     };
+
+    typedef trie<ac_ext>::node node;
 
   private:
 
@@ -68,6 +73,7 @@ class ac_auto {
 
       return dict.root();
     }
+
 
     // Construct AC-automaton.
     ac_auto(const set<string> &patterns) {
@@ -85,7 +91,7 @@ class ac_auto {
 
       // 3. Initialize queues for BFS process.
       auto q_chr = queue<char>({ '\0' });
-      auto q_ptr = queue<trie<ac_ext>::node*>({ root });
+      auto q_ptr = queue<node*>({ root });
 
       // 4. BFS-loop.
       while (!q_chr.empty() && !q_ptr.empty()) {
@@ -108,12 +114,13 @@ class ac_auto {
 
             auto q = p->parent->ext.fail;
             
-            while (q != root && q->children[c] == NULL) {
+            while (q != root && q->children.find(c) == q->children.end()) {
 
               q = q->ext.fail;
             }
 
-            p->ext.fail = q->children[c] != NULL ? q->children[c] : root;
+            p->ext.fail = q->children.find(c) != q->children.end()
+              ? q->children[c] : root;
           }
         }
         
@@ -126,6 +133,27 @@ class ac_auto {
       }
     }
 
+    // Next state after accepting character `c`.
+    static node *next(node *state, char c) {
+
+      if (state->ext.fallback.find(c) == state->ext.fallback.end()) {
+
+        while (
+          state->ext.fail != state
+            && state->children.find(c) == state->children.end()
+        ) {
+
+          state = state->ext.fail;
+        }
+
+        state->ext.fallback[c] =
+          state->children.find(c) != state->children.end() ?
+            state->children[c] : state;
+      }
+
+      return state->ext.fallback[c];
+    }
+
     set<pair<int, string>> match(string search) {
 
       auto ret = set<pair<int, string>>();
@@ -135,21 +163,8 @@ class ac_auto {
 
       for (int pos = 0; pos < search.length(); pos++) {
 
-        // `c` is the next character expected to be matched.
-        const char c = search[pos];
-
-        // Move to failback-node until character `c` is acceptable or state `s`
-        // goes to empty state.
-        while (s != root() && NULL == s->children[c]) {
-
-          s = s->ext.fail;
-        }
-
-        // Try to accept character `c`.
-        if (NULL != s->children[c]) {
-
-          s = s->children[c];
-        }
+        // Accept next character.
+        s = next(s, search[pos]);
 
         // Iterate all suffixes of current state `s`, check if there are any
         // matched patterns.
@@ -168,7 +183,7 @@ class ac_auto {
       return ret;
     }
 
-    trie<ac_ext>::node& operator[](const string &key) {
+    node& operator[](const string &key) {
 
       return dict[key];
     }
