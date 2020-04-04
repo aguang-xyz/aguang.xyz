@@ -155,7 +155,7 @@ Let's say:
 after `state` which don't contain evil.
 
 * $F(pos, state)$ represents the number of suffix strings starting from `pos`
-after `state` which don't contain evil, less or equal than `s` and they don't
+after `state` which don't contain evil, less or equal than `state` and they don't
 contain evil.
 
 ```dot
