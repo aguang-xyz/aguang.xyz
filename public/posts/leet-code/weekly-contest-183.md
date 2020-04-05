@@ -388,3 +388,8 @@ class Solution {
     }
 };
 ```
+
+## 4. [Stone Game III](https://leetcode.com/contest/weekly-contest-183/problems/stone-game-iii/)
+
+TBD.
+
