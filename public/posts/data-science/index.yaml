@@ -2,5 +2,8 @@ title: 'Data Science'
 
 posts:
 
+  - id: 'data-science/graph-data-model'
+    title: 'Graph Data Model'
+
   - id: 'data-science/entropy-and-information-gain'
     title: 'Entropy and Information Gain'
