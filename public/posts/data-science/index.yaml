@@ -2,6 +2,9 @@ title: 'Data Science'
 
 posts:
 
+  - id: 'data-science/association-rule-mining-and-apriori-algorithm'
+    title: 'Association Analysis and Apriori Algorithm'
+
   - id: 'data-science/graph-data-model'
     title: 'Graph Data Model'
 
