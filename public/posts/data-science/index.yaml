@@ -7,3 +7,6 @@ posts:
 
   - id: 'data-science/entropy-and-information-gain'
     title: 'Entropy and Information Gain'
+  
+  - id: 'data-science/mathjax-quick-reference'
+    title: 'Mathjax Quick Reference'
