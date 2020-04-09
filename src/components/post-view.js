@@ -13,7 +13,7 @@ import Axios from 'axios';
 
 const posts = Axios.create({
 
-    baseURL: '/posts',
+    baseURL: '/_posts',
 });
 
 class PostView extends React.Component {

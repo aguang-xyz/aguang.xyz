@@ -11,7 +11,7 @@ import PostPreview from '../components/post-preview';
 
 const posts = Axios.create({
 
-  baseURL: 'posts',
+  baseURL: '_posts',
 });
 
 class CategoryPage extends React.Component {
