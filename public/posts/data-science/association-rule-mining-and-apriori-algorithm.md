@@ -128,7 +128,7 @@ $$
   & Apriori(T, \text{minSup}) \\
   & \quad C \leftarrow \empty \\
   & \quad \mathtt{for} \ x \in \{\text{distinct items of T}\} \\
-  & \quad \quad C \leftarrow \{x\} \cup I \cup \{{x} \cup a \mid a \in I\}\\
+  & \quad \quad C \leftarrow \{x\} \cup I \cup \{ {x} \cup a \mid a \in I \}\\
   & \quad \quad C \leftarrow \{ a \mid a \in C \land \frac{\sigma(x)}{\lvert T \rvert}) \geq \text{minSup} \} \\
   & \quad \mathtt{return} \ C
 \end{aligned}
