@@ -391,5 +391,64 @@ class Solution {
 
 ## 4. [Stone Game III](https://leetcode.com/contest/weekly-contest-183/problems/stone-game-iii/)
 
-TBD.
+DP.
 
+Let's say $cumsum_n = \sum_{i = 1}^{n} stone_i$, then
+
+$$
+f_i = \begin{cases}
+	cumsum_n - cumsum_{i - 1} & (n - i + 1) \leq 3 \\
+	cumsum_n - cumsum_{i - 1} - f_{i + k} & 1 \leq k \leq 3 \land (i + k - 1) \leq n \\
+\end{cases}
+$$
+
+where $f_i$ indicates the maximum sum of stones you can take starting from
+position $i$.
+
+Then you just compare $f_1$ and $cumsum_n - f_1$.
+
+```c++
+class Solution {
+public:
+    
+    int cumsum[50001], f[50001];
+    
+    string stoneGameIII(vector<int>& stoneValue) {
+        
+        int n = stoneValue.size();
+        
+        cumsum[0] = 0;
+        for (int i = 0; i < n; i++) {
+            
+            cumsum[i + 1] = cumsum[i] + stoneValue[i];
+        }
+        
+        
+        for (int i = n; i >= 1; i--) {
+                
+            f[i] = -1E8;
+                
+            for (int k = 1; k <= 3 && (i + k - 1 <= n); k++) {
+
+                int t =
+                    (i + k - 1 == n) ?
+                        (cumsum[n] - cumsum[i - 1]) :
+                        (cumsum[n] - cumsum[i - 1] - f[i + k]);
+
+                if (t > f[i]) {
+
+                    f[i] = t;
+                }
+            }
+        }
+        
+        if (cumsum[n] % 2 == 0 && cumsum[n] / 2 == f[1]) {
+            
+            return "Tie";
+        } else {
+
+            return f[1] > (cumsum[n] - f[1]) ? "Alice" : "Bob";
+        }
+    }
+};
+```
