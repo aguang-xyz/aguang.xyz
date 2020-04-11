@@ -4,7 +4,7 @@
 
 Saddle point of a matrix.
 
-```{c}
+```c++
 int* luckyNumbers (int** matrix, int matrixSize, int* matrixColSize, int* returnSize){
 
     int *min = (int*) malloc(sizeof(int) * matrixSize);
@@ -77,7 +77,7 @@ int* luckyNumbers (int** matrix, int matrixSize, int* matrixColSize, int* return
 
 Basic stack implementation.
 
-```{c}
+```c++
 typedef struct {
     
     int *stack;
@@ -133,7 +133,7 @@ void customStackFree(CustomStack* obj) {
 
 In-order traversal and then divide-and-conquer.
 
-```{c}
+```c++
 int size_of_tree(struct TreeNode *x) {
     
     return (x == NULL) ? 0 : size_of_tree(x->left) + 1 + size_of_tree(x->right); 
@@ -196,7 +196,7 @@ struct TreeNode* balanceBST(struct TreeNode* root){
 
 Multi-key sort (efficiency, speed), and then scan all the records by the decreasing-order of efficiency, maintain the sum of max-k sppeds.
 
-```{c++}
+```c++
 template<typename T>
 class leftist_tree {
 

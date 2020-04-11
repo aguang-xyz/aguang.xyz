@@ -4,7 +4,7 @@ import RemarkMathPlugin from "remark-math";
 
 import styles from './post-view.module.css';
 
-import 'github-markdown-css/github-markdown.css';
+import '../styles/github-markdown.css';
 
 import SourceCode from './basic/source-code.js';
 import Latex from './basic/latex.js';

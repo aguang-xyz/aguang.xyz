@@ -4,7 +4,7 @@
 
 Naive, no need to talk.
 
-```{c}
+```c++
 int* createTargetArray(int* nums, int numsSize, int* index, int indexSize, int* returnSize){
 
     int i, j, *ret = (int*) malloc(sizeof(int) * numsSize);
@@ -29,7 +29,7 @@ int* createTargetArray(int* nums, int numsSize, int* index, int indexSize, int* 
 
 $ O(nums.length \times \sqrt {Max(nums)}) $
 
-```{c}
+```c++
 int countDivisors(int x) {
     
     int i, j, count = 0, sum = 0;
@@ -66,7 +66,7 @@ int sumFourDivisors(int* nums, int numsSize){
 
 DFS.
 
-```{c}
+```c++
 int L = 0, R = 1, U = 2, D = 3;
 
 int ability[][4] = {
@@ -144,7 +144,7 @@ bool hasValidPath(int** grid, int gridSize, int* gridColSize){
 
 You should know what is **Partial Match Table** (A concept from KMP algorithm).
 
-```{c}
+```c++
 char * longestPrefix(char * s){
 
     int i, j, len = strlen(s);

@@ -7,6 +7,8 @@
 
   max-width: 60rem;
   margin: auto;
+
+  box-sizing: border-box;
 }
 
 .container:global(.preview) {
@@ -14,6 +16,13 @@
   max-width: 100% !important;
   min-height: 100%;
   min-width: 100%;
+}
+
+.container:global(.preview) h1, h2 {
+
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 /* Image */
