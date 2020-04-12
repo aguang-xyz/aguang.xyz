@@ -16,4 +16,6 @@ posts:
   
   - id: 'algorithms/leftist-tree'
     title: 'Leftist Tree - Mergeable Heap'
-  
+
+  - id: 'algorithms/fenwick-tree'
+    title: 'Fenwick Tree - Binary Indexed Tree'
