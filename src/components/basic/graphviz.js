@@ -31,13 +31,6 @@ class Graphviz extends React.Component {
 
     const content = props.content;
 
-    const options = {
-
-      engine,
-      scale: 2,
-      quality: 9,
-    };
-
 		viz
 			.renderString(content, { engine })
 			.then((graph) => {
