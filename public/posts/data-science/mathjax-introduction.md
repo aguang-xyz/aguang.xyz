@@ -75,6 +75,8 @@ There are two ways to insert a MathJax expression:
 | command  | preview |  command  | preview |
 |:--------:|:-------:|:---------:|:-------:|
 |`A^{x}+ `|$ A^{x} $| `A_{x}+ `|$ A_{x} $| 
+|`\overline{x}`|$\overline{x}$|`\overrightarrow{x}`|$\overrightarrow{x}$|
+|`\overbrace{x_1 \dots x_n}^n`|$\overbrace{x_1 \dots x_n}^n$|`\underbrace{x_1 \dots x_n}_n`|$\underbrace{x_1 \dots x_n}_n$|
 
 
 ### 2.2 Relational Operator
@@ -113,9 +115,6 @@ There are two ways to insert a MathJax expression:
 |              `[ x ]` |             $[ x ]$ |  `\lfloor x \rfloor` | $\lfloor x \rfloor$ |
 |             `\{ x\}` |            $\{ x\}$ |    `\lceil x \rceil` |   $\lceil x \rceil$ |
 |   `\langle x\rangle` |  $\langle x\rangle$ |
-
-
-
 
 ## 3. Layout
 
