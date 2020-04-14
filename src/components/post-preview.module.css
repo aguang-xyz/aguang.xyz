@@ -30,6 +30,8 @@
   padding: 0rem;
   
   box-shadow: 0px 0px 100px #333 inset;
+
+  z-index: 9999;
 }
 
 .container > figcaption > p {

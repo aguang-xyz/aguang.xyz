@@ -1,20 +1,37 @@
 import React from 'react';
-
-import Highlight from 'highlight.js';
-import 'highlight.js/styles/solarized-dark.css';
-
-import beautify from 'js-beautify';
-
 import GraphViz from './graphviz';
 
-const formatters = {
+// Code Mirror.
+import CodeMirror from 'codemirror';
+import 'codemirror/lib/codemirror.css';
 
-  // c++
-  "c++": (code) => beautify(code, {
-    indent_size: 2,
-    indent_char: " ",
-  }),
-};
+// Vim Mode.
+import 'codemirror/keymap/vim';
+
+// Brackets Matching.
+import 'codemirror/addon/edit/matchbrackets';
+
+// Code Folding.
+import 'codemirror/addon/fold/foldcode';
+
+import 'codemirror/addon/fold/brace-fold';
+import 'codemirror/addon/fold/comment-fold';
+import 'codemirror/addon/fold/indent-fold';
+import 'codemirror/addon/fold/markdown-fold';
+import 'codemirror/addon/fold/xml-fold';
+
+import 'codemirror/addon/fold/foldgutter';
+import 'codemirror/addon/fold/foldgutter.css';
+
+// Full Screen.
+import 'codemirror/addon/display/fullscreen'
+import 'codemirror/addon/display/fullscreen.css'
+
+// Theme.
+import 'codemirror/theme/solarized.css';
+
+// Language Supports.
+import 'codemirror/mode/clike/clike';
 
 /**
  * Source code render component.
@@ -24,6 +41,88 @@ const formatters = {
  *
  */
 class SourceCode extends React.Component {
+
+  constructor(props) {
+
+    super(props);
+
+    this.textarea = React.createRef();
+  }
+
+  getMode(props) {
+
+    return ({
+      'c++': 'text/x-c++src',
+    })[props.language];
+  }
+
+
+  bindCodeMirror(props) {
+
+    if (!this.textarea.current) {
+
+      return;
+    }
+
+    const options = {
+
+      // Read Only.
+      readOnly: true,
+
+      // Indent
+      indentUnit: 2,
+      tabSize: 2,
+      indentWithTabs: false,
+
+      // Vim Mode.
+      keyMap: 'vim',
+
+      // Show Line Numbers. 
+      lineNumbers: true,
+      lineWrapping:  true,
+     
+      // Bracket Matching.
+      matchBrackets: true,
+     
+      // Code Folding.
+      foldGutter: true,
+      gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+    
+      extraKeys: {
+
+        // Full Screen.
+        "Ctrl-F": function(cm) {
+
+          cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+        },
+
+        // Quit Full Screen.
+        "Esc": function(cm) {
+
+          cm.setOption("fullScreen", false);
+        },
+
+        // Select All,
+        "Ctrl-A": function(cm) {
+
+          cm.execCommand('selectAll');
+        },
+      },
+
+      // Theme.
+      theme: 'solarized dark',
+
+      // Language Mode.
+      mode: this.getMode(this.props),
+    };
+
+    const editor = CodeMirror.fromTextArea(this.textarea.current, options);
+  }
+
+  componentDidMount() {
+
+    this.bindCodeMirror(this.props);
+  }
 
   render() {
 
@@ -36,22 +135,11 @@ class SourceCode extends React.Component {
       );
     }
 
-    if (formatters[language]) {
-
-      content = formatters[language](content);
-    }
-
-		try {
-			content = language ?
-				Highlight.highlight(language, content).value :
-				Highlight.highlightAuto(content).value;
-		} catch (e) {
-		}
-
     return (
-      <pre className="hljs">
-        <code dangerouslySetInnerHTML={{__html: content }} />
-      </pre>
+      <textarea
+        ref={this.textarea}
+        defaultValue={content}
+      />
     );
   }
 }
