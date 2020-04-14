@@ -26,6 +26,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && rm -rf docs && mv build docs && echo \"aguang.xyz\" > docs/CNAME",
+    "post": "rm -rf docs/posts && cp -r public/posts docs",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
