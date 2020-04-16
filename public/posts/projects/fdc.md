@@ -77,15 +77,25 @@ int main(int argc, char **argv) {
 The **closure** of a given set of functional dependencies $F$ is written $F^+$,
 which is the set of all functional dependencies can be inferred from F.
 
-To construct the **closure** of a given $F$, we follow these rules
+Let's say $U$ is the universal set of attributes of $F$.
+
+
+The **closure** of a given $F$ can be constructred followed by these rules
 ([Armstrong's axioms](https://en.wikipedia.org/wiki/Armstrong%27s_axioms)):
 
-For $V$, $W$, $X$, $Y$, $Z$, subsets of attributes:
+For any $X, Y, Z \subseteq U$:
 
-* If $X \to Y \in F$, then $X \to Y \in F^+ $
-* $X \to X \in F^+$
-* If $X \to YZ \in F^+$, then $X \to Y \in F^+$
-* If $X \to YZ \in F^+ \land Z \to VW \in F^+$, then $X \to YZV \in F^+$
+  * Rule 1: (Reflexivity). $X \to XY \in F^+$.
+  * Rule 2: (Augmentation). If $X \to Y \in F^+$, then $XZ \to YZ \in F^+$.
+  * Rule 3: (Pseudotranstivity). If $X \to Y \in F^+$ and $Y \to Z \in F^+$, then $X \to Z \in F^+$.
+
+These three rules above are complete to construct the closure of a given $F$.
+Additionally, there are two useful rules:
+
+  * Rule 4: (Union). If $X \to Y_1 \in F^+$ and $X \to Y_2 \in F^+$, then
+            $X \to Y_1Y_2 \in F^+$.
+  * Rule 5: (Decomposition). If $X \to Y$ and $Y^{'} \subset Y$, then
+            $X \to Y^{'} \in F^+$.
 
 In FDC, [`fdc::closure_of(fds)`](https://aguang-xyz.github.io/fdc/namespacefdc.html#a96368d32a18a06c946ce13a1175d0af4)
 can be used to get the closure of a given fds `F`.
@@ -304,4 +314,9 @@ $F$ is **optimal**.
 ### 2.6 
 
 ## References
+
+* Armstrong, W. W. (1974, August). Dependency Structures of Data Base Relationships. In IFIP congress (Vol. 74, pp. 580-583).
+* Beeri, C., & Bernstein, P. A. (1979). Computational problems related to the design of normal form relational schemas. ACM Transactions on Database Systems (TODS), 4(1), 30-59.
+* Maier, D. (1979, April). Minimum covers in the relational database model(Extended Abstract). In Annual ACM Symposium on Theory of Computing: Proceedings of the eleventh annual ACM symposium on Theory of computing: Atlanta, Georgia, United States (Vol. 30).
+
 
