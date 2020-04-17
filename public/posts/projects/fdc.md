@@ -85,7 +85,7 @@ The **closure** of a given $F$ can be constructred followed by these rules
 
 For any $X, Y, Z \subseteq U$:
 
-  * Rule 1: (Reflexivity). $X \to XY \in F^+$.
+  * Rule 1: (Reflexivity). If $$XY \to X \in F^+$.
   * Rule 2: (Augmentation). If $X \to Y \in F^+$, then $XZ \to YZ \in F^+$.
   * Rule 3: (Pseudotranstivity). If $X \to Y \in F^+$ and $Y \to Z \in F^+$, then $X \to Z \in F^+$.
 
