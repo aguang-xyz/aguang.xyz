@@ -141,8 +141,6 @@ then we say $F$ is **LR-minimum**.
 Given a set of functional dependencies $F$, if $\forall G$, $G$ has more or
 equal attribute symbols than $F$, then we say $F$ is **optimal**.
 
-## 3. Algorithms
-
 ## References
 
 * Armstrong, W. W. (1974, August). Dependency Structures of Data Base Relationships. In IFIP congress (Vol. 74, pp. 580-583).
