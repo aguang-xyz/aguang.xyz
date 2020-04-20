@@ -103,7 +103,8 @@ class PostView extends React.Component {
                         ),
                         
                         code: ({language, value}) => (
-                          <SourceCode language={language} content={value} />
+                          (this.props.preview && language !== 'dot') ? <pre><code>{value}</code></pre>:
+                            <SourceCode language={language} content={value} />
                         ),
                     }}
                 />

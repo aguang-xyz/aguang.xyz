@@ -5,50 +5,30 @@ posts:
   - id: 'about/myself'
     title: 'My Profile'
 
-  - id: 'data-science'
-    title: 'Data Science'
-    link: '#/post/data-science'
-    image: '/images/data-science/background.jpg'
-
-  - id: 'leet-code'
-    title: 'Leet Code Weekly'
-    link: '#/post/leet-code'
-    image: '/images/leet-code/background.png'
+  - id: 'competitive-programming'
+    title: 'Competitive Programming'
+    link: '#/post/competitive-programming'
+    image: '/images/competitive-programming/index.jpg'
   
+  - id: 'software-development'
+    title: 'Software Development'
+    link: '#/post/software-development'
+    image: '/images/software-development/index.jpg'
+
   - id: 'algorithms'
     title: 'Algorithms'
     link: '#/post/algorithms'
     image: '/images/algorithms/index.jpg'
 
-  - id: 'data-science/entropy-and-information-gain'
-    title: 'Entropy and Information Gain'
-  
   - id: 'projects'
     title: 'My Projects'
     link: '#/post/projects'
     image: '/images/projects/index.jpg'
 
-  - id: 'spoj/4061'
-    title: 'SPOJ 4061 - MPOLY - Polygon'
+  - id: 'data-science'
+    title: 'Data Science'
+    link: '#/post/data-science'
+    image: '/images/data-science/index.jpg'
 
-  - id: 'spoj/34409'
-    title: 'SPOJ 34409 - DISGRAPH - Disconnected country'
 
-  - id: 'spoj/5732'
-    title: 'SPOJ 5732 - PARADOX - Paradox'
-
-  - id: 'spoj/10394'
-    title: 'SPOJ 10394 - ABA12C - Buying Apples!'
-
-  - id: 'spoj/5'
-    title: 'SPOJ 5 - PALIN - The Next Palindrome'
-
-  - id: 'spoj/4'
-    title: 'SPOJ 4 - ONP - Transform the Expression'
-
-  - id: 'spoj/2'
-    title: 'SPOJ 2 - PRIME1 - Prime Generator'
-
-  - id: 'spoj/1'
-    title: 'SPOJ 1 - TEST - Life, the Universe, and Everything'
 

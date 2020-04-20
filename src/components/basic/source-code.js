@@ -32,6 +32,9 @@ import 'codemirror/theme/solarized.css';
 
 // Language Supports.
 import 'codemirror/mode/clike/clike';
+import 'codemirror/mode/shell/shell';
+
+import styles from './source-code.module.css';
 
 /**
  * Source code render component.
@@ -52,7 +55,9 @@ class SourceCode extends React.Component {
   getMode(props) {
 
     return ({
+      'c': 'text/x-csrc',
       'c++': 'text/x-c++src',
+      'bash': 'text/x-sh',
     })[props.language];
   }
 
@@ -111,6 +116,9 @@ class SourceCode extends React.Component {
 
       // Theme.
       theme: 'solarized dark',
+
+      // Auto fit content height.
+      viewportMargin: Infinity,
 
       // Language Mode.
       mode: this.getMode(this.props),

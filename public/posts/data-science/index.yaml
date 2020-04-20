@@ -2,6 +2,9 @@ title: 'Data Science'
 
 posts:
 
+  - id: 'data-science/multi-layer-perceptron'
+    title: 'Multi-Layer Perceptron and Back-Propagation Algorithm'
+
   - id: 'data-science/association-rule-mining-and-apriori-algorithm'
     title: 'Association Analysis and Apriori Algorithm'
 
