@@ -67,3 +67,9 @@ $$
 
 \end{aligned}
 $$
+
+### References
+
+* Wikipedia contributors. (2020, April 6). AdaBoost. ***Wikipedia, The Free Encyclopedia.*** Retrieved
+  from https://en.wikipedia.org/wiki/AdaBoost
+
