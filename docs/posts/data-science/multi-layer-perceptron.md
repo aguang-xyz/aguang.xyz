@@ -157,5 +157,9 @@ steps:
 
    * Then, it uses the same strategy to update $\overline{w}$ for each edge.
 
+## Example.
 
+Here is an [example](https://aguang-xyz.github.io/kaggle-solutions/digital-recognizer/solution-mlp)
+of **digital recognizer** based on multi-layer perceptron, of which the accuracy
+is about 98%.
 

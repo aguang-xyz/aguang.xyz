@@ -7,17 +7,20 @@ posts:
     link: 'https://aguang-xyz.github.io/kaggle-solutions/'
     image: '/images/kaggle-solutions/index.png'
 
-  - id: 'data-science/multi-layer-perceptron'
-    title: 'Multi-Layer Perceptron and Back-Propagation Algorithm'
-
   - id: 'data-science/association-rule-mining-and-apriori-algorithm'
     title: 'Association Analysis and Apriori Algorithm'
 
-  - id: 'data-science/graph-data-model'
-    title: 'Graph Data Model'
+  - id: 'data-science/multi-layer-perceptron'
+    title: 'Multi-Layer Perceptron and Back-Propagation Algorithm'
 
+  - id: 'data-science/adaptive-boosting-algorithm'
+    title: 'Adaptive Boosting Algorithm'
+  
   - id: 'data-science/entropy-and-information-gain'
     title: 'Entropy and Information Gain'
+
+  - id: 'data-science/graph-data-model'
+    title: 'Graph Data Model'
   
   - id: 'data-science/mathjax-introduction'
     title: 'Mathjax Quick Reference'
