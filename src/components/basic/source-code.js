@@ -120,6 +120,9 @@ class SourceCode extends React.Component {
       // Auto fit content height.
       viewportMargin: Infinity,
 
+      // Do not break the line.
+      lineWrapping: false,
+
       // Language Mode.
       mode: this.getMode(this.props),
     };
