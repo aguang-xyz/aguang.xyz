@@ -33,6 +33,7 @@ import 'codemirror/theme/solarized.css';
 // Language Supports.
 import 'codemirror/mode/clike/clike';
 import 'codemirror/mode/shell/shell';
+import 'codemirror/mode/javascript/javascript';
 
 import styles from './source-code.module.css';
 
@@ -58,6 +59,7 @@ class SourceCode extends React.Component {
       'c': 'text/x-csrc',
       'c++': 'text/x-c++src',
       'bash': 'text/x-sh',
+      'javascript': 'text/javascript',
     })[props.language];
   }
 

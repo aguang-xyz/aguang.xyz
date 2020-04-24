@@ -26,6 +26,9 @@ posts:
   - id: 'leet-code/weekly-contest-178'
     title: 'Leet Code Weekly Contest 178'
 
+  - id: 'leet-code/weekly-contest-177'
+    title: 'Leet Code Weekly Contest 177'
+
   - id: 'spoj/4061'
     title: 'SPOJ 4061 - MPOLY - Polygon'
 
