@@ -29,13 +29,13 @@ I'm Grey, a guy who enjoys programming since 13 yrs old.
 
 ## CERTIFICATIONS
 
-  * [Full Stack Certification from freecodecamp.org](https://www.freecodecamp.org/certification/aguang/full-stack)
-    * [Responsive Web Design Certification](https://www.freecodecamp.org/certification/aguang/responsive-web-design)
-    * [JavaScript Algorithms and Data Structures Certification](https://www.freecodecamp.org/certification/aguang/javascript-algorithms-and-data-structures)
-    * [Front End Libraries Certification](https://www.freecodecamp.org/certification/aguang/front-end-libraries)
-    * [Data Visualization Certification](https://www.freecodecamp.org/certification/aguang/data-visualization)
-    * [APIs and Microservices Certification](https://www.freecodecamp.org/certification/aguang/apis-and-microservices)
-    * [Information Security and Quality Assurance](https://www.freecodecamp.org/certification/aguang/information-security-and-quality-assurance)
+  * [Full Stack Certification from freecodecamp.org](/images/free-code-camp/full-stack.png)
+    * [Responsive Web Design Certification](/images/free-code-camp/responsive-web-design.png)
+    * [JavaScript Algorithms and Data Structures Certification](/images/free-code-camp/javascript-algorithms-and-data-structures.png)
+    * [Front End Libraries Certification](/images/free-code-camp/front-end-libraries.png)
+    * [Data Visualization Certification](/images/free-code-camp/data-visualization.png)
+    * [APIs and Microservices Certification](/images/free-code-camp/apis-and-microservices.png)
+    * [Information Security and Quality Assurance](/images/free-code-camp/information-security-and-quality-assurance.png)
 
 ## SKILLS
 
