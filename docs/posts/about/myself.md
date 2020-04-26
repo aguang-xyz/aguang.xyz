@@ -29,12 +29,13 @@ I'm Grey, a guy who enjoys programming since 13 yrs old.
 
 ## CERTIFICATIONS
 
-  * [freecodecamp.org](https://www.freecodecamp.org/)
+  * [Full Stack Certification of freecodecamp.org](https://www.freecodecamp.org/certification/aguang/full-stack)
     * [Responsive Web Design Certification](https://www.freecodecamp.org/certification/aguang/responsive-web-design)
     * [JavaScript Algorithms and Data Structures Certification](https://www.freecodecamp.org/certification/aguang/javascript-algorithms-and-data-structures)
     * [Front End Libraries Certification](https://www.freecodecamp.org/certification/aguang/front-end-libraries)
     * [Data Visualization Certification](https://www.freecodecamp.org/certification/aguang/data-visualization)
     * [APIs and Microservices Certification](https://www.freecodecamp.org/certification/aguang/apis-and-microservices)
+    * [Information Security and Quality Assurance](https://www.freecodecamp.org/certification/aguang/information-security-and-quality-assurance)
 
 ## SKILLS
 
