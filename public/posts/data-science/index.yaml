@@ -7,6 +7,9 @@ posts:
     link: 'https://aguang-xyz.github.io/kaggle-solutions/'
     image: '/images/kaggle-solutions/index.png'
 
+  - id: 'data-science/density-based-spatial-clustering-of-applications-with-noise'
+    title: 'DBSCAN Algorithm'
+
   - id: 'data-science/association-rule-mining-and-apriori-algorithm'
     title: 'Association Analysis and Apriori Algorithm'
 
