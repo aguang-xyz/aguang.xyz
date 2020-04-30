@@ -10,6 +10,9 @@ posts:
   - id: 'data-science/density-based-spatial-clustering-of-applications-with-noise'
     title: 'DBSCAN Algorithm'
 
+  - id: 'data-science/k-means-clustering'
+    title: 'K-Means Clustering'
+
   - id: 'data-science/association-rule-mining-and-apriori-algorithm'
     title: 'Association Analysis and Apriori Algorithm'
 
