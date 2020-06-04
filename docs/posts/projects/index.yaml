@@ -2,10 +2,25 @@ title: 'Projects'
 
 posts:
 
+  - id: 'aurora-editor'
+    title: 'Aurora Editor'
+    description: 'Yet another lightweight markdown editor.'
+    stack:
+      - Electron
+    link: 'https://aguang-xyz.github.io/aurora-editor/'
+    image: 'https://github.com/aguang-xyz/aurora/raw/master/resources/icons/128x128.png'
+
   - id: 'exchange-view'
     title: 'Exchange Rate Viewer'
-    link: 'http://exchange-rate.aguang.xyz/'
-    image: '/images/projects/exchange-rate-viewer.png'
+    description: 'Exchange rate viewer.'
+    stack:
+      - D3.js
+    link: 'https://aguang-xyz.github.io/exchange-rate-viewer/'
+    image: 'https://aguang-xyz.github.io/exchange-rate-viewer/images/exchange.svg'
   
   - id: 'projects/fdc'
-    title: "FDC - Functional Dependencies' Cover"
+    title: "FDC"
+    description: 'Functional dependencies cover'
+    stack:
+      - C++
+    link: 'https://github.com/aguang-xyz/fdc'

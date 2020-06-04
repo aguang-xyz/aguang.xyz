@@ -9,6 +9,9 @@
   margin: auto;
 
   box-sizing: border-box;
+  
+  border-left: 1px solid #d2d5da;
+  border-right: 1px solid #d2d5da;
 }
 
 .container:global(.preview) {
@@ -16,6 +19,9 @@
   max-width: 100% !important;
   min-height: 100%;
   min-width: 100%;
+
+  border-left: 0px !important;
+  border-right: 0px !important;
 }
 
 .container:global(.preview) h1, h2 {

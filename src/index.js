@@ -8,16 +8,17 @@ import './index.css';
 
 import CategoryPage from './pages/category-page';
 import PostPage from './pages/post-page';
+import ProjectPage from './pages/project-page';
 
 const Index = () => (
-
   <Router>
-    
     <Route path="/" exact component={CategoryPage} />
-    
+
     <Route path="/post/:category" exact component={CategoryPage} />
 
     <Route path="/post/:category/:name" exact component={PostPage} />
+
+    <Route path="/projects" exact component={ProjectPage} />
   </Router>
 );
 

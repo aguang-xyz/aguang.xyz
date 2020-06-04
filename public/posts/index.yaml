@@ -22,7 +22,7 @@ posts:
 
   - id: 'projects'
     title: 'My Projects'
-    link: '#/post/projects'
+    link: '#/projects'
     image: '/images/projects/index.jpg'
 
   - id: 'data-science'

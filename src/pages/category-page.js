@@ -10,28 +10,23 @@ import GridFlow from '../components/basic/grid-flow';
 import PostPreview from '../components/post-preview';
 
 const posts = Axios.create({
-
   baseURL: 'posts',
 });
 
 class CategoryPage extends React.Component {
-
   state = {
-
     title: '',
     posts: [],
     search: '',
   };
 
   loadContent(props) {
-    
     let { category } = props.match.params;
 
-    posts.get(category ? `${category}/index.yaml` : 'index.yaml')
-      .then(ret => {
-
+    posts
+      .get(category ? `${category}/index.yaml` : 'index.yaml')
+      .then((ret) => {
         if (ret.status !== 200) {
-
           throw new Error('Failed to load');
         }
 
@@ -39,8 +34,7 @@ class CategoryPage extends React.Component {
 
         this.setState({ title, posts });
       })
-      .catch(e => {
-
+      .catch((e) => {
         this.setState({
           title: '',
           posts: [],
@@ -49,41 +43,34 @@ class CategoryPage extends React.Component {
   }
 
   componentDidMount() {
-
     this.loadContent(this.props);
   }
 
   filteredPosts() {
-
     const { search, posts } = this.state;
 
-    return posts.filter(post => post.title.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+    return posts.filter(
+      (post) => post.title.toLowerCase().indexOf(search.toLowerCase()) !== -1,
+    );
   }
 
   render() {
-
     return (
       <div style={{ minHeight: '100vh', backgroundColor: '#000' }}>
         <Header />
 
         <SearchBox
           value={this.state.search}
-          onChange={search => {
-            this.setState({ search })
+          onChange={(search) => {
+            this.setState({ search });
           }}
         />
 
         <GridFlow>
-
           {this.filteredPosts().map((post, i) => (
-          
-            <PostPreview
-              key={post.id}
-              {...post}
-            />
+            <PostPreview key={post.id} {...post} />
           ))}
         </GridFlow>
-
       </div>
     );
   }
