@@ -8,7 +8,7 @@ posts:
     stack:
       - Electron
     link: 'https://aguang-xyz.github.io/aurora-editor/'
-    image: 'https://github.com/aguang-xyz/aurora/raw/master/resources/icons/128x128.png'
+    image: 'https://raw.githubusercontent.com/aguang-xyz/aurora-editor/master/resources/icons/icon.svg'
 
   - id: 'exchange-view'
     title: 'Exchange Rate Viewer'
@@ -17,10 +17,27 @@ posts:
       - D3.js
     link: 'https://aguang-xyz.github.io/exchange-rate-viewer/'
     image: 'https://aguang-xyz.github.io/exchange-rate-viewer/images/exchange.svg'
-  
+
   - id: 'projects/fdc'
     title: "FDC"
-    description: 'Functional dependencies cover'
+    description: Functional dependencies' cover.
     stack:
       - C++
     link: 'https://github.com/aguang-xyz/fdc'
+
+  - id: 'qrcp'
+    title: 'QRCP'
+    description: 'Download files over your local network through QRCode in pure command line.'
+    stack:
+      - Node.js
+    link: 'https://www.npmjs.com/package/@aguang/qrcp'
+    image: 'https://raw.githubusercontent.com/aguang-xyz/qrcp/master/icon.svg'
+
+  - id: 'light-player'
+    title: 'Light Player'
+    description: 'Search for movies and play them.'
+    stack:
+      - Electron
+    link: 'https://github.com/aguang-xyz/light-player'
+    image: 'https://raw.githubusercontent.com/aguang-xyz/light-player/master/resources/icons/icon.svg'
+
