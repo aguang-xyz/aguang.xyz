@@ -33,6 +33,17 @@ posts:
     link: 'https://github.com/aguang-xyz/light-player'
     image: 'https://raw.githubusercontent.com/aguang-xyz/light-player/master/resources/icons/icon.svg'
 
+  - id: 'lightmq'
+    title: 'Light MQ'
+    description: 'An embeddable lightweight MQ implementation based on HTTP protocol.'
+    stack:
+      - Node.js
+      - Express
+      - Docker
+    link: 'https://github.com/aguang-xyz/lightmq'
+    image: 'https://raw.githubusercontent.com/aguang-xyz/lightmq/master/resources/icon.svg'
+
+
   - id: 'qrcp'
     title: 'QRCP'
     description: 'Download files over your local network through QRCode in pure command line.'
