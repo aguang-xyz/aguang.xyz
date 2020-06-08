@@ -36,10 +36,10 @@ posts:
   - id: 'lightmq'
     title: 'Light MQ'
     description: 'An embeddable lightweight MQ implementation based on HTTP protocol.'
-    stack:
-      - Node.js
-      - Express
-      - Docker
+    badge:
+      - https://img.shields.io/npm/v/@aguang/lightmq?style=plastic
+      - https://img.shields.io/npm/dm/@aguang/lightmq?style=plastic
+      - https://img.shields.io/docker/pulls/lightmq/lightmq?style=plastic
     link: 'https://github.com/aguang-xyz/lightmq'
     image: 'https://raw.githubusercontent.com/aguang-xyz/lightmq/master/resources/icon.svg'
 
@@ -47,8 +47,9 @@ posts:
   - id: 'qrcp'
     title: 'QRCP'
     description: 'Download files over your local network through QRCode in pure command line.'
-    stack:
-      - Node.js
+    badge:
+      - https://img.shields.io/npm/v/@aguang/qrcp?style=plastic
+      - https://img.shields.io/npm/dm/@aguang/qrcp?style=plastic
     link: 'https://www.npmjs.com/package/@aguang/qrcp'
     image: 'https://raw.githubusercontent.com/aguang-xyz/qrcp/master/icon.svg'
 
@@ -57,6 +58,8 @@ posts:
     title: 'RNZ-News'
     description: 'Retrieve RNZ news.'
     stack:
-      - Python
+    badge:
+      - https://img.shields.io/pypi/v/rnz-news?style=plastic
+      - https://img.shields.io/pypi/dm/rnz-news?style=plastic
     link: 'https://pypi.org/project/rnz-news/'
     image: 'https://pypi.org/static/images/logo-small.6eef541e.svg'

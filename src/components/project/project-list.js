@@ -27,13 +27,13 @@ class ProjectItem extends React.Component {
         <img src={image} />
         <div className={styles.Right}>
           <div className={styles.Title}>{post.title}</div>
-          <div className={styles.Description}>
-            {post.stack.map((s) => (
-              <strong>{s}</strong>
-            ))}
+          <div className={styles.Tags}>
+            {post.badge &&
+              post.badge.map((s) => <img className={styles.Badge} src={s} />)}
 
-            {post.description}
+            {post.stack && post.stack.map((s) => <strong>{s}</strong>)}
           </div>
+          <div className={styles.Description}>{post.description}</div>
         </div>
       </div>
     );
