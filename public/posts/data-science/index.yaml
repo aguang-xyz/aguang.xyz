@@ -2,11 +2,6 @@ title: 'Data Science'
 
 posts:
 
-  - id: 'kaggle-solutions'
-    title: 'Kaggle Solutions'
-    link: 'https://aguang-xyz.github.io/kaggle-solutions/'
-    image: '/images/kaggle-solutions/index.png'
-
   - id: 'data-science/density-based-spatial-clustering-of-applications-with-noise'
     title: 'DBSCAN Algorithm'
 

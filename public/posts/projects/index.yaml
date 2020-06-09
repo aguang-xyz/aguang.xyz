@@ -18,12 +18,22 @@ posts:
     link: 'https://aguang-xyz.github.io/exchange-rate-viewer/'
     image: 'https://aguang-xyz.github.io/exchange-rate-viewer/images/exchange.svg'
 
-  - id: 'projects/fdc'
+  - id: 'fdc'
     title: "FDC"
     description: Functional dependencies' cover.
     stack:
       - C++
     link: 'https://github.com/aguang-xyz/fdc'
+
+  - id: 'kaggle-solutions'
+    title: 'Kaggle Solutions'
+    description: A collection of kaggle solutions.
+    stack:
+      - Jupyter
+      - Scikit-Learn
+      - PyTorch
+    link: 'https://aguang-xyz.github.io/kaggle-solutions/'
+    image: https://www.kaggle.com/static/images/community/ic_comps_selected.svg
 
   - id: 'light-player'
     title: 'Light Player'
@@ -55,7 +65,7 @@ posts:
 
 
   - id: 'rnz-news'
-    title: 'RNZ-News'
+    title: 'RNZ News'
     description: 'Retrieve RNZ news.'
     stack:
     badge:
