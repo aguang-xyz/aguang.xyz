@@ -1,90 +1,90 @@
 .ProjectList {
 
-  max-width: 60rem;
-  margin: auto;
+    max-width: 60rem;
+    margin: auto;
 }
 
 .ProjectItem {
- 
-  border: 1px solid #d2d5da;
-  border-radius: 0.2rem;
-  background-color: #ffffff;
 
-  margin-top: 1rem;
+    border: 1px solid #d2d5da;
+    border-radius: 0.2rem;
+    background-color: #ffffff;
 
-  box-sizing: border-box;
+    margin-top: 1rem;
 
-  width: 100%;
-  height: 6rem;
-  overflow: hidden;
+    box-sizing: border-box;
 
-  display: flex;
-  flex-direction: row;
-  
-  cursor: pointer;
+    width: 100%;
+    height: 6rem;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: row;
+
+    cursor: pointer;
 }
 
 .ProjectItem>img {
 
-  width: 4.4rem;
-  height: 4.4rem;
-  margin: 0.8rem;
-  
-  border-radius: 0.2rem;
+    width: 4.4rem;
+    height: 4.4rem;
+    margin: 0.8rem;
+
+    border-radius: 0.2rem;
 }
 
 .Right {
 
-  padding-top: 0.0rem;
-  padding-right: 0.8rem;
-  padding-bottom: 0.4rem;
+    padding-top: 0.0rem;
+    padding-right: 0.8rem;
+    padding-bottom: 0.4rem;
 
-  flex: 1;
+    flex: 1;
 
-  display: flex;
+    display: flex;
 
-  flex-direction: column;
+    flex-direction: column;
 }
 
 .Right .Title {
-  height: 3.0rem;
-  line-height: 3.0rem;
-  font-size: 1.8rem;
-  font-family: 'sans-serif';
-  color: rgb(36, 41, 36);
-  font-weight: 400;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    height: 3.0rem;
+    line-height: 3.0rem;
+    font-size: 1.8rem;
+    font-family: 'sans-serif';
+    color: rgb(36, 41, 36);
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .Right .Tags {
-  color: rgb(88, 96, 105);
-  font-size: 0.8rem;
-  height: 1.5rem;
-  line-height: 1.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 0.2rem;
+    color: rgb(88, 96, 105);
+    font-size: 0.8rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 0.2rem;
 }
 
 .Right .Description {
-  color: rgb(88, 96, 105);
-  font-size: 0.8rem;
-  height: 1.5rem;
-  line-height: 1.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 0.2rem;
+    color: rgb(88, 96, 105);
+    font-size: 0.8rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 0.2rem;
 }
 
 .Right .Tags strong {
 
-  margin-right: 0.2rem;
+    margin-right: 0.2rem;
 }
 
 .Badge {
 
-  height: 1.0rem;
-  vertical-align: middle;
-  margin-right: 0.2rem;
+    height: 1.0rem;
+    vertical-align: middle;
+    margin-right: 0.2rem;
 }

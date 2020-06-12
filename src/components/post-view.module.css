@@ -1,40 +1,39 @@
-
 .container {
 
-  color: black;
-  background-color: #fff;
-  padding: 1rem;
+    color: black;
+    background-color: #fff;
+    padding: 1rem;
 
-  max-width: 60rem;
-  margin: auto;
+    max-width: 60rem;
+    margin: auto;
 
-  box-sizing: border-box;
-  
-  border-left: 1px solid #d2d5da;
-  border-right: 1px solid #d2d5da;
+    box-sizing: border-box;
+
+    border-left: 1px solid #d2d5da;
+    border-right: 1px solid #d2d5da;
 }
 
 .container:global(.preview) {
 
-  max-width: 100% !important;
-  min-height: 100%;
-  min-width: 100%;
+    max-width: 100% !important;
+    min-height: 100%;
+    min-width: 100%;
 
-  border-left: 0px !important;
-  border-right: 0px !important;
+    border-left: 0px !important;
+    border-right: 0px !important;
 }
 
-.container:global(.preview) h1, h2 {
+.container:global(.preview) h1,
+h2 {
 
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Image */
 
 .container p img {
 
-	max-width: 100%;
+    max-width: 100%;
 }
-

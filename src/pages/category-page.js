@@ -1,33 +1,33 @@
-import React from 'react';
-import Axios from 'axios';
-import Yaml from 'js-yaml';
+import React from "react";
+import Axios from "axios";
+import Yaml from "js-yaml";
 
-import Header from '../components/header';
-import SearchBox from '../components/search-box';
+import Header from "../components/header";
+import SearchBox from "../components/search-box";
 
-import GridFlow from '../components/basic/grid-flow';
+import GridFlow from "../components/basic/grid-flow";
 
-import PostPreview from '../components/post-preview';
+import PostPreview from "../components/post-preview";
 
 const posts = Axios.create({
-  baseURL: 'posts',
+  baseURL: "posts",
 });
 
 class CategoryPage extends React.Component {
   state = {
-    title: '',
+    title: "",
     posts: [],
-    search: '',
+    search: "",
   };
 
   loadContent(props) {
     let { category } = props.match.params;
 
     posts
-      .get(category ? `${category}/index.yaml` : 'index.yaml')
+      .get(category ? `${category}/index.yaml` : "index.yaml")
       .then((ret) => {
         if (ret.status !== 200) {
-          throw new Error('Failed to load');
+          throw new Error("Failed to load");
         }
 
         const { title, posts } = Yaml.safeLoad(ret.data);
@@ -36,7 +36,7 @@ class CategoryPage extends React.Component {
       })
       .catch((e) => {
         this.setState({
-          title: '',
+          title: "",
           posts: [],
         });
       });
@@ -50,13 +50,13 @@ class CategoryPage extends React.Component {
     const { search, posts } = this.state;
 
     return posts.filter(
-      (post) => post.title.toLowerCase().indexOf(search.toLowerCase()) !== -1,
+      (post) => post.title.toLowerCase().indexOf(search.toLowerCase()) !== -1
     );
   }
 
   render() {
     return (
-      <div style={{ minHeight: '100vh', backgroundColor: '#000' }}>
+      <div style={{ minHeight: "100vh", backgroundColor: "#000" }}>
         <Header />
 
         <SearchBox

@@ -1,48 +1,48 @@
 {
-  "name": "aguang.xyz",
-  "author": "Grey King",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "http://aguang.xyz/",
-  "dependencies": {
-    "axios": "^0.18.1",
-    "codemirror": "^5.52.2",
-    "dompurify": "^2.0.8",
-    "js-beautify": "^1.11.0",
-    "js-yaml": "^3.13.1",
-    "lodash": "^4.17.15",
-    "prettier": "^2.0.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-html-parser": "^2.0.2",
-    "react-icons": "^3.9.0",
-    "react-latex": "^1.6.0",
-    "react-markdown": "^4.3.1",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.0.1",
-    "remark-math": "^1.0.6",
-    "viz.js": "^2.1.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && rm -rf docs && mv build docs && echo \"aguang.xyz\" > docs/CNAME",
-    "post": "rm -rf docs/posts && cp -r public/posts docs",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "aguang.xyz",
+    "author": "Grey King",
+    "version": "0.1.0",
+    "private": true,
+    "homepage": "http://aguang.xyz/",
+    "dependencies": {
+        "axios": "^0.18.1",
+        "codemirror": "^5.52.2",
+        "dompurify": "^2.0.8",
+        "js-beautify": "^1.11.0",
+        "js-yaml": "^3.13.1",
+        "lodash": "^4.17.15",
+        "prettier": "^2.0.4",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-html-parser": "^2.0.2",
+        "react-icons": "^3.9.0",
+        "react-latex": "^1.6.0",
+        "react-markdown": "^4.3.1",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "3.0.1",
+        "remark-math": "^1.0.6",
+        "viz.js": "^2.1.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build && rm -rf docs && mv build docs && echo \"aguang.xyz\" > docs/CNAME",
+        "post": "rm -rf docs/posts && cp -r public/posts docs",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }

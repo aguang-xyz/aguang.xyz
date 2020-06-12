@@ -1,15 +1,15 @@
-import React from 'react';
-import Axios from 'axios';
-import Yaml from 'js-yaml';
+import Axios from "axios";
+import Yaml from "js-yaml";
+import React from "react";
 
-import styles from './project-list.module.css';
+import styles from "./project-list.module.css";
 
 const posts = Axios.create({
-  baseURL: 'posts',
+  baseURL: "posts",
 });
 
 const DEFAULT_IMAGE =
-  'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png';
+  "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png";
 
 class ProjectItem extends React.Component {
   render() {
@@ -24,12 +24,14 @@ class ProjectItem extends React.Component {
           window.open(post.link);
         }}
       >
-        <img src={image} />
+        <img src={image} alt={post.title} />
         <div className={styles.Right}>
           <div className={styles.Title}>{post.title}</div>
           <div className={styles.Tags}>
             {post.badge &&
-              post.badge.map((s) => <img className={styles.Badge} src={s} />)}
+              post.badge.map((s) => (
+                <img className={styles.Badge} src={s} alt={post.title} />
+              ))}
 
             {post.stack && post.stack.map((s) => <strong>{s}</strong>)}
           </div>
@@ -42,16 +44,16 @@ class ProjectItem extends React.Component {
 
 class ProjectList extends React.Component {
   state = {
-    title: '',
+    title: "",
     posts: [],
   };
 
   loadContent() {
     posts
-      .get('projects/index.yaml')
+      .get("projects/index.yaml")
       .then((ret) => {
         if (ret.status !== 200) {
-          throw new Error('Failed to load');
+          throw new Error("Failed to load");
         }
 
         const { title, posts } = Yaml.safeLoad(ret.data);
@@ -60,7 +62,7 @@ class ProjectList extends React.Component {
       })
       .catch((e) => {
         this.setState({
-          title: '',
+          title: "",
           posts: [],
         });
       });

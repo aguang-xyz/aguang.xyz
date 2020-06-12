@@ -1,14 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 
-import * as serviceWorker from './plugins/serviceWorker';
+import * as serviceWorker from "./plugins/serviceWorker";
 
-import './index.css';
+import "./index.css";
 
-import CategoryPage from './pages/category-page';
-import PostPage from './pages/post-page';
-import ProjectPage from './pages/project-page';
+import CategoryPage from "./pages/category-page";
+import PostPage from "./pages/post-page";
+import ProjectPage from "./pages/project-page";
 
 const Index = () => (
   <Router>
@@ -22,6 +22,6 @@ const Index = () => (
   </Router>
 );
 
-ReactDOM.render(<Index />, document.getElementById('root'));
+ReactDOM.render(<Index />, document.getElementById("root"));
 
 serviceWorker.unregister();

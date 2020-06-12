@@ -1,14 +1,11 @@
-import React from 'react';
-import styles from './header.module.css';
+import React from "react";
+import styles from "./header.module.css";
 
-
-import { FaTelegramPlane } from 'react-icons/fa';
-import { IoLogoGithub, IoLogoLinkedin, IoMdMail } from 'react-icons/io';
+import { FaTelegramPlane } from "react-icons/fa";
+import { IoLogoGithub, IoLogoLinkedin, IoMdMail } from "react-icons/io";
 
 class Header extends React.Component {
-
   render() {
-
     return (
       <header className={styles.header}>
         <p className={styles.headerTitle}>
@@ -19,7 +16,6 @@ class Header extends React.Component {
 
         <nav>
           <ul>
-            
             <li>
               <a href="https://t.me/aguang_xyz">
                 <FaTelegramPlane />
@@ -43,10 +39,8 @@ class Header extends React.Component {
                 <IoMdMail />
               </a>
             </li>
-            
           </ul>
         </nav>
-        
       </header>
     );
   }

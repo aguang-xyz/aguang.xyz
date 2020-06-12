@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import Header from '../components/header';
-import PostView from '../components/post-view';
+import Header from "../components/header";
+import PostView from "../components/post-view";
 
 class PostPage extends React.Component {
   render() {
