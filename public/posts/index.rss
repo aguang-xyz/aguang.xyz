@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Articles</title>
+        <link>https://aguang.xyz/#/post/./public/posts</link>
+        <description>Articles</description>
+        <lastBuildDate>Sat, 13 Jun 2020 07:51:18 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[My Profile]]></title>
+            <link>https://aguang.xyz/#/post/about/myself</link>
+            <guid>about/myself</guid>
+        </item>
+        <item>
+            <title><![CDATA[Competitive Programming]]></title>
+            <link>#/post/competitive-programming</link>
+            <guid>competitive-programming</guid>
+        </item>
+        <item>
+            <title><![CDATA[Software Development]]></title>
+            <link>#/post/software-development</link>
+            <guid>software-development</guid>
+        </item>
+        <item>
+            <title><![CDATA[Algorithms]]></title>
+            <link>#/post/algorithms</link>
+            <guid>algorithms</guid>
+        </item>
+        <item>
+            <title><![CDATA[My Projects]]></title>
+            <link>#/projects</link>
+            <guid>projects</guid>
+        </item>
+        <item>
+            <title><![CDATA[Data Science]]></title>
+            <link>#/post/data-science</link>
+            <guid>data-science</guid>
+        </item>
+    </channel>
+</rss>

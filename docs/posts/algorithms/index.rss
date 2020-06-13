@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Algorithm Templates</title>
+        <link>https://aguang.xyz/#/post/./public/posts/algorithms</link>
+        <description>Algorithm Templates</description>
+        <lastBuildDate>Sat, 13 Jun 2020 07:51:16 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[KMP - Pattern Searching Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/algorithms/kmp</link>
+            <guid>algorithms/kmp</guid>
+        </item>
+        <item>
+            <title><![CDATA[AC Automaton Multi-Pattern Searching Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/algorithms/ac-auto</link>
+            <guid>algorithms/ac-auto</guid>
+        </item>
+        <item>
+            <title><![CDATA[Quick Sort Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/algorithms/quick-sort</link>
+            <guid>algorithms/quick-sort</guid>
+        </item>
+        <item>
+            <title><![CDATA[Trie - Preffix Search Tree for Strings]]></title>
+            <link>https://aguang.xyz/#/post/algorithms/trie</link>
+            <guid>algorithms/trie</guid>
+        </item>
+        <item>
+            <title><![CDATA[Leftist Tree - Mergeable Heap]]></title>
+            <link>https://aguang.xyz/#/post/algorithms/leftist-tree</link>
+            <guid>algorithms/leftist-tree</guid>
+        </item>
+        <item>
+            <title><![CDATA[Fenwick Tree - Binary Indexed Tree]]></title>
+            <link>https://aguang.xyz/#/post/algorithms/fenwick-tree</link>
+            <guid>algorithms/fenwick-tree</guid>
+        </item>
+    </channel>
+</rss>

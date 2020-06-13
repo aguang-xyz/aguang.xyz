@@ -6,6 +6,7 @@ import Header from "../components/header";
 import SearchBox from "../components/search-box";
 
 import GridFlow from "../components/basic/grid-flow";
+import FeedButton from "../components/basic/feed-button";
 
 import PostPreview from "../components/post-preview";
 
@@ -54,6 +55,12 @@ class CategoryPage extends React.Component {
     );
   }
 
+  getRssPath() {
+    let { category } = this.props.match.params;
+
+    return category ? `/posts/${category}/index.rss` : "/posts/index.rss";
+  }
+
   render() {
     return (
       <div style={{ minHeight: "100vh", backgroundColor: "#000" }}>
@@ -71,6 +78,8 @@ class CategoryPage extends React.Component {
             <PostPreview key={post.id} {...post} />
           ))}
         </GridFlow>
+
+        <FeedButton url={this.getRssPath()} />
       </div>
     );
   }

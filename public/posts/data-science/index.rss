@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Data Science</title>
+        <link>https://aguang.xyz/#/post/./public/posts/data-science</link>
+        <description>Data Science</description>
+        <lastBuildDate>Sat, 13 Jun 2020 07:51:20 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[DBSCAN Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/data-science/density-based-spatial-clustering-of-applications-with-noise</link>
+            <guid>data-science/density-based-spatial-clustering-of-applications-with-noise</guid>
+        </item>
+        <item>
+            <title><![CDATA[K-Means Clustering]]></title>
+            <link>https://aguang.xyz/#/post/data-science/k-means-clustering</link>
+            <guid>data-science/k-means-clustering</guid>
+        </item>
+        <item>
+            <title><![CDATA[Association Analysis and Apriori Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/data-science/association-rule-mining-and-apriori-algorithm</link>
+            <guid>data-science/association-rule-mining-and-apriori-algorithm</guid>
+        </item>
+        <item>
+            <title><![CDATA[Multi-Layer Perceptron and Back-Propagation Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/data-science/multi-layer-perceptron</link>
+            <guid>data-science/multi-layer-perceptron</guid>
+        </item>
+        <item>
+            <title><![CDATA[Adaptive Boosting Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/data-science/adaptive-boosting-algorithm</link>
+            <guid>data-science/adaptive-boosting-algorithm</guid>
+        </item>
+        <item>
+            <title><![CDATA[Entropy and Information Gain]]></title>
+            <link>https://aguang.xyz/#/post/data-science/entropy-and-information-gain</link>
+            <guid>data-science/entropy-and-information-gain</guid>
+        </item>
+        <item>
+            <title><![CDATA[Graph Data Model]]></title>
+            <link>https://aguang.xyz/#/post/data-science/graph-data-model</link>
+            <guid>data-science/graph-data-model</guid>
+        </item>
+        <item>
+            <title><![CDATA[Mathjax Quick Reference]]></title>
+            <link>https://aguang.xyz/#/post/data-science/mathjax-introduction</link>
+            <guid>data-science/mathjax-introduction</guid>
+        </item>
+    </channel>
+</rss>

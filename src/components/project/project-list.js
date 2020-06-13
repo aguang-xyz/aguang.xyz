@@ -2,6 +2,8 @@ import Axios from "axios";
 import Yaml from "js-yaml";
 import React from "react";
 
+import FeedButton from "../basic/feed-button";
+
 import styles from "./project-list.module.css";
 
 const posts = Axios.create({
@@ -78,6 +80,8 @@ class ProjectList extends React.Component {
         {this.state.posts.map((post) => (
           <ProjectItem key={post.id} post={post} />
         ))}
+
+        <FeedButton url="/posts/projects/index.rss" />
       </div>
     );
   }
