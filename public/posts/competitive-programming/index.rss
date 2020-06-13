@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
     <channel>
-        <title>Leet Code Weekly</title>
+        <title>Competitive Programming</title>
         <link>https://aguang.xyz/#/post/./public/posts/competitive-programming</link>
-        <description>Leet Code Weekly</description>
-        <lastBuildDate>Sat, 13 Jun 2020 07:54:48 GMT</lastBuildDate>
+        <description>Competitive Programming</description>
+        <lastBuildDate>Sat, 13 Jun 2020 07:57:32 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
