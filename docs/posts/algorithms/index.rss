@@ -1,41 +1,727 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Algorithm Templates</title>
         <link>https://aguang.xyz/#/post/algorithms</link>
         <description>Algorithm Templates</description>
-        <lastBuildDate>Sat, 13 Jun 2020 08:09:03 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 13 Jun 2020 09:28:08 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[KMP - Pattern Searching Algorithm]]></title>
             <link>https://aguang.xyz/#/post/algorithms/kmp</link>
             <guid>algorithms/kmp</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[KMP Pattern Searching Algorithm
+KMP is a pattern searching algorithm.
+For given searching string $s$ and pattern string $p$, it pre-caculates a partial match table of $s$. Through this
+partial match table, it can find the matching positions in $O(|s| + |p|)$ time.
+Template
+#include&ltstring&gt
+#include&ltvector&gt
+
+using namespace std;
+
+class kmp {
+
+  public:
+
+    static vector&ltint&gt pmt_of(string p) {
+
+      vector&ltint&gt pmt = { -1 };
+
+      for (int i = 0, j = -1; i &lt p.length(); ) {
+
+        if (j == -1 || p[i] == p[j]) {
+
+          ++i, pmt.push_back(++j);
+        } else {
+
+          j = pmt[j];
+        }
+      }
+
+      return pmt;
+    }
+
+    static int first_of(string s, string p) {
+
+      vector&ltint&gt pmt = pmt_of(p);
+
+      int i = 0, j = 0;
+
+      while (i &lt s.length() &amp&amp j &lt (int) p.length()) {
+
+        if (j == -1 || s[i] == p[j]) {
+
+          ++i, ++j;
+        } else {
+
+          j = pmt[j];
+        }
+      }
+
+      return j == (int) p.length() ? i - j : -1;
+    }
+
+    static vector&ltint&gt all_of(string s, string p) {
+
+      vector&ltint&gt pmt = pmt_of(p), indexes = {};
+
+      int i = 0, j = 0;
+
+      while (i &lt s.length() &amp&amp j &lt (int) p.length()) {
+
+        if (j == -1 || s[i] == p[j]) {
+
+          ++i, ++j;
+
+          if (j == (int) p.length()) {
+
+            indexes.push_back(i - j);
+
+            i = i - j, j = -1;
+          }
+        } else {
+
+          j = pmt[j];
+        }
+      }
+
+      return indexes;
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[AC Automaton Multi-Pattern Searching Algorithm]]></title>
             <link>https://aguang.xyz/#/post/algorithms/ac-auto</link>
             <guid>algorithms/ac-auto</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[AC-Automaton Multi-Pattern Searching Algorithm
+AC is a
+multi-pattern searching algorithm. For a given set of pattern strings $S$, it
+pre-caculates a trie representing a state-machine for searching process. And
+the time complexity is $O(\sum_{s \in S} |s|)$.
+Here is an example of AC-automaton structure with 4 patterns (she, shy,
+say, her):
+digraph {
+
+  node [shape=&quotrecord&quot]
+
+  root [style=&quotfilled&quot, color=&quotblack&quot, fillcolor=&quotchartreuse&quot];
+
+
+  root -&gt h[label=&quoth&quot]
+  h -&gt he[label=&quote&quot]
+  he -&gt her[label=&quotr&quot]
+
+  root -&gt s[label=&quots&quot]
+  s -&gt sa[label=&quota&quot]
+  sa -&gt say[label=&quoty&quot]
+
+  s -&gt sh[label=&quoth&quot]
+  sh -&gt she[label=&quote&quot]
+  sh -&gt shy[label=&quoty&quot]
+
+  h -&gt root[label=&quotfail&quot, color=&quotred&quot, style=&quotdashed&quot]
+  he -&gt root[label=&quotfail&quot, color=&quotred&quot, style=&quotdashed&quot]
+  her -&gt root[label=&quotfail&quot, color=&quotred&quot, style=&quotdashed&quot]
+  s -&gt root[label=&quotfail&quot, color=&quotred&quot, style=&quotdashed&quot]
+  sa -&gt root[label=&quotfail&quot, color=&quotred&quot, style=&quotdashed&quot]
+  say -&gt root[label=&quotfail&quot, color=&quotred&quot, style=&quotdashed&quot]
+  sh -&gt h[label=&quotfail&quot, color=&quotred&quot, style=&quotdashed&quot]
+  she -&gt he[label=&quotfail&quot, color=&quotred&quot, style=&quotdashed&quot]
+  shy -&gt root[label=&quotfail&quot, color=&quotred&quot, style=&quotdashed&quot]
+}
+Implementation
+#include &quottrie.hpp&quot
+
+using namespace std;
+
+class ac_auto {
+
+  public:
+
+    struct ac_ext {
+
+      trie&ltac_ext&gt::node *fail;
+
+      map&ltchar, trie&ltac_ext&gt::node*&gt fallback;
+
+      string *pattern;
+
+    };
+
+    typedef trie&ltac_ext&gt::node node;
+
+  private:
+
+    trie&ltac_ext&gt dict;
+
+  public:
+
+    auto root() {
+
+      return dict.root();
+    }
+
+
+    // Construct AC-automaton.
+    ac_auto(const set&ltstring&gt &amppatterns) {
+
+      // 1. Insert all patterns into trie.
+      for (const string &amppattern : patterns) {
+
+        dict[pattern].ext.pattern = new string(pattern);
+      }
+
+      // 2. Resolve root node.
+      auto root = &ampdict[&quot&quot];
+
+      root-&gtext.fail = root;
+
+      // 3. Initialize queues for BFS process.
+      auto q_chr = queue&ltchar&gt({ &#39\0&#39 });
+      auto q_ptr = queue&ltnode*&gt({ root });
+
+      // 4. BFS-loop.
+      while (!q_chr.empty() &amp&amp !q_ptr.empty()) {
+
+        // 4.1. Pop node `p` suffixed with `c`.
+        auto c = q_chr.front();
+        auto p = q_ptr.front();
+
+        q_chr.pop();
+        q_ptr.pop();
+
+        // 4.2. Find fail pointer for node `p`.
+        if (p != root) {
+
+          if (p-&gtparent == root) {
+
+            p-&gtext.fail = root;
+
+          } else {
+
+            auto q = p-&gtparent-&gtext.fail;
+
+            while (q != root &amp&amp q-&gtchildren.find(c) == q-&gtchildren.end()) {
+
+              q = q-&gtext.fail;
+            }
+
+            p-&gtext.fail = q-&gtchildren.find(c) != q-&gtchildren.end()
+              ? q-&gtchildren[c] : root;
+          }
+        }
+
+        // 4.3. Expand all children of p.
+        for (const auto &ampitr : p-&gtchildren) {
+
+          q_chr.push(itr.first);
+          q_ptr.push(itr.second);
+        }
+      }
+    }
+
+    // Next state after accepting character `c`.
+    static node *next(node *state, char c) {
+
+      if (state-&gtext.fallback.find(c) == state-&gtext.fallback.end()) {
+
+        while (
+          state-&gtext.fail != state
+            &amp&amp state-&gtchildren.find(c) == state-&gtchildren.end()
+        ) {
+
+          state = state-&gtext.fail;
+        }
+
+        state-&gtext.fallback[c] =
+          state-&gtchildren.find(c) != state-&gtchildren.end() ?
+            state-&gtchildren[c] : state;
+      }
+
+      return state-&gtext.fallback[c];
+    }
+
+    set&ltpair&ltint, string&gt&gt match(string search) {
+
+      auto ret = set&ltpair&ltint, string&gt&gt();
+
+      // Current state in ac-automaton.
+      auto s = root();
+
+      for (int pos = 0; pos &lt search.length(); pos++) {
+
+        // Accept next character.
+        s = next(s, search[pos]);
+
+        // Iterate all suffixes of current state `s`, check if there are any
+        // matched patterns.
+        for (auto q = s; q != root(); q = q-&gtext.fail) {
+
+          const string *pattern = q-&gtext.pattern;
+
+          if (NULL != pattern) {
+
+            ret.insert(pair&ltint, string&gt(pos - (*pattern).length() + 1,
+                                         *pattern));
+          }
+        }
+      }
+
+      return ret;
+    }
+
+    node&amp operator[](const string &ampkey) {
+
+      return dict[key];
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Quick Sort Algorithm]]></title>
             <link>https://aguang.xyz/#/post/algorithms/quick-sort</link>
             <guid>algorithms/quick-sort</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Quick Sort Algorithm
+Quick Sort is a sort algorithm of which the
+time complexity is $O(n \times log(n))$.
+Template
+#include&ltvector&gt
+
+using namespace std;
+
+template&lttypename T&gt
+class quick_sort {
+
+  public:
+
+    static bool small_first(T &ampx, T&ampy) {
+
+      return x &lt y;
+    }
+
+    static bool big_first(T &ampx, T&ampy) {
+
+      return x &gt y;
+    }
+
+    static vector&ltT&gt sort(vector&ltT&gt &ampelements) {
+
+      return sort(elements, small_first);
+    }
+
+    static vector&ltT&gt sort(vector&ltT&gt &ampelements, bool (*less_than)(T&amp, T&amp)) {
+
+      sort(elements, 0, elements.size() - 1, less_than);
+
+      return elements;
+    }
+
+  private:
+
+    static void sort(vector&ltT&gt &ampelements, int l, int r, bool (*less_than)(T&amp, T&amp)) {
+
+      if (l &lt r) {
+
+        T mid = elements[l];
+
+        int i = l, j = r;
+
+        while (i &lt j) {
+
+          while (i &lt j &amp&amp less_than(mid, elements[j])) j--;
+
+          if (i &lt j) {
+
+            elements[i] = elements[j];
+
+            i++;
+          }
+
+          while (i &lt j &amp&amp less_than(elements[i], mid)) i++;
+
+          if (i &lt j) {
+
+            elements[j] = elements[i];
+
+            j--;
+          }
+        }
+
+        elements[i] = mid;
+
+        sort(elements, l, i - 1, less_than);
+        sort(elements, i + 1, r, less_than);
+      }
+    }
+};
+
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Trie - Preffix Search Tree for Strings]]></title>
             <link>https://aguang.xyz/#/post/algorithms/trie</link>
             <guid>algorithms/trie</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Trie Data Structure
+Trie is a kind of preffix search tree,
+by which we can map strings to any data type. For any given string $s$, the
+time complexity of seeking is $O(|s|)$.
+Here is an example of trie structure with 4 strings (her, say, she, shy)
+inserted.
+strict digraph {
+
+    empty -&gt h[label=&quoth&quot]
+    h -&gt he[label=&quote&quot]
+    he -&gt her[label=&quotr&quot]
+
+    empty -&gt s[label=&quots&quot]
+    s -&gt sa[label=&quota&quot]
+    sa -&gt say[label=&quoty&quot]
+
+    s -&gt sh[label=&quoth&quot]
+    sh -&gt she[label=&quote&quot]
+    sh -&gt shy[label=&quoty&quot]
+}
+Implementation
+#include &ltqueue&gt
+#include &ltset&gt
+#include &ltmap&gt
+#include &ltstring&gt
+
+using namespace std;
+
+template&lttypename T&gt
+class trie {
+
+  public:
+
+    struct node {
+
+      node *parent;
+
+      map&ltchar, node*&gt children;
+
+      T ext;
+    };
+
+  private:
+
+    node *_root = new node({ .parent = NULL });
+
+  public:
+
+    node *root() {
+
+      return _root;
+    }
+
+    node&amp operator[](const string &ampkey) {
+
+      node *ptr = root();
+
+      for (const char &ampc : key) {
+
+        if (NULL == ptr-&gtchildren[c]) {
+
+          ptr-&gtchildren[c] = new node({ .parent = ptr });
+        }
+
+        ptr = ptr-&gtchildren[c];
+      }
+
+      return *ptr;
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leftist Tree - Mergeable Heap]]></title>
             <link>https://aguang.xyz/#/post/algorithms/leftist-tree</link>
             <guid>algorithms/leftist-tree</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leftist Tree Data Structure
+Leftist Tree is a kind of mergeable heap.
+Template
+using namespace std;
+
+template&lttypename T&gt
+class leftist_tree {
+
+  private:
+
+    struct node {
+
+      node *left, *right;
+
+      int s;
+
+      T value;
+    };
+
+    node *merge(node *x, node *y) {
+
+      if (x == NULL) {
+
+        return y;
+      }
+
+      if (y == NULL) {
+
+        return x;
+      }
+
+      if (less_than(y-&gtvalue, x-&gtvalue)) {
+
+        node *t = x;
+        x = y;
+        y = t;
+      }
+
+      x-&gtright = merge(x-&gtright, y);
+
+      if (x-&gtleft == NULL) {
+
+        x-&gtleft = x-&gtright;
+        x-&gtright = NULL;
+        x-&gts = 0;
+      } else {
+
+        if (x-&gtleft-&gts &lt x-&gtright-&gts) {
+
+          node *t = x-&gtleft;
+          x-&gtleft = x-&gtright;
+          x-&gtright = t;
+        }
+
+        x-&gts = x-&gtright-&gts + 1;
+      }
+
+      return x;
+    }
+
+    node *create_node(T value) {
+
+      node *x = new node();
+
+      x-&gtleft = NULL;
+      x-&gtright = NULL;
+      x-&gtvalue = value;
+
+      return x;
+    }
+
+    bool (*less_than)(T &ampx, T &ampy);
+
+    node *root;
+
+  public:
+
+    static bool small_first(T &ampx, T &ampy) {
+
+      return x &lt y;
+    }
+
+    static bool big_first(T &ampx, T &ampy) {
+
+      return x &gt y;
+    }
+
+    leftist_tree() {
+
+      this-&gtless_than = small_first;
+      this-&gtroot = NULL;
+    }
+
+    leftist_tree(bool (*less_than)(T &ampx, T &ampy)) {
+
+      this-&gtless_than = less_than;
+      this-&gtroot = NULL;
+    }
+
+    bool empty() {
+
+      return root == NULL;
+    }
+
+    T push(const T &ampx) {
+
+      root = merge(root, create_node(x));
+
+      return x;
+    }
+
+    T pop() {
+
+      node *new_root = merge(root-&gtleft, root-&gtright);
+
+      T ret = root-&gtvalue;
+
+      delete root;
+
+      root = new_root;
+
+      return ret;
+    }
+
+    void merge(leftist_tree&ltT&gt &ampx) {
+
+      if (x.root != NULL) {
+
+        if (less_than == x.less_than) {
+
+          root = merge(root, x.root);
+
+          x.root = NULL;
+        } else {
+
+          while (x.empty() == false) {
+
+            push(x.pop());
+          }
+        }
+      }
+    }
+};
+
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Fenwick Tree - Binary Indexed Tree]]></title>
             <link>https://aguang.xyz/#/post/algorithms/fenwick-tree</link>
             <guid>algorithms/fenwick-tree</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Fenwick Tree
+A fenwick tree or binary indexed
+tree is a kind of data structure used to maintain the preffix sums of an
+ordered list of numbers.
+digraph {
+  newrank = &quottrue&quot
+
+    node[shape = rect]
+
+    C8 -&gt C4
+    C8 -&gt C6
+    C8 -&gt C7
+    C8 -&gt A8
+
+    C8[label = &quotsum[8] = 33&quot]
+
+    C4 -&gt C2
+    C4 -&gt C3
+    C4 -&gt A4
+
+    C6 -&gt C5
+    C6 -&gt A6
+
+    C2 -&gt C1
+    C2 -&gt A2
+
+    C4[label = &quotsum[4] = 19&quot]
+
+    subgraph {
+
+    rank=&quotsame&quot
+
+        C2[label = &quotsum[2] = 9&quot]
+        C6[label = &quotsum[6] = 7&quot]
+    }
+
+    subgraph {
+
+        rank=&quotsame&quot
+
+        C1[label = &quotsum[1] = 9&quot]
+        C3[label = &quotsum[3] = 7&quot]
+        C5[label = &quotsum[5] = 2&quot]
+        C7[label = &quotsum[7] = 4&quot]
+    }
+
+  subgraph cluster_subs {
+
+    rank=&quotsame&quot
+        bgcolor=&quotyellow&quot
+
+        A1[style=filled fillcolor=&quotwhite&quot]
+        A2[style=filled fillcolor=&quotwhite&quot]
+        A3[style=filled fillcolor=&quotwhite&quot]
+        A4[style=filled fillcolor=&quotwhite&quot]
+        A5[style=filled fillcolor=&quotwhite&quot]
+        A6[style=filled fillcolor=&quotwhite&quot]
+        A7[style=filled fillcolor=&quotwhite&quot]
+        A8[style=filled fillcolor=&quotwhite&quot]
+
+        A1[label = &quota[1] = 9&quot]
+        A2[label = &quota[2] = 0&quot]
+        A3[label = &quota[3] = 7&quot]
+        A4[label = &quota[4] = 3&quot]
+        A5[label = &quota[5] = 2&quot]
+        A6[label = &quota[6] = 5&quot]
+        A7[label = &quota[7] = 4&quot]
+        A8[label = &quota[8] = 3&quot]
+  }
+
+    C1 -&gt A1
+    C3 -&gt A3
+    C5 -&gt A5
+    C7 -&gt A7
+}
+The main concept of fenwick tree is $Lowbit$ function, which is the number of
+which all bits are assgined to zero without the last $1$ in the given number&amp#39;s
+binary representation. Each node $Sum_k$ in fenwick tree holds the sum of
+$\sum_{i - lowbit(i) + 1}^{k} A_i$
+In most programming languages, $lowbit$ can be implemented like this:
+int lowbit(int x) {
+
+  return x &amp (-x);
+}
+Implementation
+class bit {
+
+  public:
+
+    int *sum, size;
+
+    bit(int size) {
+
+      this-&gtsize = size;
+      this-&gtsum = new int[size + 1];
+
+      for (int i = 0; i &lt= size; i++) {
+
+        this-&gtsum[i] = 0;
+      }
+    }
+
+    void add(int pos, int value) {
+
+      while (pos &lt= this-&gtsize) {
+
+        sum[pos] += value;
+        pos += (pos &amp (-pos));
+      }
+    }
+
+    int query(int pos) {
+
+      int result = 0;
+
+      while (pos &gt 0) {
+
+        result += sum[pos];
+        pos -= (pos &amp (-pos));
+      }
+
+      return result;
+    }
+};
+
+]]></content:encoded>
         </item>
     </channel>
 </rss>

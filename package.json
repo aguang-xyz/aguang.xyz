@@ -12,6 +12,7 @@
         "js-beautify": "^1.11.0",
         "js-yaml": "^3.13.1",
         "lodash": "^4.17.15",
+        "markdown-to-txt": "^1.0.1",
         "prettier": "^2.0.4",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",

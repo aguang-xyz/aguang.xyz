@@ -1,41 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Aguang's Blog</title>
         <link>https://aguang.xyz/#/post/index.yaml</link>
         <description>Aguang's Blog</description>
-        <lastBuildDate>Sat, 13 Jun 2020 08:09:04 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 13 Jun 2020 09:28:09 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[My Profile]]></title>
             <link>https://aguang.xyz/#/post/about/myself</link>
             <guid>about/myself</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[PERSONAL PROFILE
+I&amp#39;m Grey, a guy who enjoys programming since 13 yrs old.
+EDUCATION
+Sep 2019 to Jan 2021 in University of Auckland
+Master of Professional Studies in Data Science
+
+
+Sep 2013 to Jun 2017 in ZheJiang University
+Bachelor of Engineering in Computer Science and Technology
+
+
+
+WORK EXPERIENCE
+Jul 2018 to July 2019 in Ant FinancialSoftware Engineer
+
+
+Jul 2017 to Jun 2018 in Pinduoduo IncDevOps Engineer
+
+
+Apr 2016 to Oct 2016 in Huawei Central Software InstituteAlgorithm Engineer Intern
+
+
+
+HONORS
+Feb 2018 Annual Excellent Employee in Pinduoduo Inc
+May 2016 Huawei Software Elite Challenge 2016, Top 32 in China
+Apr 2012 China Silver Medal in APIO 2012
+Nov 2012 First Prize in NOIP 2012
+Nov 2011 First Prize in NOIP 2011
+
+CERTIFICATIONS
+Full Stack Certification from freecodecamp.orgResponsive Web Design Certification
+JavaScript Algorithms and Data Structures Certification
+Front End Libraries Certification
+Data Visualization Certification
+APIs and Microservices Certification
+Information Security and Quality Assurance
+
+
+
+SKILLS
+** Used Programming Languages **: Pascal C C++ Go Java Javascript Python
+** Front-end Skills**: React React Native
+** Back-end Skills**: Redis MySQL HBase MongoDB Spring Framework Node.js
+
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Competitive Programming]]></title>
             <link>#/post/competitive-programming</link>
             <guid>competitive-programming</guid>
+            <pubDate>Sat, 13 Jun 2020 09:28:09 GMT</pubDate>
+            <content:encoded><![CDATA[Competitive Programming]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Software Development]]></title>
             <link>#/post/software-development</link>
             <guid>software-development</guid>
+            <pubDate>Sat, 13 Jun 2020 09:28:09 GMT</pubDate>
+            <content:encoded><![CDATA[Software Development]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Algorithms]]></title>
             <link>#/post/algorithms</link>
             <guid>algorithms</guid>
+            <pubDate>Sat, 13 Jun 2020 09:28:09 GMT</pubDate>
+            <content:encoded><![CDATA[Algorithms]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[My Projects]]></title>
             <link>#/projects</link>
             <guid>projects</guid>
+            <pubDate>Sat, 13 Jun 2020 09:28:09 GMT</pubDate>
+            <content:encoded><![CDATA[My Projects]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Data Science]]></title>
             <link>#/post/data-science</link>
             <guid>data-science</guid>
+            <pubDate>Sat, 13 Jun 2020 09:28:09 GMT</pubDate>
+            <content:encoded><![CDATA[Data Science]]></content:encoded>
         </item>
     </channel>
 </rss>

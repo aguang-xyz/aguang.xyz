@@ -1,121 +1,5016 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Competitive Programming</title>
         <link>https://aguang.xyz/#/post/competitive-programming</link>
         <description>Competitive Programming</description>
-        <lastBuildDate>Sat, 13 Jun 2020 08:09:05 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 13 Jun 2020 09:28:10 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 190]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-190</link>
             <guid>leet-code/weekly-contest-190</guid>
+            <pubDate>Fri, 12 Jun 2020 10:13:49 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 190
+1. Check If a Word Occurs As a Prefix of Any Word in a Sentence
+Naive.
+var isPrefixOfWord = function(sentence, searchWord) {
+
+    return sentence
+        .split(&#39 &#39)
+        .reduce((ans, word, idx) =&gt 
+            (ans == -1 &amp&amp word.startsWith(searchWord)) ? (idx + 1) : ans
+        , -1);
+};
+2. Maximum Number of Vowels in a Substring of Given Length.
+Preffix-sum.
+const range = (l, r) =&gt [...Array(r - l).keys()].map(x =&gt x + l)
+const cumsum = (arr) =&gt arr.reduce((sum, x) =&gt {
+
+    sum.push(sum[sum.length - 1] + x);
+
+    return sum;
+}, [ 0 ]);
+
+var maxVowels = function(s, k) {
+
+    const is_vowel = s.split(&#39&#39).map(c =&gt (&#39aeiou&#39.indexOf(c) !== -1) ? 1 : 0);
+
+    const sum = cumsum(is_vowel);
+
+    return Math.max.apply(Math, range(k, s.length + 1)
+        .map(idx =&gt sum[idx] - sum[idx - k]));
+};
+3. Pseudo-Palindromic Paths in a Binary Tree
+Use DFS to iterate all paths from the root to leaf nodes.
+At least one permutation of a given sequence is a palindrome if and only if
+at most one element has odd frequency.
+let cnt = [...Array(9).keys()].map(() =&gt 0);
+
+const dfs = (root) =&gt {
+
+    let ans = 0;
+
+    const val = root.val - 1;
+
+    cnt[val]++;
+
+    if (root.left) ans += dfs(root.left);
+
+    if (root.right) ans += dfs(root.right);
+
+    if (root.left === null &amp&amp root.right === null) {
+
+        if (cnt.reduce((sum, c) =&gt (c % 2 == 0) ? sum : sum + 1, 0) &lt= 1) {
+
+            ans++;
+        }
+    }
+
+    cnt[val]--;
+
+    return ans;
+}
+
+var pseudoPalindromicPaths  = function(root) {
+
+    return dfs(root);
+};
+4. Max Dot Product of Two Subsequences
+A simple DP problem.
+var maxDotProduct = function(nums1, nums2) {
+
+    let cache = {};
+
+    let f = (i, j, allowEmpty = false) =&gt {
+
+        if (i &lt 0 || j &lt 0) return allowEmpty ? 0 : -Infinity;
+
+        if (cache[i + &#39,&#39 + j + &#39,&#39 + allowEmpty])
+            return cache[i + &#39,&#39 + j + &#39,&#39 + allowEmpty];
+
+        return cache[i + &#39,&#39 + j + &#39,&#39 + allowEmpty] = Math.max(
+            f(i - 1, j - 1, true) + nums1[i] * nums2[j],
+            f(i - 1, j, allowEmpty),
+            f(i, j - 1, allowEmpty)
+        );
+    };
+
+    return f(nums1.length - 1, nums2.length - 1);
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 189]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-189</link>
             <guid>leet-code/weekly-contest-189</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 189
+1. Number of Students Doing Homework at a Given Time
+No need to talk.
+var busyStudent = function(startTime, endTime, queryTime) {
+
+  return startTime.filter((idx, s) =&gt
+        s &lt= queryTime &amp&amp queryTime &lt= endTime[idx]).length;
+};
+2. Rearrange Words in a Sentence
+Multi-key sort.
+var arrangeWords = function(text) {
+
+  let words = text.split(&#39 &#39)
+    .map((word, idx) =&gt ({ word: word.toLowerCase(), idx }))
+    .sort((x, y) =&gt {
+
+      if (x.word.length &lt y.word.length) return -1;
+      if (x.word.length &gt y.word.length) return 1;
+
+      return x.idx &lt y.idx ? -1 : 1;
+    })
+    .map(x =&gt x.word)
+    .join(&#39 &#39);
+
+  return words[0].toUpperCase() + words.substr(1);
+};
+3. People Whose List of Favorite Companies Is Not a Subset of Another List
+Hash.
+var peopleIndexes = function(favoriteCompanies) {
+
+  return favoriteCompanies
+    .map((x, i) =&gt
+      favoriteCompanies.some((y, j) =&gt
+        i !== j &amp&amp x.every(xi =&gt y.includes(xi))) ? null : i)
+    .filter(x =&gt x !== null);
+};
+4. Maximum Number of Darts Inside of a Circular Dartboard
+The best center could be:
+a given point; or
+the center of circumcircle of two given points.
+
+var count = function(x, y, r, points) {
+
+  return points.map(p =&gt [p[0] - x, p[1] - y])
+    .filter(d =&gt d[0] * d[0] + d[1] * d[1] &lt= r * r).length;
+}
+
+var centers = function(x1, y1, x2, y2, r) {
+
+  let dx = x2 - x1, dy = y2 - y1;
+
+  let d = Math.sqrt(dx * dx + dy * dy);
+
+  let ax = x1 + dx / 2, ay = y1 + dy / 2;
+
+  if (d === 2 * r) {
+
+    return [{ x: ax, y: ay }];
+  }
+
+  if (d &gt 2 * r) {
+
+    return [];
+  }
+
+  let h = Math.sqrt(r * r - d * d / 4);
+
+  return [{
+    x: ax - dy / d * h,
+    y: ay + dx / d * h
+  }, {
+    x: ax + dy / d * h,
+    y: ay - dx / d * h
+  }];
+}
+
+var numPoints = function(points, r) {
+
+  let ans = Math.max(...(points.map(p =&gt count(p[0], p[1], r, points))));
+
+  points.forEach((x, i) =&gt
+    points.slice(i + 1).forEach(y =&gt
+      centers(x[0], x[1], y[0], y[1], r)
+        .forEach(p =&gt ans = Math.max(ans, count(p.x, p.y, r, points)))));
+
+  return ans;
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 188]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-188</link>
             <guid>leet-code/weekly-contest-188</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 188
+1. Build an Array With Stack Operations
+Stack is a FIFO container. Pop all useless elements before pushing the next
+element.
+class Solution {
+public:
+    vector&ltstring&gt buildArray(vector&ltint&gt&amp target, int n) {
+
+        bool useful[101];
+
+        for (int i = 0; i &lt 101; i++)
+            useful[i] = false;
+
+        for (int &ampx : target)
+            useful[x] = true;
+
+        stack&ltint&gt s;
+
+        vector&ltstring&gt result;
+
+        for (int i = 1; i &lt= n; i++) {
+
+            while (s.size() &gt 0 &amp&amp useful[s.top()] == false) {
+
+                s.pop();
+                result.push_back(&quotPop&quot);
+            }
+
+            s.push(i);
+            result.push_back(&quotPush&quot);
+
+            if (s.size() == target.size() &amp&amp useful[s.top()])
+                break;
+        }
+
+        return result;
+    }
+};
+2. Count Triplets That Can Form Two Arrays of Equal XOR
+Since $x \oplus y \oplus x = y$, we can use a preffix-like array,
+$S_n = \bigoplus_{i = 1}^n a_i$.
+For every $1 \leq i, j \leq n$,
+$\bigoplus_{p = i}^{j} a_p = S_j \oplus S_{i - 1}$ can be calculated in $O(1)$.
+class Solution {
+public:
+    int s[301];
+
+    int countTriplets(vector&ltint&gt&amp arr) {
+
+        s[0] = 0;
+
+        for (int i = 0; i &lt arr.size(); i++)
+            s[i + 1] = s[i] ^ arr[i];
+
+        int ans = 0;
+
+        for (int i = 1; i &lt= arr.size(); i++) {
+            for (int j = i + 1; j &lt= arr.size(); j++) {
+                for (int k = j; k &lt= arr.size(); k++) {
+
+                    int a = s[j - 1] ^ s[i - 1];
+                    int b = s[k] ^ s[j - 1];
+
+                    if (a == b) {
+
+                        ans++;
+
+                        // cout&lt&lt(i - 1)&lt&lt&quot,&quot&lt&lt(j - 1)&lt&lt&quot,&quot&lt&lt(k - 1)&lt&ltendl;
+                    }
+                }
+            }
+        }
+
+        return ans;
+    }
+};
+3. Minimum Time to Collect All Apples in a Tree
+Recurrence relation.
+$$
+  F(x) = \sum_{c \in Children(x)\ \land \ tree(c) \text{ has apples}} {F(c) + 2}
+$$
+class Solution {
+public:
+
+    vector&ltint&gt children[100001];
+
+    bool apple[100001];
+
+    void dfs(int x, bool &amphas, int &ampcost) {
+
+        has = apple[x];
+        cost = 0;
+
+        bool c_has;
+        int c_cost;
+
+        for (int &ampc : children[x]) {
+
+            dfs(c, c_has, c_cost);
+
+            has = has || c_has;
+
+            if (c_has) {
+
+                cost += c_cost + 2;
+            }
+        }
+    }
+
+    int minTime(int n, vector&ltvector&ltint&gt&gt&amp edges, vector&ltbool&gt&amp hasApple) {
+
+        for (const vector&ltint&gt &ampe : edges)
+            children[e[0]].push_back(e[1]);
+
+        for (int i = 0; i &lt n; i++)
+            apple[i] = hasApple[i];
+
+        bool has;
+
+        int cost;
+
+        dfs(0, has, cost);
+
+        return cost;
+    }
+};
+4. Number of Ways of Cutting a Pizza
+DP.
+Let&amp#39;s say:
+$C(row1, col1, row2, col2)$ indicates the number of apples in a sub-matrix.
+$F(i, j, k)$ indicates the number of solutions to cut the pizza.
+
+$C(row1, cols1, rows2, cols2)$ can be calculated in $O(n)$ if we pre-caculate
+$S(i, j) = \sum_{k = 1}^j a_{i, j}$.
+$$
+\begin{aligned}
+F(i, j, k &gt 0) =&amp \sum_{p = i}^{n - 1} F(p + 1, j, k - 1) \mid C(i, j, p, j) &gt 0 \\
+                +&amp \sum_{q = j}^{m - 1} F(i, q + 1, k - 1) \mid C(i, j, i, q) &gt 0 \\
+
+F(i, j, k = 0) =&amp
+    \begin{cases}
+        1 &amp C(i, j, n, m) &gt 0 \\
+  0 &amp C(i, j, n, m) = 0 \\
+    \end{cases}
+\end{aligned}
+$$
+class Solution {
+public:
+
+    int s[51][51];
+
+    int count(int row1, int col1, int row2, int col2) {
+
+        int sum = 0;
+
+        for (int i = row1; i &lt= row2; i++)
+            sum += s[i][col2 + 1] - s[i][col1];
+
+        return sum;
+    }
+
+    int f[51][51][11];
+
+    int mod = 1000000007;
+
+    int ways(vector&ltstring&gt&amp pizza, int k) {
+
+        int rows = pizza.size(), cols = pizza[0].size();
+
+        for (int i = 0; i &lt rows; i++) {
+
+            s[i][0] = 0;
+
+            for (int j = 0; j &lt cols; j++)
+                s[i][j + 1] = s[i][j] + (pizza[i][j] == &#39A&#39 ? 1 : 0);
+        }
+
+        for (int i = 0; i &lt rows; i++)
+            for (int j = 0; j &lt cols; j++)
+                f[i][j][0] = count(i, j, rows - 1, cols - 1) &gt 0 ? 1 : 0;
+
+        for (int p = 1; p &lt k; p++)
+            for (int i = 0; i &lt rows; i++)
+                for (int j = 0; j &lt cols; j++) {
+
+                    f[i][j][p] = 0;
+
+                    for (int q = j; q &lt cols; q++)
+                        if (count(i, j, rows - 1, q) &gt 0)
+                            f[i][j][p] = (f[i][j][p] + f[i][q + 1][p - 1]) % mod;
+
+                    for (int q = i; q &lt rows; q++)
+                        if (count(i, j, q, cols - 1) &gt 0)
+                            f[i][j][p] = (f[i][j][p] + f[q + 1][j][p - 1]) % mod;
+
+                }
+
+        return f[0][0][k - 1];
+    }
+};
+
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 187]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-187</link>
             <guid>leet-code/weekly-contest-187</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 187
+1. Destination City
+Let&amp#39;s say,
+$S = { x \mid (x, y) \text{ is a path} }$
+$T = { y \mid (x, y) \text{ is a path} }$
+
+The answer is $T - S$.
+class Solution {
+public:
+    string destCity(vector&ltvector&ltstring&gt&gt&amp paths) {
+
+        set&ltstring&gt s, t;
+
+        for (const vector&ltstring&gt &amppath : paths) {
+
+            s.insert(path[0]);
+            t.insert(path[1]);
+        }
+
+        for (const string &ampx : s) {
+
+            t.erase(x);
+        }
+
+        return *(t.begin());
+    }
+};
+2. Check If All 1&amp#39;s Are at Least Length K Places Away
+Let&amp#39;s say $s(n) = \sum_{i = 1}^n num_i$, for every $i$ where $num_i = 1$, just
+check:
+$s_{i - 1} - s_{max(i - k - 1, 0)} = 0$
+$s_{min(i + k, n)} - s[i] = 0$
+
+class Solution {
+public:
+    int s[100001];
+
+    bool kLengthApart(vector&ltint&gt&amp nums, int k) {
+
+        int n = nums.size();
+
+        s[0] = 0;
+
+        for (int i = 0; i &lt n; i++) {
+
+            s[i + 1] = s[i] + nums[i];
+        }
+
+        for (int i = 1; i &lt= n; i++) {
+
+            if (nums[i - 1] == 1) {
+
+                if (i &gt 1 &amp&amp s[i - 1] - s[max(i - k - 1, 0)] &gt 0) {
+
+                    return false;
+                }
+
+
+                if (i &lt n &amp&amp s[min(i + k, n)] - s[i] &gt 0) {
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+};
+3. Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit
+Greedy strategy; use a balanced tree to maintain the maximum value and the
+minimum value of the current sequence. Every time you just push the next number
+from the right side, and pop left values until the sequence meets the
+requirement.
+class Solution {
+public:
+
+    int longestSubarray(vector&ltint&gt&amp nums, int limit) {
+
+        multiset&ltint&gt s;
+        queue&ltint&gt q;
+
+        int n = nums.size();
+        int ans = 0;
+
+        for (int i = 0; i &lt n; i++) {
+
+            s.insert(nums[i]);
+            q.push(nums[i]);
+
+            while (*(s.rbegin()) - *(s.begin()) &gt limit) {
+
+                s.erase(s.lower_bound(q.front()));
+
+                q.pop();
+            }
+
+            if (q.size() &gt ans) ans = q.size();
+        }
+
+        return ans;
+    }
+};
+4. Find the Kth Smallest Sum of a Matrix With Sorted Rows
+BFS with heap (or you can call it A* algorithm).
+class Solution {
+public:
+
+    struct state {
+
+        int sum;
+
+        vector&ltint&gt pos;
+    };
+
+    struct cmp {
+
+        bool operator() (state &ampx, state &ampy) {
+
+            return x.sum &gt y.sum;
+        }
+    };
+
+    state init_state(int n, vector&ltvector&ltint&gt&gt&amp mat) {
+
+        state s0;
+
+        s0.sum = 0;
+
+        for (int i = 0; i &lt n; i++) {
+
+            s0.sum += mat[i][0];
+
+            s0.pos.push_back(0);
+        }
+
+        return s0;
+    }
+
+    state copy_state(state s) {
+
+        state s2;
+
+        s2.sum = s.sum;
+
+        for (int i = 0; i &lt s.pos.size(); i++) {
+
+            s2.pos.push_back(s.pos[i]);
+        }
+
+        return s2;
+    }
+
+    int kthSmallest(vector&ltvector&ltint&gt&gt&amp mat, int k) {
+
+        int n = mat.size();
+        int m = mat[0].size();
+
+        set&ltvector&ltint&gt&gt visited;
+        priority_queue&ltstate, vector&ltstate&gt, cmp&gt q;
+
+        state s0 = init_state(n, mat);
+
+        visited.insert(s0.pos);
+        q.push(s0);
+
+        for (int i = 0; i &lt (k - 1); i++) {
+
+            state s = q.top();
+
+            for (int j = 0; j &lt n; j++) {
+
+                if (s.pos[j] &lt (m - 1)) {
+
+                    state s2 = copy_state(s);
+
+                    s2.sum -= mat[j][s2.pos[j]];
+
+                    s2.sum += mat[j][++(s2.pos[j])];
+
+                    if (visited.find(s2.pos) == visited.end()) {
+
+                        q.push(s2);
+
+                        visited.insert(s2.pos);
+                    }
+                }
+            }
+
+            q.pop();
+        }
+
+        return q.top().sum;
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 186]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-186</link>
             <guid>leet-code/weekly-contest-186</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 186
+1. Maximum Score After Splitting a String
+Preffix-sum.
+class Solution {
+public:
+    int maxScore(string s) {
+
+        int s0[501],s1[501];
+
+        s0[0] = s1[0] = 0;
+
+        for (int i = 0; i &lt s.length(); i++) {
+            if (s[i] == &#390&#39) {
+                s0[i + 1] = s0[i] + 1;
+                s1[i + 1] = s1[i];
+            } else {
+                s0[i + 1] = s0[i];
+                s1[i + 1] = s1[i] + 1;
+            }
+        }
+
+        int ans = 0;
+
+        for (int i = 0; (i + 1) &lt s.length(); i++) {
+
+            int l = s0[i + 1];
+            int r = s1[s.length()] - s1[i + 1];
+
+            if (l + r &gt ans) {
+
+                ans = l + r;
+            }
+        }
+
+        return ans;
+    }
+};
+2. Maximum Points You Can Obtain from Cards
+Preffix-sum.
+class Solution {
+public:
+    int s[100001];
+
+    int maxScore(vector&ltint&gt&amp cardPoints, int k) {
+
+        s[0] = 0;
+
+        for (int i = 1; i &lt= cardPoints.size(); i++)
+            s[i] = s[i - 1] + cardPoints[i - 1];
+
+        int ans = 0;
+
+        for (int i = 0; i &lt= k; i++) {
+
+            int l = s[i];
+            int r = s[cardPoints.size()] - s[cardPoints.size() - (k - i)];
+
+            if (l + r &gt ans)
+                ans = l + r;
+        }
+
+        return ans;
+    }
+};
+3. Diagonal Traverse II
+Multi-field sort.
+class Solution {
+public:
+    static bool cmp(pair&ltint, int&gt x, pair&ltint, int&gt y) {
+
+        if ((x.first + x.second) &lt (y.first + y.second)) return true;
+        if ((x.first + x.second) &gt (y.first + y.second)) return false;
+
+        return x.second &lt y.second;
+    }
+
+    vector&ltint&gt findDiagonalOrder(vector&ltvector&ltint&gt&gt&amp nums) {
+
+        vector&ltpair&ltint, int&gt&gt s;
+
+        for (int i = 0; i &lt nums.size(); i++) {
+            for (int j = 0; j &lt nums[i].size(); j++) {
+                s.push_back(make_pair(i, j));
+            }
+        }
+
+        sort(s.begin(), s.end(), cmp);
+
+        vector&ltint&gt ret;
+
+        for (pair&ltint, int&gt p : s) {
+
+            ret.push_back(nums[p.first][p.second]);
+        }
+
+        return ret;
+    }
+};
+4.  Constrained Subset Sum
+DP + Heap.
+class Solution {
+public:
+
+    int f[100001];
+
+    struct cmp {
+
+        bool operator() (pair&ltint, int&gt x, pair&ltint, int&gt y) {
+
+            return x.second &lt y.second;
+        }
+    };
+
+    priority_queue&ltpair&ltint, int&gt, vector&ltpair&ltint, int&gt&gt, cmp&gt q;
+
+    int constrainedSubsetSum(vector&ltint&gt&amp nums, int k) {
+
+        int ans = -1E9;
+
+        for (int i = 0; i &lt nums.size(); i++) {
+
+            f[i] = nums[i];
+
+            while (q.size() &gt 0) {
+
+                const pair&ltint, int&gt &amptop = q.top();
+
+                if (top.first &gt= (i - k)) {
+
+                    if (top.second + nums[i] &gt f[i]) {
+
+                        f[i] = top.second + nums[i];
+                    }
+
+                    break;
+                } else {
+
+                    q.pop();
+                }
+            }
+
+            if (f[i] &gt ans) ans = f[i];
+
+            q.push(make_pair(i, f[i]));
+        }
+
+        return ans;
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 185]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-185</link>
             <guid>leet-code/weekly-contest-185</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 185
+1. Reformat The String
+Divide the characters into two groups: digits and letters, just try
+digits first or letters first.
+class Solution {
+public:
+    string reformat(string s) {
+
+        string s1 = &quot&quot;
+        string s2 = &quot&quot;
+
+        for (int i = 0; i &lt s.length(); i++) {
+
+            if (s[i] &gt= &#390&#39 &amp&amp s[i] &lt= &#399&#39) s1 += s[i];
+            else s2 += s[i];
+        }
+
+        string ret = &quot&quot;
+
+        bool failed = false;
+
+        for (int i = 0, j = 0; i &lt s1.length() || j &lt s2.length(); ) {
+
+            if (ret.length() == 0 || (ret[ret.length() - 1] &gt= &#390&#39 &amp&amp ret[ret.length() - 1] &lt= &#399&#39)) {
+
+                if (j &lt s2.length()) {
+
+                    ret += s2[j++];
+                } else {
+
+                    failed = true;
+
+                    break;
+                }
+            } else {
+
+                if (i &lt s1.length()) {
+
+                    ret += s1[i++];
+                } else {
+
+                    failed = true;
+
+                    break;
+                }
+            }
+        }
+
+        if (!failed) return ret;
+
+        ret = &quot&quot;
+
+
+        failed = false;
+
+        for (int i = 0, j = 0; i &lt s1.length() || j &lt s2.length(); ) {
+
+
+            if (ret.length() == 0 || (ret[ret.length() - 1] &gt= &#39a&#39 &amp&amp ret[ret.length() - 1] &lt= &#39z&#39)) {
+
+                if (i &lt s1.length()) {
+
+                    ret += s1[i++];
+                } else {
+
+                    failed = true;
+
+                    break;
+                }
+
+            } else {
+
+                if (j &lt s2.length()) {
+
+                    ret += s2[j++];
+                } else {
+
+                    failed = true;
+
+                    break;
+                }
+
+            }
+        }
+
+        return failed ? &quot&quot : ret;
+    }
+};
+2. Display Table of Food Orders in a Restaurant
+No need to talk if you use STL.
+class Solution {
+public:
+    vector&ltvector&ltstring&gt&gt displayTable(vector&ltvector&ltstring&gt&gt&amp orders) {
+
+        set&ltstring&gt names;
+
+        set&ltint&gt ids;
+
+        map&ltint, map&ltstring, int&gt&gt order;
+
+        for (int i = 0; i &lt orders.size(); i++) {
+
+            string &ampname = orders[i][2];
+
+            names.insert(name);
+
+            int id = stoi(orders[i][1]);
+
+            if (order.find(id) == order.end()) {
+
+                order[id] = map&ltstring, int&gt();
+            }
+
+            if (order[id].find(name) == order[i].end()) {
+
+                order[id][name] = 0;
+            }
+
+            order[id][name]++;
+
+            ids.insert(id);
+        }
+
+        vector&ltvector&ltstring&gt&gt ret;
+
+        vector&ltstring&gt row0;
+
+        row0.push_back(&quotTable&quot);
+
+        for (auto i = names.begin(); i != names.end(); i++) {
+
+            row0.push_back(*i);
+        }
+
+        ret.push_back(row0);
+
+        for (auto i = ids.begin(); i != ids.end(); i++) {
+
+            vector&ltstring&gt row1;
+
+            row1.push_back(to_string(*i));
+
+            for (auto j = names.begin(); j != names.end(); j++) {
+
+                row1.push_back(to_string(order[*i][*j]));
+            }
+
+            ret.push_back(row1);
+        }
+
+        return ret;
+    }
+};
+3. Minimum Number of Frogs Croaking
+Use a array $Count_i$ to represent the number of frogs waiting for the ith
+character in string &ampquot;croak&ampquot;.
+Every time when you scan a new character, just check if there is at least one
+frog waiting.
+If there is no frog waiting and the character is not c, that means no
+solution. Or, just add one new frog.
+Don&amp#39;t forget to check if there is a frog not waiting for c after scanning all
+characters.
+class Solution {
+public:
+    int minNumberOfFrogs(string croakOfFrogs) {
+
+        int count[5];
+
+        for (int i = 0; i &lt 5; i++) {
+
+            count[i] = 0;
+        }
+
+        int ans = 0;
+
+        for (int i = 0, c; i &lt croakOfFrogs.length(); i++) {
+
+            switch (croakOfFrogs[i]) {
+
+                case &#39c&#39:
+                    c = 0;
+                    break;
+
+                case &#39r&#39:
+                    c = 1;
+                    break;
+
+                case &#39o&#39:
+                    c = 2;
+                    break;
+
+                case &#39a&#39:
+                    c = 3;
+                    break;
+
+                case &#39k&#39:
+                    c = 4;
+                    break;
+            }
+
+            if (c == 0) {
+
+                if (count[c] == 0) {
+                    ++ans;
+                    count[1]++;
+                } else {
+                    --count[c];
+                    count[1]++;
+                }
+            } else {
+
+                if (count[c] == 0) {
+
+                    return -1;
+                }
+
+                --count[c];
+                ++count[(c + 1) % 5];
+            }
+        }
+
+        for (int i = 1; i &lt 5; i++) {
+            if (count[i] &gt 0) {
+
+                return -1;
+            }
+        }
+
+        return ans;
+    }
+};
+4. Build Array Where You Can Find The Maximum Exactly K Comparisons
+Let&amp#39;s say $F_{i, j, p}$ represents the number of arrays where the length is
+$i$, the last element increasing maximum_value is $j$, and the result
+maximum_value is $p$.
+For any current status, basically we have two groups of choices:
+The last element isn&amp#39;t the element increasing maximum_value, and the
+number of possibilities is: $j \times F_{i - 1, j, p}$, because you can
+choose the value of i-th element from $1$ to $j$.
+The last element is the element increasing maximum_value, then the
+number of possibilities is: $ \sum_{q = 1}^{j - 1} F_{i - 1, q, p - 1} $,
+because the i-th element is $j$ and you can choose the value of (i-1)-th
+element from $1$ to $j - 1$
+
+So, we have:
+$$
+F_{i, j, p} = j \times F_{i - 1, j, p} + \sum_{q = 1}^{j - 1} F_{i - 1, q, p - 1}
+$$
+There is a small trick: if you loop $p$ first instead of $j$, you can
+calculate current $F_{i, j, p}$ and count the sum together.
+class Solution {
+
+    long f[51][101][51];
+
+    long MOD = 1E9 + 7; 
+
+public:
+    int numOfArrays(int n, int m, int k) {
+
+        for (int i = 0; i &lt= n; i++)
+            for (int j = 0; j &lt= m; j++)
+                for (int p = 0; p &lt= k; p++)
+                    f[i][j][p] = 0;
+
+        for (int i = 1; i &lt= m; i++)
+            f[1][i][1] = 1;
+
+        for (int i = 2; i &lt= n; i++) {
+            for (int p = 1; p &lt= i; p++) {
+                long s = 0;
+
+                for (int j = 1; j &lt= m; j++) {
+
+                    f[i][j][p] = (s + j * f[i - 1][j][p]) % MOD;
+
+                    s = (s + f[i - 1][j][p - 1]) % MOD;
+                }
+            }
+        }
+
+        int ans = 0;
+
+        for (int i = 1; i &lt= m; i++) {
+
+            ans = (ans + f[n][i][k]) % MOD;
+        }
+
+        return ans;
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 184]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-184</link>
             <guid>leet-code/weekly-contest-184</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 184
+1. String Matching in an Array
+KMP.
+class kmp {
+
+  public:
+
+    static vector&ltint&gt pmt_of(string p) {
+
+      vector&ltint&gt pmt = { -1 };
+
+      for (int i = 0, j = -1; i &lt p.length(); ) {
+
+        if (j == -1 || p[i] == p[j]) {
+
+          ++i, pmt.push_back(++j);
+        } else {
+
+          j = pmt[j];
+        }
+      }
+
+      return pmt;
+    }
+
+    static int first_of(string s, string p) {
+
+      vector&ltint&gt pmt = pmt_of(p);
+
+      int i = 0, j = 0;
+
+      while (i &lt s.length() &amp&amp j &lt (int) p.length()) {
+
+        if (j == -1 || s[i] == p[j]) {
+
+          ++i, ++j;
+        } else {
+
+          j = pmt[j];
+        }
+      }
+
+      return j == (int) p.length() ? i - j : -1;
+    }
+};
+
+class Solution {
+public:
+    vector&ltstring&gt stringMatching(vector&ltstring&gt&amp words) {
+
+        vector&ltstring&gt result;
+
+        for (int i = 0; i &lt words.size(); i++) {
+
+            bool valid = false;
+
+            for (int j = 0; j &lt words.size(); j++) {
+                if (j != i) {
+                    if (kmp::first_of(words[j], words[i]) != -1) {
+                        valid = true;
+                        break;
+                    }   
+                }
+            }
+
+            if (valid) {
+                result.push_back(words[i]);
+            }
+        }
+
+        return result;
+    }
+};
+2. Queries on a Permutation With Key
+No need to talk.
+class Solution {
+public:
+    vector&ltint&gt processQueries(vector&ltint&gt&amp queries, int m) {
+
+        vector&ltint&gt result, ret;
+
+        for (int i = 1; i &lt= m; i++) {
+
+            result.push_back(i);
+        }
+
+        for (int i = 0; i &lt queries.size(); i++) {
+
+            for (int j = 0; j &lt result.size(); j++) {
+
+                if (result[j] == queries[i]) {
+
+                    ret.push_back(j);
+
+                    for (int k = j; k &gt 0; k--) result[k] = result[k - 1];
+
+                    result[0] = queries[i];
+
+                    break;
+                }
+            }
+
+        }
+
+        return ret;
+    }
+};
+3. HTML Entity Parser
+No need to talk.
+class Solution {
+public:
+    string entityParser(string text) {
+
+        string x[6] = {&quot&ampquot;&quot, &quot&ampapos;&quot, &quot&ampamp;&quot, &quot&ampgt;&quot, &quot&amplt;&quot, &quot&ampfrasl;&quot};
+        string y[6] = {&quot\&quot&quot, &quot\&#39&quot, &quot&amp&quot, &quot&gt&quot, &quot&lt&quot, &quot/&quot};
+
+        string result = &quot&quot;
+
+        int l = text.length();
+
+        for (int i = 0; i &lt l;) {
+
+            bool matched = false;
+
+            for (int j = 0; j &lt 6; j++) {
+
+                int k;
+
+                for (k = 0; k &lt x[j].length() &amp&amp k &lt l; k++) {
+
+                    if (x[j][k] != text[i + k]) break;
+                }
+
+                if (k == x[j].length()) {
+
+                    matched = true;
+
+                    result += y[j];
+
+                    i += x[j].length();
+
+                    break;
+                }
+            }
+
+            if (!matched) {
+
+                result += text[i++];
+            }
+        }
+
+        return result;
+    }
+};
+4. Number of Ways to Paint N × 3 Grid
+State Compression &ampamp; DP.
+Briefly you can use no more than six bit to represent the state of a row.
+$$
+F[1][c_1][c_2][c_3] = \begin{cases}
+  1 &ampamp; c_1 \neq c_2 \land c_2 \neq c_3 \
+  0 &ampamp; \text{otherwise} \
+\end{cases}
+$$
+$$
+F[i][c_1][c_2][c_3] = \begin{cases}
+  \sum_{} F[i - 1][p_1][p_2][p_3] &ampamp; c_1 \neq c_2 \land c_2 \neq c_3 \land c_1 \neq p_1 \land c_2 \neq p_2 \land c_3 \neq p_3 \
+  0 &ampamp; \text{otherwise} \
+\end{cases}
+$$
+Then, you just calculate:
+$$
+\sum_{} F[n][c_1][c_2][c_3]
+$$
+class Solution {
+
+public:
+
+    int c1(int s) {
+
+        return (s / 16) % 4;
+    }
+
+    int c2(int s) {
+
+        return (s / 4) % 4;
+    }
+
+    int c3(int s) {
+
+        return s % 4;
+    }
+
+    int to_state(int c1, int c2, int c3) {
+
+        return c1 * 16 + c2 * 4 + c3;
+    }
+
+    int numOfWays(int n) {
+
+        int f[5001][64];
+
+        for (int c1 = 0; c1 &lt 3; c1++) {
+            for (int c2 = 0; c2 &lt 3; c2++) {
+                for (int c3 = 0; c3 &lt 3; c3++) {
+
+                    if (c1 != c2 &amp&amp c2 != c3) {
+
+                        f[1][to_state(c1, c2, c3)] = 1;
+                    } else {
+
+                        f[1][to_state(c1, c2, c3)] = 0;
+                    }
+                }
+            }
+        }
+
+        for (int i = 2; i &lt= n; i++) {
+            for (int c1 = 0; c1 &lt 3; c1++) {
+                for (int c2 = 0; c2 &lt 3; c2++) {
+                    for (int c3 = 0; c3 &lt 3; c3++) {
+
+                        int s = to_state(c1, c2, c3);
+
+                        f[i][s] = 0;
+
+                        if (c1 != c2 &amp&amp c2 != c3) {
+                            for (int p1 = 0; p1 &lt 3; p1++) {
+                                for (int p2 = 0; p2 &lt 3; p2++) {
+                                    for (int p3 = 0; p3 &lt 3; p3++) {
+                                        if (c1 != p1 &amp&amp c2 != p2 &amp&amp c3 != p3) {
+
+                                            f[i][s] = (f[i][s] + f[i - 1][to_state(p1, p2, p3)]) % 1000000007;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        int ans = 0;
+
+        for (int c1 = 0; c1 &lt 3; c1++) {
+            for (int c2 = 0; c2 &lt 3; c2++) {
+                for (int c3 = 0; c3 &lt 3; c3++) {
+                    ans = (ans + f[n][to_state(c1, c2, c3)]) % 1000000007;
+                }
+            }
+        }
+
+        return ans;          
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 183]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-183</link>
             <guid>leet-code/weekly-contest-183</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 183
+1. Minimum Subsequence in Non-Increasing Order
+Just sort.
+#include&ltvector&gt
+
+using namespace std;
+
+template&lttypename T&gt
+class quick_sort {
+
+  public:
+
+    static bool small_first(T &ampx, T&ampy) {
+
+      return x &lt y;
+    }
+
+    static bool big_first(T &ampx, T&ampy) {
+
+      return x &gt y;
+    }
+
+    static vector&ltT&gt sort(vector&ltT&gt &ampelements) {
+
+      return sort(elements, small_first);
+    }
+
+    static vector&ltT&gt sort(vector&ltT&gt &ampelements, bool (*less_than)(T&amp, T&amp)) {
+
+      sort(elements, 0, elements.size() - 1, less_than);
+
+      return elements;
+    }
+
+  private:
+
+    static void sort(vector&ltT&gt &ampelements, int l, int r, bool (*less_than)(T&amp, T&amp)) {
+
+      if (l &lt r) {
+
+        T mid = elements[l];
+
+        int i = l, j = r;
+
+        while (i &lt j) {
+
+          while (i &lt j &amp&amp less_than(mid, elements[j])) j--;
+
+          if (i &lt j) {
+
+            elements[i] = elements[j];
+
+            i++;
+          }
+
+          while (i &lt j &amp&amp less_than(elements[i], mid)) i++;
+
+          if (i &lt j) {
+
+            elements[j] = elements[i];
+
+            j--;
+          }
+        }
+
+        elements[i] = mid;
+
+        sort(elements, l, i - 1, less_than);
+        sort(elements, i + 1, r, less_than);
+      }
+    }
+};
+
+class Solution {
+public:
+    vector&ltint&gt minSubsequence(vector&ltint&gt&amp nums) {
+
+        quick_sort&ltint&gt::sort(nums, quick_sort&ltint&gt::big_first);
+
+        int sum = 0;
+        for (int &ampnum : nums) {
+
+            sum += num;
+        }
+
+        vector&ltint&gt ret;
+
+        for (int i = 0, now = 0; i &lt nums.size(); i++) {
+
+            ret.push_back(nums[i]);
+
+            now += nums[i];
+
+            int rest = sum - now;
+
+            if (now &gt rest) {
+
+                break;
+            }
+        }
+
+        return ret;
+    }
+};
+2. Number of Steps to Reduce a Number in Binary Representation to One
+No need to talk.
+class Solution {
+public:
+    int numSteps(string s) {
+
+        int times = 0;
+
+        while (s != &quot1&quot) {
+
+            if (s[s.length() - 1] == &#390&#39) {
+
+                s = s.substr(0, s.length() - 1);
+            } else {
+
+                int i;
+
+                for (i = s.length() - 1; i &gt= 0; i--) {
+
+                    if (s[i] == &#391&#39) {
+
+                        s[i] = &#390&#39;
+                    } else {
+
+                        s[i] = &#391&#39;
+
+                        break;
+                    }
+                }
+
+                if (i == -1) {
+
+                    s = &#391&#39 + s;
+                }
+            }
+
+            times++;
+        }
+
+        return times;
+    }
+};
+3. Longest Happy String
+Let&amp#39;say $F(i, j, k, s)$ represents wheather we can construct a string with i
+character &amp#39;a&amp#39;, j character &amp#39;b&amp#39; and k chracter &amp#39;c&amp#39; and the continuously same
+character suffix is s, where $s \in { a, aa, b, bb, c, cc }$
+Then the state transition equation is:
+$$
+F(i, j, k, a) =\begin{cases}
+True &ampamp; i = 1 \land j = 0 \land k = 0\
+  F(i - 1, j, k, b) \lor
+  F(i - 1, j, k, bb) \lor
+  F(i - 1, j, k, c) \lor
+  F(i - 1, j, k, cc)
+  &ampamp; i &ampgt;= 1\
+\end{cases}
+$$
+$$
+F(i, j, k, aa) =\begin{cases}
+True &ampamp; i = 2 \land j = 0 \land k = 0\
+  F(i - 2, j, k, b) \lor
+  F(i - 2, j, k, bb) \lor
+  F(i - 2, j, k, c) \lor
+  F(i - 2, j, k, cc)
+  &ampamp; i &ampgt;= 2\
+\end{cases}
+$$
+$$
+F(i, j, k, b) =\begin{cases}
+True &ampamp; i = 0 \land j = 1 \land k = 0\
+  F(i, j - 1, k, a) \lor
+  F(i, j - 1, k, aa) \lor
+  F(i, j - 1, k, c) \lor
+  F(i, j - 1, k, cc)
+  &ampamp; j &ampgt;= 1\
+\end{cases}
+$$
+$$
+F(i, j, k, bb) =\begin{cases}
+True &ampamp; i = 0 \land j = 2 \land k = 0\
+  F(i - 2, j, k, a) \lor
+  F(i - 2, j, k, aa) \lor
+  F(i - 2, j, k, c) \lor
+  F(i - 2, j, k, cc)
+  &ampamp; j &ampgt;= 2\
+\end{cases}
+$$
+$$
+F(i, j, k, c) =\begin{cases}
+True &ampamp; i = 0 \land j = 0 \land k = 1\
+  F(i, j, k - 1, a) \lor
+  F(i, j, k - 1, aa) \lor
+  F(i, j, k - 1, c) \lor
+  F(i, j, k - 1, cc)
+  &ampamp; k &ampgt;= 1\
+\end{cases}
+$$
+$$
+F(i, j, k, cc) =\begin{cases}
+True &ampamp; i = 0 \land j = 0 \land k = 2\
+  F(i, j, k - 2, a) \lor
+  F(i, j, k - 2, aa) \lor
+  F(i, j, k - 2, c) \lor
+  F(i, j, k - 2, cc)
+  &ampamp; k &ampgt;= 2\
+\end{cases}
+$$
+Finally, find $Max{ i + j + k \ |\ f[i][j][k][s] = True}$
+#include&ltiostream&gt
+#include&ltstring&gt
+
+using namespace std;
+
+const int A  = 0;
+const int AA = 1;
+const int B  = 2;
+const int BB = 3;
+const int C  = 4;
+const int CC = 5;
+
+bool f[101][101][101][6];
+
+class Solution {
+
+  public:
+
+    string longestDiverseString(int a, int b, int c) {
+
+
+      // Initial f.
+      for (int i = 0; i &lt= a; i++) {
+        for (int j = 0; j &lt= b; j++) {
+          for (int k = 0; k &lt= c; k++) {
+            for (int x = 0; x &lt= 5; x++) {
+              f[i][j][k][x] = false;
+            }
+          }
+        }
+      }
+
+      // DP-process.
+      for (int len = 1; len &lt= (a + b + c); len++) {
+        for (int i = 0; i &lt= a &amp&amp i &lt= len; i++) {
+          for (int j = 0; j &lt= b &amp&amp (i + j) &lt= len; j++) {
+
+            int k = len - i - j;
+
+            if (k &lt= c) {
+
+              // ..&#39a&#39
+              f[i][j][k][A] =
+                (i == 1 &amp&amp j == 0 &amp&amp k == 0) ||
+                (i &gt= 1 &amp&amp (
+                  f[i - 1][j][k][B] ||
+                  f[i - 1][j][k][BB] ||
+                  f[i - 1][j][k][C] ||
+                  f[i - 1][j][k][CC]
+                ));
+
+              // ..&#39aa&#39
+              f[i][j][k][AA] =
+                (i == 2 &amp&amp j == 0 &amp&amp k == 0) ||
+                (i &gt= 2 &amp&amp (
+                  f[i - 2][j][k][B] ||
+                  f[i - 2][j][k][BB] ||
+                  f[i - 2][j][k][C] ||
+                  f[i - 2][j][k][CC]
+                ));
+
+              // ..&#39b&#39
+              f[i][j][k][B] =
+                (i == 0 &amp&amp j == 1 &amp&amp k == 0) ||
+                (j &gt= 1 &amp&amp (
+                  f[i][j - 1][k][A] ||
+                  f[i][j - 1][k][AA] ||
+                  f[i][j - 1][k][C] ||
+                  f[i][j - 1][k][CC]
+                ));
+
+              // ..&#39bb&#39
+              f[i][j][k][BB] =
+                (i == 0 &amp&amp j == 2 &amp&amp k == 0) ||
+                (j &gt= 2 &amp&amp (
+                  f[i][j - 2][k][A] ||
+                  f[i][j - 2][k][AA] ||
+                  f[i][j - 2][k][C] ||
+                  f[i][j - 2][k][CC]
+                ));
+
+              // ..&#39c&#39
+              f[i][j][k][C] =
+                (i == 0 &amp&amp j == 0 &amp&amp k == 1) ||
+                (k &gt= 1 &amp&amp (
+                  f[i][j][k - 1][A] ||
+                  f[i][j][k - 1][AA] ||
+                  f[i][j][k - 1][B] ||
+                  f[i][j][k - 1][BB]
+                ));
+
+
+              // ..&#39cc&#39
+              f[i][j][k][CC] =
+                (i == 0 &amp&amp j == 0 &amp&amp k == 2) ||
+                (k &gt= 2 &amp&amp (
+                  f[i][j][k - 2][A] ||
+                  f[i][j][k - 2][AA] ||
+                  f[i][j][k - 2][B] ||
+                  f[i][j][k - 2][BB]
+                ));
+            }  
+          }
+        }
+      }
+
+      int p = 0, q = 0, r = 0, s = 0, max_len = 0;
+
+      // Retrive best answer.
+      for (int i = 0; i &lt= a; i++) {
+        for (int j = 0; j &lt= b; j++) {
+          for (int k = 0; k &lt= c; k++) {
+            for (int x = 0; x &lt= 5; x++) {
+              if (f[i][j][k][x] &amp&amp (i + j + k) &gt max_len) {
+
+                max_len = i + j + k;
+                p = i; q = j; r = k; s = x;
+              }
+            }
+          }
+        }
+      }
+
+      // Retrive answer.
+      string ans = &quot&quot;
+
+      while ((p + q + r) &gt 0) {
+
+        switch (s) {
+
+          case  A: ans =  &quota&quot + ans; p -= 1; break;
+          case AA: ans = &quotaa&quot + ans; p -= 2; break;
+          case  B: ans =  &quotb&quot + ans; q -= 1; break;
+          case BB: ans = &quotbb&quot + ans; q -= 2; break;
+          case  C: ans =  &quotc&quot + ans; r -= 1; break;
+          case CC: ans = &quotcc&quot + ans; r -= 2; break;
+        }
+
+        if ((p + q + r) &gt 0) {
+
+          for (int x = 0; x &lt= 5; x++) {
+
+            if (f[p][q][r][x] &amp&amp ((x &gt&gt 1) != (s &gt&gt 1))) {
+
+              s = x;
+
+              break;
+            }
+          }
+        }
+      }
+
+      return ans;
+    }
+};
+4. Stone Game III
+DP.
+Let&amp#39;s say $cumsum_n = \sum_{i = 1}^{n} stone_i$, then
+$$
+f_i = \begin{cases}
+    cumsum_n - cumsum_{i - 1} &ampamp; (n - i + 1) \leq 3 \
+    cumsum_n - cumsum_{i - 1} - f_{i + k} &ampamp; 1 \leq k \leq 3 \land (i + k - 1) \leq n \
+\end{cases}
+$$
+where $f_i$ indicates the maximum sum of stones you can take starting from
+position $i$.
+Then you just compare $f_1$ and $cumsum_n - f_1$.
+class Solution {
+public:
+
+    int cumsum[50001], f[50001];
+
+    string stoneGameIII(vector&ltint&gt&amp stoneValue) {
+
+        int n = stoneValue.size();
+
+        cumsum[0] = 0;
+        for (int i = 0; i &lt n; i++) {
+
+            cumsum[i + 1] = cumsum[i] + stoneValue[i];
+        }
+
+
+        for (int i = n; i &gt= 1; i--) {
+
+            f[i] = -1E8;
+
+            for (int k = 1; k &lt= 3 &amp&amp (i + k - 1 &lt= n); k++) {
+
+                int t =
+                    (i + k - 1 == n) ?
+                        (cumsum[n] - cumsum[i - 1]) :
+                        (cumsum[n] - cumsum[i - 1] - f[i + k]);
+
+                if (t &gt f[i]) {
+
+                    f[i] = t;
+                }
+            }
+        }
+
+        if (cumsum[n] % 2 == 0 &amp&amp cumsum[n] / 2 == f[1]) {
+
+            return &quotTie&quot;
+        } else {
+
+            return f[1] &gt (cumsum[n] - f[1]) ? &quotAlice&quot : &quotBob&quot;
+        }
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 182]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-182</link>
             <guid>leet-code/weekly-contest-182</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 182
+1. Find Lucky Integer in an Array
+$O(n)$, just show the code.
+class Solution {
+public:
+    int findLucky(vector&ltint&gt&amp arr) {
+
+        int f[501];
+
+        for (int i = 1; i &lt= 500; i++) {
+
+            f[i] = 0;
+        }
+
+        for (int i = 0; i &lt arr.size(); i++) {
+
+            f[arr[i]]++;
+        }
+
+        int ans = -1;
+
+        for (int i = 1; i &lt= 500; i++) {
+
+            if (f[i] == i &amp&amp i &gt ans) {
+
+                ans = i;
+            }
+        }
+
+        return ans;
+    }
+};
+2. Count Number of Teams
+$O(n^3)$, simple.
+class Solution {
+public:
+    int numTeams(vector&ltint&gt&amp rating) {
+
+        int ans = 0, len = rating.size();
+
+        for (int i = 0; i &lt len; i++) {
+
+            for (int j = i + 1; j &lt len; j++) {
+
+                for (int k = j + 1; k &lt len; k++) {
+
+                    if ( (rating[i] &lt rating[j] &amp&amp rating[j] &lt rating[k]) || (rating[i] &gt rating[j] &amp&amp rating[j] &gt rating[k]) ) {
+
+                        ans++;
+                    }
+                }
+            }
+        }
+
+        return ans;
+    }
+};
+3. Design Underground System
+$O(n)$, any kind of map or hash-table works for this problem.
+class UndergroundSystem {
+public:
+    struct check_in_record {
+
+        string stationName;
+
+        long t;
+    };
+
+    map&ltint, check_in_record*&gt status;
+
+    map&ltstring, long&gt count;
+    map&ltstring, long&gt total;
+
+    UndergroundSystem() {
+
+        status = map&ltint, check_in_record*&gt();
+
+        count = map&ltstring, long&gt();
+        total = map&ltstring, long&gt();
+    }
+
+    void checkIn(int id, string stationName, int t) {
+
+
+        status[id] = new check_in_record();
+        status[id]-&gtstationName = stationName;
+        status[id]-&gtt = t;
+    }
+
+    void checkOut(int id, string stationName, int t) {
+
+        auto record = status[id];
+
+        string key = record-&gtstationName + &quot,&quot + stationName;
+
+        count[key]++;
+        total[key] += (t - record-&gtt);
+    }
+
+    double getAverageTime(string startStation, string endStation) {
+
+        string key = startStation + &quot,&quot + endStation;
+
+        return 1.0 * total[key] / count[key];
+    }
+};
+4. Find All Good Strings
+DP &ampamp; AC.
+4.1 Simplify to answer $H(s, evil)$
+Let&amp#39;s say $H(s, evil)$ represents the number of strings which the length is as
+same as s, less or equal to s and do not contain sub-string evil. Then
+the answer for this question can be simplified as:
+$$
+Answer=\begin{cases}
+H(s_2, evil) - H(s_1, evil) &ampamp; s_1 \ contains \ evil\
+H(s_2, evil) - H(s_1, evil) + 1 &ampamp; s_1 \ does \ not \ contain \ evil\
+\end{cases}
+$$
+4.2 Construct ac-automaton for the pattern evil.
+Let&amp#39;s say $S$ represents all the states in the ac-automaton of evil.
+And by retrieving the fail-back chain of each state, we can get wheather each
+state represents a matched state or not:
+Let&amp#39;s say $isMatched(s) \in {True, False}$ represents wheather a state is
+matched or not.
+4.3 Dynamic programming for $H(s, evil)$
+Let&amp#39;s say:
+$G(pos, state)$ represents the number of suffix strings starting from pos
+after state which don&amp#39;t contain evil.
+
+$F(pos, state)$ represents the number of suffix strings starting from pos
+after state which don&amp#39;t contain evil, less or equal than state and they don&amp#39;t
+contain evil.
+
+
+digraph structs {
+
+    state [label=&quotstate&quot];
+
+    string [shape=record, label=&quot&ltf0&gt s[pos]|&ltf1&gt ...|&ltf2&gt s[n]&quot];
+
+    state-&gtstring:f0 [style=dashed];
+}
+Then:
+$$
+G(pos, state)=\begin{cases}
+  0 &ampamp; isMatched(state) = True\
+  1 &ampamp; isMatched(state) = False \land pos = n\
+  \sum_{c=&amp#39;a&amp#39;}^{&amp#39;z&amp#39;} G(pos + 1, next(state, c)) &ampamp; isMatched(state) = False \land pos &amplt; n\
+\end{cases}
+$$
+$$
+F(pos, state)=\begin{cases}
+  0 &ampamp; isMatched(state) = True\
+  1 &ampamp; isMatched(state) = False \land pos = n\
+  F(pos +1, next(state, s_{pos + 1})) + \sum_{c = &amp#39;a&amp#39;}^{s_{pos + 1} - 1} G(pos + 1, next(state, c)) &ampamp; isMatched(state) = False \land pos&amplt;n\
+\end{cases}
+$$
+And the answer of $H(s, evil)$ is actually $F(0, root)$.
+#include &ltqueue&gt
+#include &ltset&gt
+#include &ltmap&gt
+#include &ltstring&gt
+
+using namespace std;
+
+template&lttypename T&gt
+class trie {
+
+  public:
+
+    struct node {
+
+      node *parent;
+
+      map&ltchar, node*&gt children;
+
+      T ext;
+    };
+
+  private:
+
+    node *_root = new node({ .parent = NULL });
+
+  public:
+
+    node *root() {
+
+      return _root;
+    }
+
+    node&amp operator[](const string &ampkey) {
+
+      node *ptr = root();
+
+      for (const char &ampc : key) {
+
+        if (ptr-&gtchildren.find(c) == ptr-&gtchildren.end()) {
+
+          ptr-&gtchildren[c] = new node({ .parent = ptr });
+        }
+
+        ptr = ptr-&gtchildren[c];
+      }
+
+      return *ptr;
+    }
+};
+
+
+class ac_auto {
+
+  public:
+
+    struct ac_ext {
+
+      trie&ltac_ext&gt::node *fail;
+
+      map&ltchar, trie&ltac_ext&gt::node*&gt fallback;
+
+      string *pattern;
+
+    };
+
+    typedef trie&ltac_ext&gt::node node;
+
+  private:
+
+    trie&ltac_ext&gt dict;
+
+  public:
+
+    auto root() {
+
+      return dict.root();
+    }
+
+
+    // Construct AC-automaton.
+    ac_auto(const set&ltstring&gt &amppatterns) {
+
+      // 1. Insert all patterns into trie.
+      for (const string &amppattern : patterns) {
+
+        dict[pattern].ext.pattern = new string(pattern);
+      }
+
+      // 2. Resolve root node.
+      auto root = &ampdict[&quot&quot];
+
+      root-&gtext.fail = root;
+
+      // 3. Initialize queues for BFS process.
+      auto q_chr = queue&ltchar&gt({ &#39\0&#39 });
+      auto q_ptr = queue&ltnode*&gt({ root });
+
+      // 4. BFS-loop.
+      while (!q_chr.empty() &amp&amp !q_ptr.empty()) {
+
+        // 4.1. Pop node `p` suffixed with `c`.
+        auto c = q_chr.front();
+        auto p = q_ptr.front();
+
+        q_chr.pop();
+        q_ptr.pop();
+
+        // 4.2. Find fail pointer for node `p`.
+        if (p != root) {
+
+          if (p-&gtparent == root) {
+
+            p-&gtext.fail = root;
+
+          } else {
+
+            auto q = p-&gtparent-&gtext.fail;
+
+            while (q != root &amp&amp q-&gtchildren.find(c) == q-&gtchildren.end()) {
+
+              q = q-&gtext.fail;
+            }
+
+            p-&gtext.fail = q-&gtchildren.find(c) != q-&gtchildren.end()
+              ? q-&gtchildren[c] : root;
+          }
+        }
+
+        // 4.3. Expand all children of p.
+        for (const auto &ampitr : p-&gtchildren) {
+
+          q_chr.push(itr.first);
+          q_ptr.push(itr.second);
+        }
+      }
+    }
+
+    // Next state after accepting character `c`.
+    static node *next(node *state, char c) {
+
+      if (state-&gtext.fallback.find(c) == state-&gtext.fallback.end()) {
+
+        while (
+          state-&gtext.fail != state
+            &amp&amp state-&gtchildren.find(c) == state-&gtchildren.end()
+        ) {
+
+          state = state-&gtext.fail;
+        }
+
+        state-&gtext.fallback[c] =
+          state-&gtchildren.find(c) != state-&gtchildren.end() ?
+            state-&gtchildren[c] : state;
+      }
+
+      return state-&gtext.fallback[c];
+    }
+
+    set&ltpair&ltint, string&gt&gt match(string search) {
+
+      auto ret = set&ltpair&ltint, string&gt&gt();
+
+      // Current state in ac-automaton.
+      auto s = root();
+
+      for (int pos = 0; pos &lt search.length(); pos++) {
+
+        // Accept next character.
+        s = next(s, search[pos]);
+
+        // Iterate all suffixes of current state `s`, check if there are any
+        // matched patterns.
+        for (auto q = s; q != root(); q = q-&gtext.fail) {
+
+          const string *pattern = q-&gtext.pattern;
+
+          if (NULL != pattern) {
+
+            ret.insert(pair&ltint, string&gt(pos - (*pattern).length() + 1,
+                                         *pattern));
+          }
+        }
+      }
+
+      return ret;
+    }
+
+    node&amp operator[](const string &ampkey) {
+
+      return dict[key];
+    }
+};
+
+
+typedef ac_auto::node node;
+
+const long MOD = 1000000007;
+
+class Solution {
+
+  public:
+
+    int dp(int n, string s, node *root, vector&ltnode*&gt states) {
+
+      // Next.
+      int next[states.size()][26];
+
+      for (int i = 0; i &lt states.size(); i++) {
+
+        auto state = states[i];
+
+        for (char c = &#39a&#39; c &lt= &#39z&#39; c++) {
+
+          auto next_state = ac_auto::next(state, c);
+
+          for (int j = 0; j &lt states.size(); j++) {
+
+            if (states[j] == next_state) {
+
+              next[i][c - &#39a&#39] = j;
+
+              break;
+            }
+          }
+        }
+      }
+
+      int f[n + 1][states.size()], g[n + 1][states.size()];
+
+      for (int pos = n; pos &gt= 0; pos--) {
+
+        for (int j = 0; j &lt states.size(); j++) {
+
+          auto state = states[j];
+
+          if (NULL != state-&gtext.pattern) {
+
+            g[pos][j] = 0;
+            f[pos][j] = 0;
+
+          } else if (pos == n) {
+
+            g[pos][j] = 1;
+            f[pos][j] = 1;
+
+          } else {
+
+            g[pos][j] = 0;
+
+            for (char c = &#39a&#39; c &lt= &#39z&#39; c++) {
+
+              g[pos][j] = (g[pos][j] + g[pos + 1][next[j][c - &#39a&#39]]) % MOD;
+            }
+
+            f[pos][j] = f[pos + 1][next[j][s[pos] - &#39a&#39]];
+
+            for (char c = &#39a&#39; c &lt s[pos]; c++) {
+
+              f[pos][j] = (f[pos][j] + g[pos + 1][next[j][c - &#39a&#39]]) % MOD;
+            }
+          }
+
+        }
+      }
+
+      return f[0][0];
+    }
+
+    int findGoodStrings(int n, string s1, string s2, string evil) {
+
+      clock_t t0 = clock();
+
+      if (s1 &gt s2) {
+
+        return 0;
+      }
+
+      // Construct ac-automaton.
+      auto ac = ac_auto(set&ltstring&gt({ evil }));
+
+      // BFS, resolve all states of ac-automaton and wheather every state
+      // is a matched state.
+      auto states = vector&ltnode*&gt();
+
+      for (auto q = queue&ltnode*&gt({ ac.root() }); !q.empty(); q.pop()) {
+
+        auto state = q.front();
+
+        for (const auto &ampitr : state-&gtchildren) {
+
+          q.push(itr.second);
+        }
+
+        states.push_back(state);
+      }
+
+      // DP.
+      int ans = dp(n, s2, ac.root(), states) - dp(n, s1, ac.root(), states);
+
+      // s1 doesn&#39t contain evil.
+      if (s1.find(evil, 0) == string::npos) {
+
+        ans++;
+      }
+
+      return (ans + MOD) % MOD;
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 181]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-181</link>
             <guid>leet-code/weekly-contest-181</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 181
+1. Create Target Array in the Given Order
+Naive, no need to talk.
+int* createTargetArray(int* nums, int numsSize, int* index, int indexSize, int* returnSize){
+
+    int i, j, *ret = (int*) malloc(sizeof(int) * numsSize);
+
+    for (i = 0; i &lt numsSize &amp&amp i &lt indexSize; i++) {
+
+        for (j = i; j &gt index[i]; j--) {
+
+            ret[j] = ret[j - 1];
+        }
+
+        ret[index[i]] = nums[i];
+    }
+
+    *returnSize = numsSize;
+
+    return ret;
+}
+2. Four Divisors
+$ O(nums.length \times \sqrt {Max(nums)}) $
+int countDivisors(int x) {
+
+    int i, j, count = 0, sum = 0;
+
+    for (i = 1; i &lt= sqrt(x); i++) {
+
+        if (x % i == 0) {
+
+            j = x / i;
+
+            count += (i == j) ? 1 : 2;
+
+            sum += (i == j) ? i : (i + j);
+        }
+    }
+
+    return count == 4 ? sum : 0;
+}
+
+int sumFourDivisors(int* nums, int numsSize){
+
+    int i, sum = 0;
+
+    for (i = 0; i &lt numsSize; i++) {
+
+       sum += countDivisors(nums[i]);
+    }
+
+    return sum;
+}
+3. Check if There is a Valid Path in a Grid
+DFS.
+int L = 0, R = 1, U = 2, D = 3;
+
+int ability[][4] = {
+
+    { 1, 1, 0, 0 },
+    { 0, 0, 1, 1 },
+    { 1, 0, 0, 1 },
+    { 0, 1, 0, 1 },
+    { 1, 0, 1, 0 },
+    { 0, 1, 1, 0 }
+};
+
+bool dfs(bool **visit, int **grid, int m, int n, int x, int y) {
+
+    if (!visit[x][y]) {
+
+        visit[x][y] = true;
+
+        if (x == (m - 1) &amp&amp y == (n - 1)) {
+
+            return true;
+        }
+
+        // Up
+        if (x &gt 0 &amp&amp ability[grid[x - 1][y]][D] &amp&amp ability[grid[x][y]][U] &amp&amp dfs(visit, grid, m, n, x - 1, y)) {
+
+            return true;
+        }
+
+        // Down
+        if (x &lt (m - 1) &amp&amp ability[grid[x + 1][y]][U] &amp&amp ability[grid[x][y]][D] &amp&amp dfs(visit, grid, m, n, x + 1, y)) {
+
+            return true;
+        }
+
+        // Left
+        if (y &gt 0 &amp&amp ability[grid[x][y - 1]][R] &amp&amp ability[grid[x][y]][L] &amp&amp dfs(visit, grid, m, n, x, y - 1)) {
+
+            return true;
+        }
+
+        // Right
+        if (y &lt (n - 1) &amp&amp ability[grid[x][y + 1]][L] &amp&amp ability[grid[x][y]][R] &amp&amp dfs(visit, grid, m, n, x, y + 1)) {
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool hasValidPath(int** grid, int gridSize, int* gridColSize){
+
+    int i, j, m = gridSize, n = gridColSize[0];
+
+    bool **visit = (int**) malloc(sizeof(bool*) * m);
+
+    for (i = 0; i &lt m; i++) {
+
+        visit[i] = (int*) malloc(sizeof(bool) * n);
+
+        for (j = 0; j &lt n; j++) {
+
+            visit[i][j] = false;
+
+            grid[i][j]--;
+        }
+    }
+
+    return dfs(visit, grid, m, n, 0, 0);
+}
+4. Longest Happy Prefix
+You should know what is Partial Match Table (A concept from KMP algorithm).
+char * longestPrefix(char * s){
+
+    int i, j, len = strlen(s);
+
+    int *pmt = (int*) malloc(sizeof(int) * len);
+
+    char *ret;
+
+    // Calculate Partial Match Table.
+    pmt[0] = -1;
+
+    for (i = 0, j = -1; i &lt len - 1; ) {
+
+
+        if (j == -1 || s[i] == s[j]) {
+
+            i++, j++;
+
+            pmt[i] = j;
+        } else {
+
+            j = pmt[j];
+        }
+    }
+
+    // Generate Answer
+
+    for (j = pmt[len - 1]; j != -1 &amp&amp s[j] != s[len - 1]; j = pmt[j]);
+
+    ret = (char*) malloc(sizeof(char) * (j + 2));
+
+    for (i = 0; i &lt= j; i++) {
+
+        ret[i] = s[i];
+    }
+
+    ret[j + 1] = &#39\0&#39;
+
+    return ret;
+}
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 180]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-180</link>
             <guid>leet-code/weekly-contest-180</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 180
+1. Lucky Numbers in a Matrix
+Saddle point of a matrix.
+int* luckyNumbers (int** matrix, int matrixSize, int* matrixColSize, int* returnSize){
+
+    int *min = (int*) malloc(sizeof(int) * matrixSize);
+    int *max = (int*) malloc(sizeof(int) * matrixColSize[0]);
+
+    int i, j, k, *ret;
+
+    for (i = 0; i &lt matrixSize; i++) {
+
+        min[i] = matrix[i][0];
+
+        for (j = 1; j &lt matrixColSize[0]; j++) {
+
+            if (matrix[i][j] &lt min[i]) {
+
+                min[i] = matrix[i][j];
+            }
+        }
+    }
+
+    for (i = 0; i &lt matrixColSize[0]; i++) {
+
+        max[i] = matrix[0][i];
+
+        for (j = 0; j &lt matrixSize; j++) {
+
+            if (matrix[j][i] &gt max[i]) {
+
+                max[i] = matrix[j][i];   
+            }
+        }
+    }
+
+    for (*returnSize = 0, i = 0; i &lt matrixSize; i++) {
+
+        for (j = 0; j &lt matrixColSize[0]; j++) {
+
+            if (min[i] == matrix[i][j] &amp&amp max[j] == matrix[i][j]) {
+
+                (*returnSize)++;
+            }
+        }
+    }
+
+    if (*returnSize == 0) {
+
+        ret = NULL;
+    } else {
+
+        ret = (int*) malloc(sizeof(int) * (*returnSize));
+
+        for (i = 0, k = 0; i &lt matrixSize; i++) {
+
+            for (j = 0; j &lt matrixColSize[0]; j++) {
+
+                if (min[i] == matrix[i][j] &amp&amp max[j] == matrix[i][j]) {
+
+                    ret[k++] = matrix[i][j];
+                }
+            }
+        }
+
+    }
+
+    return ret;
+}
+2. Design a Stack With Increment Operation
+Basic stack implementation.
+typedef struct {
+
+    int *stack;
+
+    int size, top;
+
+} CustomStack;
+
+
+CustomStack* customStackCreate(int maxSize) {
+
+
+    CustomStack *s = (CustomStack*) malloc(sizeof(CustomStack));
+
+    s-&gtstack = (int*) malloc(sizeof(int) * maxSize);
+    s-&gtsize = maxSize;
+    s-&gttop = -1;
+
+    return s;
+}
+
+void customStackPush(CustomStack* obj, int x) {
+
+    if (obj-&gttop &lt (obj-&gtsize - 1)) {
+
+        obj-&gtstack[++(obj-&gttop)] = x;
+    } 
+}
+
+int customStackPop(CustomStack* obj) {
+
+    return (obj-&gttop == -1) ? -1 : obj-&gtstack[(obj-&gttop)--];
+}
+
+void customStackIncrement(CustomStack* obj, int k, int val) {
+
+    int i;
+
+    for (i = 0; i &lt k &amp&amp i &lt= obj-&gttop; i++) {
+
+        obj-&gtstack[i] += val;
+    }
+}
+
+void customStackFree(CustomStack* obj) {
+
+    free(obj-&gtstack);
+    free(obj);
+}
+3. Balance a Binary Search Tree
+In-order traversal and then divide-and-conquer.
+int size_of_tree(struct TreeNode *x) {
+
+    return (x == NULL) ? 0 : size_of_tree(x-&gtleft) + 1 + size_of_tree(x-&gtright); 
+}
+
+void make_sequence(struct TreeNode *x, int *len, int *seq) {
+
+    if (x != NULL) {
+
+        make_sequence(x-&gtleft, len, seq);
+
+        seq[(*len)++] = x-&gtval;
+
+        make_sequence(x-&gtright, len, seq);
+    }
+}
+
+struct TreeNode *build_tree(int *seq, int l, int r) {
+
+    int mid;
+
+    struct TreeNode *x;
+
+    if (l &lt= r) {
+
+        mid = (l + r) / 2;
+
+        x = (struct TreeNode*) malloc(sizeof(struct TreeNode));
+
+        x-&gtleft = build_tree(seq, l, mid - 1);
+
+        x-&gtval = seq[mid];
+
+        x-&gtright = build_tree(seq, mid + 1, r);
+
+        return x;
+    } else {
+
+        return NULL;
+    }
+}
+
+struct TreeNode* balanceBST(struct TreeNode* root){
+
+    int size = size_of_tree(root);
+
+    int *seq = (int*) malloc(sizeof(int) * size), len = 0;
+
+    make_sequence(root, &amplen, seq);
+
+    struct TreeNode *ret = build_tree(seq, 0, len - 1);
+
+    free(seq);
+
+    return ret;
+}
+4. Maximum Performance of a Team
+Multi-key sort (efficiency, speed), and then scan all the records by the decreasing-order of efficiency, maintain the sum of max-k sppeds.
+template&lttypename T&gt
+class leftist_tree {
+
+  private:
+
+    struct node {
+
+      node *left, *right;
+
+      int s;
+
+      T value;
+    };
+
+    node *merge(node *x, node *y) {
+
+      if (x == NULL) {
+
+        return y;
+      }
+
+      if (y == NULL) {
+
+        return x;
+      }
+
+      if (less_than(y-&gtvalue, x-&gtvalue)) {
+
+        node *t = x;
+        x = y;
+        y = t;
+      }
+
+      x-&gtright = merge(x-&gtright, y);
+
+      if (x-&gtleft == NULL) {
+
+        x-&gtleft = x-&gtright;
+        x-&gtright = NULL;
+        x-&gts = 0;
+      } else {
+
+        if (x-&gtleft-&gts &lt x-&gtright-&gts) {
+
+          node *t = x-&gtleft;
+          x-&gtleft = x-&gtright;
+          x-&gtright = t;
+        }
+
+        x-&gts = x-&gtright-&gts + 1;
+      }
+
+      return x;
+    }
+
+    node *create_node(T value) {
+
+      node *x = new node();
+
+      x-&gtleft = NULL;
+      x-&gtright = NULL;
+      x-&gtvalue = value;
+
+      return x;
+    }
+
+    bool (*less_than)(T &ampx, T &ampy);
+
+    node *root;
+
+  public:
+
+    static bool small_first(T &ampx, T &ampy) {
+
+      return x &lt y;
+    }
+
+    static bool big_first(T &ampx, T &ampy) {
+
+      return x &gt y;
+    }
+
+    leftist_tree() {
+
+      this-&gtless_than = small_first;
+      this-&gtroot = NULL;
+    }
+
+    leftist_tree(bool (*less_than)(T &ampx, T &ampy)) {
+
+      this-&gtless_than = less_than;
+      this-&gtroot = NULL;
+    }
+
+    bool empty() {
+
+      return root == NULL;
+    }
+
+    T push(const T &ampx) {
+
+      root = merge(root, create_node(x));
+
+      return x;
+    }
+
+    T pop() {
+
+      node *new_root = merge(root-&gtleft, root-&gtright);
+
+      T ret = root-&gtvalue;
+
+      delete root;
+
+      root = new_root;
+
+      return ret;
+    }
+
+    void merge(leftist_tree&ltT&gt &ampx) {
+
+      if (x.root != NULL) {
+
+        if (less_than == x.less_than) {
+
+          root = merge(root, x.root);
+
+          x.root = NULL;
+        } else {
+
+          while (x.empty() == false) {
+
+            push(x.pop());
+          }
+        }
+      }
+    }
+};
+
+
+class Solution {
+
+    struct engineer {
+
+        int speed, efficiency;
+    };
+
+    static bool engineer_cmp(engineer &ampx, engineer &ampy) {
+
+        return x.efficiency &gt y.efficiency;
+    }
+
+public:
+    int maxPerformance(int n, vector&ltint&gt&amp speed, vector&ltint&gt&amp efficiency, int k) {
+
+        auto engineers = leftist_tree&ltengineer&gt(engineer_cmp);
+
+        for (int i = 0; i &lt n; i++) {
+
+            engineer e = engineer();
+
+            e.speed = speed[i];
+            e.efficiency = efficiency[i];
+
+            engineers.push(e);
+        }
+
+        auto working_speeds = leftist_tree&ltint&gt();
+
+        long sum_speed = 0, cnt_working = 0;
+
+        double bestValue = 0;
+        int bestAns = 0;
+
+        while (engineers.empty() == false) {
+
+            engineer e = engineers.pop();
+
+
+            sum_speed += e.speed;
+            cnt_working += 1;
+
+            working_speeds.push(e.speed);
+
+            while (cnt_working &gt k) {
+
+                sum_speed -= working_speeds.pop();
+
+                cnt_working -= 1;
+            }
+
+            if (log(sum_speed) + log(e.efficiency) &gt bestValue) {
+
+                bestValue = log(sum_speed) + log(e.efficiency);
+
+                bestAns = (sum_speed * e.efficiency) % 1000000007;
+            }
+
+        }
+
+        return bestAns;
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 179]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-179</link>
             <guid>leet-code/weekly-contest-179</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 179
+1. Generate a String With Characters That Have Odd Counts
+One simple solution could be:
+$$
+\text{answer} = \begin{cases}
+\underbrace{\text{a}, \dots, \text{a}}_n, \text{b} &ampamp; n \mod 2 = 0 \
+\underbrace{\text{a}, \dots, \text{a}}_n &ampamp; n \mod 2 = 1 \
+\end{cases}
+$$
+class Solution {
+public:
+    string generateTheString(int n) {
+
+        string result = &quot&quot;
+
+        if (n % 2 == 0) {
+
+            for (int i = 1; i &lt= (n - 1); i++) result += &quota&quot;
+
+            result += &quotb&quot;
+        } else {
+
+            for (int i = 1; i &lt= n; i++) result += &quota&quot;
+        }
+
+        return result;
+    }
+};
+2. Bulb Switcher III
+Let&amp#39;s say:
+$$
+s_i =
+  \begin{cases}
+    1 &ampamp; light_i\text{ is currently on} \
+    0 &ampamp; light_i\text{ is currently off} \
+  \end{cases}
+$$
+After $k$ lights have been turned on, $\sum_{i = 1}^{k} s_{i} = k$ indicates
+that all lights are blue.
+Then you need some kind of data structure to update values and query preffix
+sums efficiently.
+Fenwick Tree is a good choice.
+class bit {
+
+  public:
+
+    int * sum, size;
+
+  bit(int size) {
+
+    this -&gt size = size;
+    this -&gt sum = new int[size + 1];
+
+    for (int i = 0; i &lt= size; i++) {
+
+      this -&gt sum[i] = 0;
+    }
+  }
+
+  void add(int pos, int value) {
+
+    while (pos &lt= this -&gt size) {
+
+      sum[pos] += value;
+      pos += (pos &amp (-pos));
+    }
+  }
+
+  int query(int pos) {
+
+    int result = 0;
+
+    while (pos &gt 0) {
+
+      result += sum[pos];
+      pos -= (pos &amp (-pos));
+    }
+
+    return result;
+  }
+};
+
+class Solution {
+public:
+    int numTimesAllBlue(vector&ltint&gt&amp light) {
+
+        int ans = 0;
+
+        bit s(light.size());
+
+        for (int i = 0; i &lt light.size(); i++) {
+
+            s.add(light[i], 1);
+
+            if (s.query(i + 1) == (i + 1)) {
+
+                ans++;
+            }
+        }
+
+        return ans;
+    }
+};
+3. Time Needed to Inform All Employees
+Dynamic programming on trees.
+$$
+f(i) =
+    \begin{cases}
+        time_{i} + \max { f(c) \mid c \in \text{Children}i } &ampamp; \text{Children}_i \neq \empty\
+        time{i} &ampamp; \text{Children}_i = \empty\
+    \end{cases}
+$$
+class Solution {
+public:
+    vector&ltint&gt children[100000];
+
+    int f(int id, vector&ltint&gt&amp informTime) {
+
+        int time = 0;
+
+        for (int &ampchild : children[id]) {
+
+            int t = f(child, informTime);
+
+            if (t &gt time) {
+
+                time = t;
+            }
+        }
+
+        return time + informTime[id];
+    }
+
+    int numOfMinutes(int n, int headID, vector&ltint&gt&amp manager, vector&ltint&gt&amp informTime) {
+
+        for (int i = 0; i &lt n; i++) {
+
+            if (manager[i] != -1) {
+
+                children[manager[i]].push_back(i);
+            }
+        }
+
+        return f(headID, informTime);
+    }
+};
+4. Frog Position After T Seconds
+Since it is a tree, there is at most one path from the vertex 1 to the vertex
+target. So just DFS and store these information below:
+$\text{second}_i$: the arrive time on the vertex $i$.
+$\text{visited}_i$: whether the vertex $i$ has been visited.
+$\text{isForever}_i$: whether the vertex $i$ is a leaf node.
+
+class Solution {
+public:
+    vector&ltint&gt neighbors[101];
+
+    float probability[101];
+    bool is_forever[101], visited[101];
+    int second[101];
+
+    void dfs(int id, float p, int t) {
+
+        probability[id] = p;
+        visited[id] = true;
+        is_forever[id] = true;
+        second[id] = t;
+
+        int cnt = 0;
+
+        for (int &ampnext : neighbors[id]) {
+
+            if (!visited[next]) {
+
+                cnt++;
+            }
+        }
+
+        is_forever[id] = (cnt == 0);
+
+
+        for (int &ampnext : neighbors[id]) {
+
+            if (!visited[next]) {
+
+                dfs(next, p / cnt, t + 1);
+            }
+        }
+    }
+
+    double frogPosition(int n, vector&ltvector&ltint&gt&gt&amp edges, int t, int target) {
+
+        for (vector&ltint&gt &ampedge : edges) {
+
+            neighbors[edge[0]].push_back(edge[1]);
+            neighbors[edge[1]].push_back(edge[0]);
+        }
+
+        for (int i = 0; i &lt n; i++) {
+
+            visited[i] = false;
+            probability[i] = 0;
+        }
+
+        dfs(1, 1, 0);
+
+        return (visited[target] &amp&amp (t == second[target] || (t &gt second[target] &amp&amp is_forever[target]))) ?
+            probability[target] : 0;
+
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 178]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-178</link>
             <guid>leet-code/weekly-contest-178</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 178
+1. How Many Numbers Are Smaller Than the Current Number
+Brute force.
+class Solution {
+public:
+    vector&ltint&gt smallerNumbersThanCurrent(vector&ltint&gt&amp nums) {
+
+        vector&ltint&gt result;
+
+        for (int i = 0; i &lt nums.size(); i++) {
+
+            int cnt = 0;
+
+            for (int j = 0; j &lt nums.size(); j++) {
+
+                if (j != i &amp&amp nums[j] &lt nums[i]) {
+
+                    ++cnt;
+                }
+            }
+
+            result.push_back(cnt);
+        }
+
+        return result;
+    }
+};
+2. Rank Teams by Votes
+Multi-field sort.
+#include&ltvector&gt
+
+using namespace std;
+
+template&lttypename T&gt
+class quick_sort {
+
+  public:
+
+    static bool small_first(T &ampx, T&ampy) {
+
+      return x &lt y;
+    }
+
+    static bool big_first(T &ampx, T&ampy) {
+
+      return x &gt y;
+    }
+
+    static vector&ltT&gt sort(vector&ltT&gt &ampelements) {
+
+      return sort(elements, small_first);
+    }
+
+    static vector&ltT&gt sort(vector&ltT&gt &ampelements, bool (*less_than)(T&amp, T&amp)) {
+
+      sort(elements, 0, elements.size() - 1, less_than);
+
+      return elements;
+    }
+
+  private:
+
+    static void sort(vector&ltT&gt &ampelements, int l, int r, bool (*less_than)(T&amp, T&amp)) {
+
+      if (l &lt r) {
+
+        T mid = elements[l];
+
+        int i = l, j = r;
+
+        while (i &lt j) {
+
+          while (i &lt j &amp&amp less_than(mid, elements[j])) j--;
+
+          if (i &lt j) {
+
+            elements[i] = elements[j];
+
+            i++;
+          }
+
+          while (i &lt j &amp&amp less_than(elements[i], mid)) i++;
+
+          if (i &lt j) {
+
+            elements[j] = elements[i];
+
+            j--;
+          }
+        }
+
+        elements[i] = mid;
+
+        sort(elements, l, i - 1, less_than);
+        sort(elements, i + 1, r, less_than);
+      }
+    }
+};
+
+struct Team {
+
+    char name;
+
+    int votes[26];
+
+    int total_vote;
+};
+
+class Solution {
+public:
+
+    static bool team_compare(Team &ampx, Team &ampy) {
+
+        for (int i = 0; i &lt 26; i++) {
+
+            if (x.votes[i] &gt y.votes[i]) {
+
+                return true;
+            }
+
+            if (x.votes[i] &lt y.votes[i]) {
+
+                return false;
+            }
+        }
+
+        return x.name &lt y.name;
+    }
+
+    string rankTeams(vector&ltstring&gt&amp votes) {
+
+        vector&ltTeam&gt teams;
+
+        for (int i = 0; i &lt 26; i++) {
+
+            Team team;
+
+            team.name = &#39A&#39 + i;
+
+            for (int j = 0; j &lt 26; j++) {
+
+                team.votes[j] = 0;
+            }
+
+            team.total_vote = 0;
+
+            teams.push_back(team);
+        }
+
+        for (string &ampvote : votes) {
+
+            for (int i = 0; i &lt vote.length(); i++) {
+
+                teams[vote[i] - &#39A&#39].votes[i]++;
+
+                teams[vote[i] - &#39A&#39].total_vote++;
+            }
+        }
+
+        quick_sort&ltTeam&gt::sort(teams, team_compare);
+
+        string ans = &quot&quot;
+
+        for (Team &ampteam : teams) {
+
+            if (team.total_vote &gt 0) {
+
+                ans += team.name;
+            }
+        }
+
+        return ans;
+    }
+};
+3. Linked List in Binary Tree
+DFS.
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+
+    bool isPath1(ListNode* head, TreeNode *root) {
+
+        if (head == NULL) {
+
+            return true;
+        }
+
+        if (root == NULL) {
+
+            return false;
+        }
+
+        if (head-&gtval != root-&gtval) {
+
+            return false;
+        }
+
+        return isPath1(head-&gtnext, root-&gtleft) || isPath1(head-&gtnext, root-&gtright);
+    }
+
+    bool isSubPath(ListNode* head, TreeNode* root) {
+
+        if (head == NULL) {
+
+            return true;
+        }
+
+        if (root == NULL) {
+
+            return false;
+        }
+
+        return isPath1(head, root) || isSubPath(head, root-&gtleft) || isSubPath(head, root-&gtright);
+    }
+};
+4. Minimum Cost to Make at Least One Valid Path in a Grid
+DFS And every time expand all not-visited nodes which have at least one neighbor visited.
+class Solution {
+public:
+
+    int n, m, map[101][101];
+
+    int dx[4] = {0, 0, 1, -1};
+    int dy[4] = {1, -1, 0, 0};
+
+    bool visited[2][100][100];
+
+    void dfs(int now, int x, int y) {
+
+        visited[now][x][y] = true;
+
+        int next_x = x + dx[map[x][y] - 1];
+        int next_y = y + dy[map[x][y] - 1];
+
+        if (next_x &gt= 0 &amp&amp next_x &lt n &amp&amp next_y &gt= 0 &amp&amp next_y &lt m) {
+
+            if (!visited[now][next_x][next_y]) {
+
+                dfs(now, next_x, next_y);
+            }
+        }
+    }
+
+    int minCost(vector&ltvector&ltint&gt&gt&amp grid) {
+
+        n = grid.size();
+        m = grid[0].size();
+
+        for (int i = 0; i &lt n; i++) {
+            for (int j = 0; j &lt m; j++) {
+
+                map[i][j] = grid[i][j];
+
+                visited[0][i][j] = false;
+                visited[1][i][j] = false;
+            }
+        }
+
+
+        dfs(0, 0, 0);
+
+        int ans = 0;
+
+        for (int pre = 0, now = 1; ; now = pre, pre = 1 - pre, ++ans) {
+
+            if (visited[pre][n - 1][m - 1]) {
+
+                return ans;
+            }
+
+            for (int x = 0; x &lt n; x++) {
+                for (int y = 0; y &lt m; y++) {
+
+                    visited[now][x][y] = visited[pre][x][y];
+                }
+            }
+
+            for (int x = 0; x &lt n; x++) {
+                for (int y = 0; y &lt m; y++) {
+
+                    if (!visited[now][x][y]) {
+
+                        bool able = false;
+
+                        for (int d = 0; d &lt 4; d++) {
+
+                            int prev_x = x + dx[d];
+                            int prev_y = y + dy[d];
+
+                            if (prev_x &gt= 0 &amp&amp prev_x &lt n &amp&amp prev_y &gt= 0 &amp&amp prev_y &lt m) {
+                                if (visited[pre][prev_x][prev_y]) {
+
+                                    able = true;
+
+                                    break;
+                                }
+                            }
+                        }  
+
+                        if (able) {
+
+                            dfs(now, x, y);
+                        }
+                    }
+                }
+            }
+        }
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 177]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-177</link>
             <guid>leet-code/weekly-contest-177</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[Leet Code Weekly Contest 177
+1. Number of Days Between Two Dates
+To save time, I use javascript for this problem.
+var daysBetweenDates = function(date1, date2) {
+
+  return Math.abs(Math.floor((Date.parse(date2) - Date.parse(date1)) / 86400000));
+};
+2. Validate Binary Tree Nodes
+DFS, no need to talk.
+class Solution {
+public:
+
+    bool visit[10001], root[10001];
+
+    int cnt = 0;
+
+    bool dfs(int x, vector&ltint&gt &amplc, vector&ltint&gt &amprc) {
+
+        if (visit[x]) {
+
+            return false;
+        }
+
+        visit[x] = true;
+        ++cnt;
+
+        if (lc[x] != -1 &amp&amp !dfs(lc[x], lc, rc)) {
+
+            return false;
+        }
+
+        if (rc[x] != -1 &amp&amp !dfs(rc[x], lc, rc)) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    bool validateBinaryTreeNodes(int n, vector&ltint&gt&amp leftChild, vector&ltint&gt&amp rightChild) {
+
+        for (int i = 0; i &lt n; i++) {
+
+            visit[i] = false;
+            root[i] = true;
+        }
+
+        for (int i = 0; i &lt n; i++) {
+
+            if (leftChild[i] != -1) {
+
+                root[leftChild[i]] = false;
+            }
+
+            if (rightChild[i] != -1) {
+
+                root[rightChild[i]] = false;
+            }
+        }
+
+        for (int i = 0; i &lt n; i++) {
+            if (root[i]) {
+
+                if (dfs(i, leftChild, rightChild) == false) {
+
+                    return false;
+                }
+
+                return cnt == n;
+            }
+        }
+
+        return false;
+    }
+};
+3. Closest Divisors
+For any given integer $n$, there must be a factor between $[1, \sqrt{n}]$.
+class Solution {
+public:
+
+    vector&ltint&gt closestDivisors(int num) {
+
+        int x, y, d = -1;
+
+        for (int i = sqrt(num + 1); i &gt= 1; i--) {
+
+            if ((num + 1) % i == 0) {
+                int j = (num + 1) / i;
+
+                if (d == -1 || (j - i) &lt d) {
+
+                    d = j - i;
+                    x = i;
+                    y = j;
+                }
+            }
+        }
+
+        for (int i = sqrt(num + 2); i &gt= 1; i--) {
+
+            if ((num + 2) % i == 0) {
+                int j = (num + 2) / i;
+
+                if (d == -1 || (j - i) &lt d) {
+
+                    d = j - i;
+                    x = i;
+                    y = j;
+                }
+            }
+        }
+
+        vector&ltint&gt ret;
+
+        ret.push_back(x);
+        ret.push_back(y);
+
+        return ret;
+    }
+};
+4. Largest Multiple of Three
+For any given integer $n$, $n \mod 3 = 0$ if and only if the sum of all digits
+$s \mod 3 = 0$.
+For example: $n = abcd$,
+$$
+\begin{aligned}
+  n \mod 3 &ampamp;= (1000 \times a + 100 \times b + 10 \times c + d) \mod 3 \
+           &ampamp;= ((999 \times a + 99 \times b + 9 \times c) + (a + b + c + d)) \mod 3 \
+           &ampamp;= (a + b + c + d) \mod 3
+\end{aligned}
+$$
+Let&amp#39;s say $s$ is the sum of all digits.
+If $s \mod 3 = 0$, just sort all digits in descending order.
+If $s \mod 3 = 1$, remove one digit of $1$, $4$, $7$ or two digits of $2$,
+$5$, $8$ and then sort.
+If $s \mod 3 = 2$, remove one digit of $2$, $5$, $8$ or two digits of $1$,
+$4$, $7$ and then sort.
+
+class Solution {
+public:
+
+    int cnt[10];
+
+    bool rm1() {
+
+        if (cnt[1] &gt 0) cnt[1]--;
+        else if (cnt[4] &gt 0) cnt[4]--;
+        else if (cnt[7] &gt 0) cnt[7]--;
+        else return false;
+
+        return true;
+    }
+
+    bool rm2() {
+
+        if (cnt[2] &gt 0) cnt[2]--;
+        else if (cnt[5] &gt 0) cnt[5]--;
+        else if (cnt[8] &gt 0) cnt[8]--;
+        else return false;
+
+        return true;
+    }
+
+    string largestMultipleOfThree(vector&ltint&gt&amp digits) {
+
+        int s = 0;
+
+        for (int i = 0; i &lt 10; i++)
+            cnt[i] = 0;
+
+        for (int i = 0; i &lt digits.size(); i++) {
+
+            s += digits[i];
+
+            cnt[digits[i]]++;
+        }
+
+        switch (s % 3) {
+
+            case 0:
+                break;
+
+            case 1:
+                if (!rm1()) {
+
+                    rm2(); rm2();
+                }
+
+                break;
+
+            case 2:
+                if (!rm2()) {
+
+                    rm1(); rm1();
+                }
+        }
+
+        string ret = &quot&quot;
+
+        for (int i = 9; i &gt= 0; i--) {
+
+            if (i == 0 &amp&amp ret.length() == 0 &amp&amp cnt[0] &gt 0) return &quot0&quot;
+
+            while (cnt[i]-- &gt 0)
+                ret += (&#390&#39 + i);
+        }
+
+        return ret;
+    }
+};
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[SPOJ 4061 - MPOLY - Polygon]]></title>
             <link>https://aguang.xyz/#/post/spoj/4061</link>
             <guid>spoj/4061</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[SPOJ 4061 - MPOLY - Polygon
+There are N points in a plane whose coordinates are natural numbers. A convex polygon with maximal number of vertices is a convex polygon whose vertices are some of given points and the origin having maximal possible number of vertices. Origin, i.e. point with coordinates (0,0), must be one of vertices of a convex polygon with maximal number of vertices.
+Write a program that will determine number of vertices in such polygon.
+A polygon is convex if every line segment whose endpoints are inside that polygon is also completely inside it. Consecutive edges of a polygon must not be parallel.
+Input
+The first line of input file contains a natural number N, 2 ≤ N ≤ 100, a number of given points.
+Each of the following N lines contains two natural numbers X and Y, 1 ≤ X ≤ 100, 1 ≤ Y ≤ 100, separated by a space character, coordinates of one point.
+All points will be different.
+Output
+The first and only line of output file should contain number of vertices of convex polygon with maximal number of vertices. Note: the result will always be at least 3.
+Sample
+POLYGON.IN
+
+5
+4 2
+2 2
+2 3
+3 2
+3 1
+
+POLYGON.OUT
+
+4
+
+POLYGON.IN
+
+8
+10 8
+3 9
+2 8
+2 3
+9 2
+9 10
+10 3
+8 10
+
+POLYGON.OUT
+
+8
+
+POLYGON.IN
+
+10
+9 6
+1 7
+2 2
+3 9
+8 7
+3 2
+9 4
+3 1
+9 7
+6 9
+
+POLYGON.OUT
+
+7
+Explanation for test data #2 (coordinates of polygon)
+
+2 8
+3 9
+8 10
+9 10
+10 8
+10 3
+9 2
+0 0
+Solution
+Dynamic Programming, the strategy is quite similar to Graham Scan.
+let $P = { (x_i, y_i), i \in 1..n }$ represents the given points.
+let $F(i, d)$ represents the max number of points which starts from $P_i$ and can be connected as part of a convex hull, while $d = (dx, dy)$ represets the initialized direction of expected path.
+
+$F(i, d) = Max{F(j, P_j - P_i) + 1 | d \times (P_j - P_i) &ampgt; 0 \land (P_j - P_i) \times (O - P_i) &ampgt; 0}$
+To make it easy to implement and not enumerate all states in searching space, I used memorized search.
+Source Code
+#include &ltstdio.h&gt
+#include &ltstdlib.h&gt
+#include &ltstring.h&gt
+
+int gcd(int a, int b) {
+
+  return (b == 0) ? a : gcd(b, a % b);
+}
+
+typedef struct {
+
+  int x;
+  int y;
+
+} vector;
+
+vector point_new(int x, int y) {
+
+  vector v;
+
+  v.x = x;
+  v.y = y;
+
+  return v;
+}
+
+vector vector_new(int x, int y) {
+
+  int d = gcd(x, y);
+
+  if (d &lt 0) {
+
+    d = -d;
+  }
+
+  return (d == 0) ? point_new(x, y) : point_new(x / d, y / d);
+}
+
+vector vector_sub(vector a, vector b) {
+
+  return vector_new(a.x - b.x, a.y - b.y);
+}
+
+int vector_cross(vector a, vector b) {
+
+  return a.x * b.y - a.y * b.x;
+}
+
+#define MAX_N 100
+#define MAX_X 100
+#define MAX_Y 100
+
+int n;
+
+vector p[MAX_N];
+
+int f[MAX_N][MAX_X + MAX_X + 1][MAX_Y + MAX_Y + 1];
+
+int dp(int current, vector direction) {
+
+  int i, max_next = -1;
+
+  vector next;
+  vector to_origin = point_new(-p[current].x, -p[current].y);
+
+
+  if (-1 == f[current][direction.x + MAX_X][direction.y + MAX_Y]) {
+
+    f[current][direction.x + MAX_X][direction.y + MAX_Y] = 1;
+
+    for (i = 0; i &lt n; i++) {
+
+      if (i != current) {
+
+        next = vector_sub(p[i], p[current]);
+
+        if (vector_cross(direction, next) &gt 0
+          &amp&amp vector_cross(next, to_origin) &gt 0) {
+
+          if (dp(i, next) + 1 &gt f[current][direction.x + MAX_X][direction.y + MAX_Y]) {
+
+            f[current][direction.x + MAX_X][direction.y + MAX_Y] = dp(i, next) + 1;
+          }
+        }
+      }
+    }
+  }
+
+  return f[current][direction.x + MAX_X][direction.y + MAX_Y];
+}
+
+void init() {
+
+  int i;
+
+  scanf(&quot%d&quot, &ampn);
+
+  for (i = 0; i &lt n; i++) {
+
+    scanf(&quot%d%d&quot, &ampp[i].x, &ampp[i].y);
+  }
+}
+
+void solve() {
+
+  int i, x, y, ans = -1;
+
+  for (i = 0; i &lt n; i++) {
+    for (x = -MAX_X; x &lt= MAX_X; x++) {
+      for (y = -MAX_Y; y &lt= MAX_Y; y++) {
+        f[i][x + MAX_X][y + MAX_Y] = -1;
+      }
+    }
+  }
+
+  for (i = 0; i &lt n; i++) {
+
+    if ((ans == -1) || (dp(i, vector_new(p[i].x, p[i].y)) &gt ans)) {
+
+      ans = dp(i, vector_new(p[i].x, p[i].y));
+    }
+  }
+
+  printf(&quot%d\n&quot, ans + 1);
+}
+
+int main(int argc, char **argv) {
+
+  init();
+  solve();
+  return 0;
+}
+
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[SPOJ 34409 - DISGRAPH - Disconnected country]]></title>
             <link>https://aguang.xyz/#/post/spoj/34409</link>
             <guid>spoj/34409</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[SPOJ 34409 - DISGRAPH - Disconnected country
+Cities of the ancient country GRAPH connected by two-way (bidirectional) roads so that from any city you can get to any other city. The Sultan wants to destroy some roads and divide the country into two separate (disconnected) areas, so that from the city of one area it was impossible to get to the city of another area. You are the Minister of transportation and your task is to minimize the number of roads that need to be destroyed. You have a lot of time and the Sultan hopes :-) that you will solve this task.
+Input
+The first line of input will contain one integer number 8 ≤ N ≤ 1400, number of cities in GRAPH. Follow N lines. Each line represents cities (direct neighbors) connected to the city number i (cities numbering is zero based) by one road. There will be 7 input files.
+Output
+One integer number. The minimum number of roads that need to be destroyed.
+Example
+Input:
+8
+1 2
+0 2 3 
+0 1 3
+1 2 4
+3 5 6
+4 6 7
+4 5 7
+5 6
+
+Output:
+1
+Example explanation
+Destroy only one road from the third city to the fourth city and Sultan will be happy.
+
+Solution
+Use Stoer-Wagner algorithm to caculate undirected graph&amp#39;s global min-cut.
+In this program, I use disjoint-set to make node-combination more easier.
+Source Code
+#include &ltstdio.h&gt
+#include &ltstdlib.h&gt
+#include &ltstring.h&gt
+
+#define MAX_LINE 10000
+
+struct edge {
+
+  int dst;
+
+  struct edge *next;
+};
+
+struct edge *new_edge(int dst, struct edge *next) {
+
+  struct edge *edge = (struct edge*) malloc(sizeof(struct edge));
+
+  edge-&gtdst = dst;
+
+  edge-&gtnext = next;
+
+  return edge;
+}
+
+struct edge **parse_graph(FILE *input, int *n) {
+
+  int src, dst;
+
+  char cities[MAX_LINE], *ptr;
+
+  struct edge **edge;
+
+  fscanf(input, &quot%d&quot, n), fgets(cities, MAX_LINE, input);
+
+  edge = (struct edge**) malloc(sizeof(struct edge*) * (*n));
+
+  memset(edge, 0x00, sizeof(struct edge*) * (*n));
+
+  for(src = 0; src &lt *n; src++) {
+
+    fgets(cities, MAX_LINE, input);
+
+    for (ptr = cities; *ptr != &#39\0&#39; ) {
+
+      for (; (*ptr != &#39\0&#39) &amp&amp !(*ptr &gt= &#390&#39 &amp&amp *ptr &lt= &#399&#39); ptr++);
+
+      if ((*ptr &gt= &#390&#39) &amp&amp (*ptr &lt= &#399&#39)) {
+
+        sscanf(ptr, &quot%d&quot, &ampdst);
+
+        if (src != dst) {
+
+          edge[src] = new_edge(dst, edge[src]);
+                }
+
+        for (; (*ptr != &#39\0&#39) &amp&amp (*ptr &gt= &#390&#39) &amp&amp (*ptr &lt= &#399&#39); ptr++);
+      }
+    }
+  }
+
+  return edge;
+}
+
+void free_graph(int n, struct edge **edge) {
+
+  int src;
+
+  struct edge *ptr;
+
+  for (src = 0; src &lt n; src++) {
+
+    for (; edge[src] != NULL; ) {
+
+      ptr = edge[src];
+
+      edge[src] = edge[src]-&gtnext;
+
+      free(ptr);
+    }
+  }
+}
+
+int *disjoint_set_create(int n) {
+
+  int *parent = (int*) malloc(sizeof(int) * n), i;
+
+  for (i = 0; i &lt n; i++) {
+
+    parent[i] = i;
+  }
+
+  return parent;
+}
+
+int disjoint_set_root(int *parent, int x) {
+
+  if (parent[x] != x) {
+
+    parent[x] = disjoint_set_root(parent, parent[x]);
+  }
+
+  return parent[x];
+}
+
+void stoer_wagner_visit(int n, struct edge **edge, int *parent,
+    int *visited, int *degree, int x) {
+
+  int i;
+
+  struct edge *ptr;
+
+  visited[x] = 1;
+
+  for (i = 0; i &lt n; i++) {
+
+    if (disjoint_set_root(parent, i) == x) {
+
+      for (ptr = edge[i]; ptr != NULL; ptr = ptr-&gtnext) {
+
+        if (disjoint_set_root(parent, ptr-&gtdst) != x) {
+
+          degree[disjoint_set_root(parent, ptr-&gtdst)]++;
+        }
+      }
+    }
+  }
+}
+
+int stoer_wagner(int n, struct edge **edge) {
+
+  int *parent = disjoint_set_create(n);
+
+  int *visited = (int*) malloc(sizeof(int) * n);
+  int *degree = (int*) malloc(sizeof(int) * n);
+
+  int rest, i, j, u, last_2rd, last, min_cut = -1;
+
+  for (rest = n; rest &gt 1; rest--) {
+
+    memset(visited, 0x00, sizeof(int) * n);
+    memset(degree, 0x00, sizeof(int) * n);
+
+    last_2rd = -1;
+    last = disjoint_set_root(parent, 0);
+
+    stoer_wagner_visit(n, edge, parent, visited, degree, last);
+
+    for (i = 1; i &lt rest; i++) {
+
+      u = -1;
+
+      for (j = 0; j &lt n; j++) {
+
+        if (disjoint_set_root(parent, j) == j &amp&amp !visited[j]) {
+
+          if (u == -1 || degree[j] &gt degree[u]) {
+
+            u = j;
+          }
+        }
+      }
+
+      stoer_wagner_visit(n, edge, parent, visited, degree, u);
+
+      last_2rd = last;
+      last = u;
+
+    }
+
+    if (min_cut == -1 || degree[last] &lt min_cut) {
+
+      min_cut = degree[last];
+    }
+
+    parent[last] = last_2rd;
+  }
+
+  return min_cut;
+}
+
+int main(int argc, char **argv) {
+
+  int n;
+
+  struct edge **edge;
+
+  edge = parse_graph(stdin, &ampn);
+
+  printf(&quot%d\n&quot, stoer_wagner(n, edge));
+
+  free_graph(n, edge);
+
+  return 0;
+}
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[SPOJ 5732 - PARADOX - Paradox]]></title>
             <link>https://aguang.xyz/#/post/spoj/5732</link>
             <guid>spoj/5732</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[SPOJ 5732 - PARADOX - Paradox
+A paradox is a statement or group of statements that leads to a contradiction. Consider the following two statements.
+&ampquot;The statement below is false.&ampquot;
+&ampquot;The statement above is true.&ampquot;
+
+If we assume that 1st statement is true then according to 1st statement the 2nd statement is false. Since the 2nd statement is false and it says that 1st statement is true, 1st statement must be false which is a contradiction. If we assume that 1st statement is false then the 2nd statement must be true (since 1st statement says 2nd statement is false). Then according to 2nd statement 1st statement must be true which is a contradiction. Thus the statement cannot be classified as true or false. This is a paradox.
+Given N statements of the form &ampquot;Statement X is true/false&ampquot;, 1&amplt;=X&amplt;=N, your task is to find if these set of statements are paradoxical or not. A set of statements is paradoxical if one or more statements cannot be classified as true or false.
+Input
+Multiple test cases. Each test cases begins with an integer N representing the number of statements. 1&amplt;=N&amplt;=100. Then follow N lines, representing N statements in the order 1,2,3, ...,N. Each line contains an integer X and a string S separated by a space. 1&amplt;=X&amplt;=N. S is either &ampquot;true&ampquot; or &ampquot;false&ampquot; (quotes for clarity), which means the statement is &ampquot;Statement X is S&ampquot;. N=0 indicates the end of testcases and should not be processed. There are atmost 10000 testcases.
+Output
+For each test case print &ampquot;PARADOX&ampquot; if the set of statements are paradoxical, else print &ampquot;NOT PARADOX&ampquot;, in a separate line.
+Example
+Input:
+2
+2 false
+1 true
+2
+2 false
+1 false
+0
+
+Output:
+PARADOX
+NOT PARADOX
+Solution
+It is a simple graphic drawing problem.
+First, define graph $G(N, E)$:
+For each $Statement(i, x, s)$, there two nodes in node set $N$:
+$True(i) \in N$: represents $Statement(i)$ is $true$.
+$False(i) \in N$: represents $Statement(i)$ is $false$.
+
+As for the edge set $E$:
+if $s = True$:
+$Edge(True(i) \rightarrow True(x)) \in E$
+$Edge(False(i) \rightarrow False(x)) \in E$
+
+if $s = False$:
+$Edge(True(i) \rightarrow False(x)) \in E$
+$Edge(False(i) \rightarrow True(x)) \in E$
+
+Now, the problem is equal to verify if each $True(i)$ and $False(i)$ are in the same directed component.
+Source Code
+#include &ltstdio.h&gt
+#include &ltstdlib.h&gt
+#include &ltstring.h&gt
+
+// #define DEBUG
+
+#define TRUE &quottrue&quot
+#define FALSE &quotfalse&quot
+
+#define PARADOX &quotPARADOX&quot
+#define NOT_PARADOX &quotNOT PARADOX&quot
+
+#define MAX_N 100
+#define MAX_S 10
+
+#define NO_COLOR -1
+
+#define true_position(x) ((x - 1) &lt&lt 1)
+#define false_position(x) (((x - 1) &lt&lt 1) | 1)
+
+struct edge {
+
+  struct edge *next;
+
+  int dest;
+};
+
+struct edge *new_edge(int dest, struct edge *next) {
+
+  struct edge *edge = (struct edge*)malloc(sizeof(struct edge));
+
+  edge-&gtnext = next;
+  edge-&gtdest = dest;
+
+  return edge;
+}
+
+struct edge *link[MAX_N * 2];
+
+int color[MAX_N * 2];
+
+void try_draw(int x, int target_color) {
+
+  struct edge *ptr;
+
+  if (NO_COLOR == color[x]) {
+
+    color[x] = target_color;
+
+    #ifdef DEBUG
+    printf(&quotdraw %d = %d\n&quot, x, target_color);
+    #endif
+
+    for (ptr = link[x]; ptr != NULL; ptr = ptr-&gtnext) {
+
+      try_draw(ptr-&gtdest, target_color);
+    }
+  }
+}
+
+int main(int argc, char **argv) {
+
+  int n, x, i, paradox;
+  char s[MAX_S];
+
+  for(;;) {
+
+    scanf(&quot%d&quot, &ampn);
+
+    if (0 == n) {
+      break;
+    }
+
+    for (i = 0; i &lt (n &lt&lt 1); i++) {
+
+      link[i] = NULL;
+      color[i] = -1;
+    }
+
+    for (i = 1; i &lt= n; i++) {
+      scanf(&quot%d%s&quot, &ampx, s);
+
+      if (0 == strcmp(s, TRUE)) {
+
+        // TRUE(i) -&gt TRUE(x)
+        link[true_position(i)] = new_edge(true_position(x), link[true_position(i)]);
+
+        #ifdef DEBUG
+        printf(&quotlink %d -&gt %d\n&quot, true_position(i), true_position(x));
+        #endif
+
+        // FALSE(i) -&gt FALSE(x)
+        link[false_position(i)] = new_edge(false_position(x), link[false_position(i)]); 
+
+        #ifdef DEBUG        
+        printf(&quotlink %d -&gt %d\n&quot, false_position(i), false_position(x));
+        #endif
+      } else {
+
+        // TRUE(i) -&gt FALSE(x)
+        link[true_position(i)] = new_edge(false_position(x), link[true_position(i)]);
+
+        #ifdef DEBUG        
+        printf(&quotlink %d -&gt %d\n&quot, true_position(i), false_position(x));
+        #endif
+
+        // FALSE(i) -&gt TRUE(X)
+        link[false_position(i)] = new_edge(true_position(x), link[false_position(i)]);
+
+        #ifdef DEBUG        
+        printf(&quotlink %d -&gt %d\n&quot, false_position(i), true_position(x));
+        #endif
+      }
+    }
+
+    for (paradox = 0, i = 1; i &lt= n; i++) {
+
+      try_draw(true_position(i), true_position(i));
+      try_draw(false_position(i), false_position(i));
+
+      if (color[true_position(i)] == color[false_position(i)]) {
+
+        paradox = 1;
+        break;
+      }
+    }
+
+    printf(&quot%s\n&quot, paradox ? PARADOX : NOT_PARADOX);
+  }
+
+  return 0;
+}
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[SPOJ 10394 - ABA12C - Buying Apples!]]></title>
             <link>https://aguang.xyz/#/post/spoj/10394</link>
             <guid>spoj/10394</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[SPOJ 10394 - ABA12C - Buying Apples!
+Harish went to a supermarket to buy exactly ‘k’ kilograms apples for his ‘n’ friends. The supermarket was really weird. The pricing of items was very different. He went to the Apples section and enquired about the prices. The salesman gave him a card in which he found that the prices of apples were not per kg. The apples were packed into covers, each containing ‘x’ kg of apples, x &ampgt; 0 and ‘x’ is an integer. An ‘x’ kg packet would be valued at ‘y’ rupees. So, the placard contained a table with an entry ‘y’ denoting the price of an ‘x’ kg packet. If ‘y’ is -1 it means that the corresponding packet is not available. Now as apples are available only in packets, he decides to buy atmost ‘n’ packets for his ‘n’ friends i.e he will not buy more than n packets of apples.
+Harish likes his friends a lot and so he does not want to disappoint his friends. So now, he will tell you how many friends he has and you have to tell him the minimum amount of money he has to spend for his friends.
+Input
+The first line of input will contain the number of test cases, C.
+Each test case will contain two lines.
+The first line containing N and K, the number of friends he has and the amount of Apples in kilograms which he should buy.
+The second line contains K space separated integers in which the ith integer specifies the price of a ‘i’kg apple packet. A value of -1 denotes that the corresponding packet is unavailable.
+0 &amplt; N &amplt;= 100
+0 &amplt; K &amplt;= 100
+0 &amplt; price &amplt;= 1000
+
+Output
+The output for each test case should be a single line containing the minimum amount of money he has to spend for his friends. Print -1 if it is not possible for him to satisfy his friends.
+Sample I/O
+Input:
+2
+3 5
+-1 -1 4 5 -1
+5 5
+1 2 3 4 5
+
+Output:
+-1
+5
+** Explanation of test cases: **
+As there are only 3 and 4kg packets in the shop, he will not be able to satisfy his friends as he would not be able to buy exactly 5kg of apples.
+
+He can buy five 1kg packet as he has to buy 5 kg. So the min money he should spend is 5.
+
+
+Solution
+$F(k, n, m) = $ minimal amount of money for n friends, first k packets, m kilograms.
+$$F(k, n, m) = \min \limits_{0 \leq i \times k \leq m, i \leq n} F(k - 1, n - i,  m - i \times k) + Cost(k) \times i$$
+Source Code
+#include &ltstdio.h&gt
+#include &ltstdlib.h&gt
+#include &ltstring.h&gt
+
+#define MAX_N 100
+#define MAX_K 100
+
+int main(int argc, char **argv) {
+
+  int c, n, k, i, j, p, q, r;
+  int cost[MAX_K + 1];
+  int f[MAX_N + 1][MAX_K + 1][MAX_K + 1];
+
+  scanf(&quot%d&quot, &ampc);
+
+  while(c--) {
+
+    scanf(&quot%d%d&quot, &ampn, &ampk);
+
+    for (i = 1; i &lt= k; i++) {
+      scanf(&quot%d&quot, &ampcost[i]);
+    }
+
+    for (i = 0; i &lt= n; i++) {
+
+      f[0][i][0] = 0;
+
+      for (j = 1; j &lt= k; j++) {
+        f[0][i][j] = -1;
+      }
+    }
+
+    for (i = 1; i &lt= k; i++) {
+      for (j = 0; j &lt= n; j++) {
+        for (p = 0; p &lt= k; p++) {
+
+          f[i][j][p] = f[i-1][j][p];
+
+          if (cost[i] != -1) {
+
+            for (q = 0; (q &lt= j) &amp&amp (q * i &lt= p); q++) {
+              if (-1 != f[i - 1][j - q][p - q * i]) {
+
+                r = cost[i] * q + f[i - 1][j - q][p - q * i];
+
+                if ((f[i][j][p] == -1) || (r &lt f[i][j][p])) {
+
+                  f[i][j][p] = r;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    printf(&quot%d\n&quot, f[k][n][k]);
+  }
+
+  return 0;
+}
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[SPOJ 5 - PALIN - The Next Palindrome]]></title>
             <link>https://aguang.xyz/#/post/spoj/5</link>
             <guid>spoj/5</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[SPOJ 5 - PALIN - The Next Palindrome
+A positive integer is called a palindrome if its representation in the decimal system is the same when read from left to right and from right to left. For a given positive integer K of not more than 1000000 digits, write the value of the smallest palindrome larger than K to output. Numbers are always displayed without leading zeros.
+Input
+The first line contains integer t, the number of test cases. Integers K are given in the next t lines.
+Output
+For each K, output the smallest palindrome larger than K.
+Example
+Input:
+2
+808
+2133
+
+Output:
+818
+2222
+Solution
+Let $K = X(1)X(2)..X(mid)..X(n)$
+First, compare $R = X(1)X(2)..X(mid)..X(2)X(1)$ with $K$.
+If $R &ampgt; K$ then you got the answer, else try $X(1)X(2)..X(mid) + 1$
+Source Code
+#include &ltstdio.h&gt
+#include &ltstdlib.h&gt
+#include &ltstring.h&gt
+
+#define MAX_LEN_K 1000000
+
+int compare(char *num_a, char *num_b, int len) {
+
+  int i;
+
+  for (i = 0; (i &lt len) &amp&amp (num_a[i] == num_b[i]); i++);
+
+  if (i == len) {
+    return 0;
+  } else {
+    return num_a[i] &lt num_b[i] ? -1 : 1;
+  }
+}
+
+char *next_palindrome(char *number) {
+
+  int len = strlen(number);
+  int i, j, l = 1, r = len;
+
+  static char result[MAX_LEN_K + 3];
+
+  result[0] = &#390&#39;
+
+  for (i = l, j = r; i &lt= j; i++, j--) {
+
+    result[j] = result[i] = number[i - l];
+  }
+
+  result[r + 1] = &#39\0&#39;
+
+  if (compare(result + l, number, len) &lt= 0) {
+
+    for (i = (l + r) &gt&gt 1; i &gt= 0; i--) {
+
+      if (result[i] == &#399&#39) {
+
+        result[i] = &#390&#39;
+      } else {
+
+        result[i]++;
+        break;
+      }
+    }
+
+    if (result[0] != &#390&#39) {
+      --l;
+    }
+
+    for (i = l, j = r; i &lt j; i++, j--) {
+
+      result[j] = result[i];
+    }
+  }
+
+  return result + l * sizeof(char);
+}
+
+int main(int argc, char **argv) {
+
+  int t;
+  char k[MAX_LEN_K + 1];
+
+  scanf(&quot%d&quot, &ampt);
+
+  while(t--) {
+
+    scanf(&quot%s&quot, k);
+
+    printf(&quot%s\n&quot, next_palindrome(k));
+  }
+
+  return 0;
+}
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[SPOJ 4 - ONP - Transform the Expression]]></title>
             <link>https://aguang.xyz/#/post/spoj/4</link>
             <guid>spoj/4</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[SPOJ 4 - ONP - Transform the Expression
+Transform the algebraic expression with brackets into RPN form (Reverse Polish Notation). Two-argument operators: +, -, *, /, ^ (priority from the lowest to the highest), brackets ( ). Operands: only letters: a,b,...,z. Assume that there is only one RPN form (no expressions like a*b*c).
+Input
+t [the number of expressions &lt= 100]
+expression [length &lt= 400]
+[other expressions]
+ Text grouped in [ ] does not appear in the input file.
+Output
+ The expressions in RPN form, one per line.
+Example
+ Input:
+ 3
+ (a+(b*c))
+ ((a+b)*(z+x))
+ ((a+t)*((b+(a+c))^(c+d)))
+
+ Output:
+ abc*+
+ ab+zx+*
+ at+bac++cd+^*
+Solution
+ Standard transformation from infix-expression to postfix-express.
+Source Code
+#include &ltstdio.h&gt
+#include &ltstdlib.h&gt
+#include &ltstring.h&gt
+
+// #define __DEBUG__
+
+struct char_node {
+
+  char character;
+
+  struct char_node *next;
+};
+
+struct char_node *new_char_node(char character) {
+
+  struct char_node *node = (struct char_node*) malloc(sizeof(struct char_node));
+
+  node-&gtcharacter = character;
+  node-&gtnext = NULL;
+
+  return node;
+}
+
+struct char_sequence {
+
+  struct char_node *first;
+
+  struct char_node *last;
+};
+
+struct char_sequence *new_char_sequence(char character) {
+
+  struct char_node *node = new_char_node(character);
+  struct char_sequence *sequence = (struct char_sequence*) malloc(sizeof(struct char_sequence));
+
+  sequence-&gtfirst = node;
+  sequence-&gtlast = node;
+
+  return sequence;
+}
+
+struct char_sequence *concat_char_sequence(struct char_sequence *a, struct char_sequence *b) {
+
+  if (NULL == a) {
+
+    return b;
+  }
+
+  if (NULL == b) {
+
+    return a;
+  }
+
+  a-&gtlast-&gtnext = b-&gtfirst;
+  a-&gtlast = b-&gtlast;
+
+  free(b);
+
+  return a;
+}
+
+void print_char_sequence(struct char_sequence *sequence) {
+
+  struct char_node *ptr;
+
+  if (NULL != sequence) {
+    for (ptr = sequence-&gtfirst; ptr != NULL; ptr = ptr-&gtnext) {
+
+      putchar(ptr-&gtcharacter);
+    }
+  }
+
+  putchar(&#39\n&#39);
+}
+
+struct char_sequence *destroy_char_sequence(struct char_sequence *sequence) {
+
+  struct char_node *ptr;
+
+  if (NULL != sequence) {
+
+    while (sequence-&gtfirst != NULL) {
+
+      ptr = sequence-&gtfirst;
+      sequence-&gtfirst = sequence-&gtfirst-&gtnext;
+
+      free(ptr);
+    }
+  }
+
+  return NULL;
+}
+
+struct char_stack {
+
+  struct char_stack *prev;
+
+  char character;
+};
+
+struct char_stack *new_char_stack(char character) {
+
+  struct char_stack *stack = (struct char_stack*) malloc(sizeof(struct char_stack));
+
+  stack-&gtprev = NULL;
+  stack-&gtcharacter = character;
+
+  return stack;
+}
+
+char top_char_stack(struct char_stack *stack) {
+
+  return NULL == stack ? EOF : stack-&gtcharacter;
+}
+
+struct char_stack *push_char_stack(struct char_stack *stack, char character) {
+
+  struct char_stack *top = (struct char_stack*) malloc(sizeof(struct char_stack));
+
+  top-&gtprev = stack;
+  top-&gtcharacter = character;
+
+#ifdef __DEBUG__
+  printf(&quot[OPERATOR] [PUSH] %c\n&quot, character);
+#endif
+
+  return top;
+}
+
+struct char_stack *pop_char_stack(struct char_stack *stack, char *character) {
+
+  if (NULL == stack) {
+
+    *character = EOF;
+
+#ifdef __DEBUG__
+    printf(&quot[OPERATOR] [POP]  EOF\n&quot);
+#endif
+
+    return NULL;
+  }
+
+  *character = stack-&gtcharacter;
+
+#ifdef __DEBUG__
+  printf(&quot[OPERATOR] [POP]  %c\n&quot, *character);
+#endif
+
+  struct char_stack *top = stack-&gtprev;
+
+  free(stack);
+
+  return top;
+}
+
+struct char_stack *destroy_char_stack(struct char_stack *stack) {
+
+  struct char_stack *top;
+
+  while (stack != NULL) {
+
+    top = stack-&gtprev;
+
+    free(stack);
+
+    stack = top;
+  }
+
+  return NULL;
+}
+
+
+struct char_sequence_stack {
+
+  struct char_sequence_stack *prev;
+
+  struct char_sequence *sequence;
+};
+
+struct char_sequence *top_char_sequence_stack(struct char_sequence_stack *stack) {
+
+  return NULL == stack ? NULL : stack-&gtsequence;
+}
+
+struct char_sequence_stack *pop_char_sequence_stack(struct char_sequence_stack *stack,
+                                                    struct char_sequence **sequence) {
+
+  if (NULL == stack) {
+
+    *sequence = NULL;
+
+#ifdef __DEBUG__
+    printf(&quot[OPERAND]   [POP]  NULL\n&quot);
+#endif
+
+    return NULL;
+  }
+
+  *sequence = stack-&gtsequence;
+
+#ifdef __DEBUG__
+  printf(&quot[OPERAND]  [POP]  &quot);
+  print_char_sequence(*sequence);
+#endif
+
+  struct char_sequence_stack *top = stack-&gtprev;
+
+  free(stack);
+
+  return top;
+}
+
+struct char_sequence_stack *push_char_sequence_stack(struct char_sequence_stack *stack,
+                                                     struct char_sequence *sequence) {
+
+  struct char_sequence_stack *top =
+    (struct char_sequence_stack*) malloc(sizeof(struct char_sequence_stack));
+
+  top-&gtprev = stack;
+  top-&gtsequence = sequence;
+
+#ifdef __DEBUG__
+  printf(&quot[OPERAND]  [PUSH] &quot);
+  print_char_sequence(sequence);
+#endif
+
+  return top;
+}
+
+struct char_sequence_stack *destroy_char_sequence_stack(struct char_sequence_stack *stack) {
+
+  struct char_sequence_stack *top;
+
+  while (stack != NULL) {
+
+    top = stack-&gtprev;
+
+    destroy_char_sequence(stack-&gtsequence);
+
+    free(stack);
+
+    stack = top;
+  }
+
+  return NULL;
+}
+
+int priority_of(char operator) {
+
+  switch(operator) {
+
+    case &#39^&#39:
+      return 5;
+
+    case &#39*&#39:
+    case &#39/&#39:
+      return 4;
+
+    case &#39+&#39:
+    case &#39-&#39:
+      return 3;
+
+    case &#39)&#39:
+      return 2;
+
+    case &#39(&#39:
+      return 1;
+  }
+
+  return 0;
+}
+
+int main(int argc, char **argv) {
+
+  int t;
+  char character, operator;
+
+  struct char_stack *operator_stack = NULL;
+  struct char_sequence_stack *operand_stack = NULL;
+
+  struct char_sequence *a, *b;
+
+  scanf(&quot%d&quot, &ampt);
+  getchar();
+
+  while(t--) {
+
+    while ((character = getchar()) != &#39\n&#39 &amp&amp (character != EOF)) {
+
+      switch (character) {
+
+        case &#39(&#39:
+          operator_stack = push_char_stack(operator_stack, character);
+          break;
+
+        case &#39+&#39:
+        case &#39-&#39:
+        case &#39*&#39:
+        case &#39/&#39:
+        case &#39^&#39:
+        case &#39)&#39:
+          while (priority_of(top_char_stack(operator_stack)) &gt= priority_of(character)) {
+
+            operator_stack = pop_char_stack(operator_stack, &ampoperator);
+
+            operand_stack = pop_char_sequence_stack(operand_stack, &ampb);
+            operand_stack = pop_char_sequence_stack(operand_stack, &ampa);
+
+            operand_stack = push_char_sequence_stack(operand_stack,
+                              concat_char_sequence(concat_char_sequence(a, b),
+                                new_char_sequence(operator)));
+          }
+
+          if (&#39)&#39 == character) {
+
+            operator_stack = pop_char_stack(operator_stack, &ampoperator);
+          } else {
+
+            operator_stack = push_char_stack(operator_stack, character);
+          }
+
+          break;
+
+        default:
+          if (character &gt= &#39a&#39 &amp&amp character &lt= &#39z&#39) {
+
+            operand_stack = push_char_sequence_stack(operand_stack, new_char_sequence(character));
+          }
+      }
+    }
+
+    print_char_sequence(top_char_sequence_stack(operand_stack));
+
+    operator_stack = destroy_char_stack(operator_stack);
+    operand_stack = destroy_char_sequence_stack(operand_stack);
+  }
+
+  return 0;
+}
+
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[SPOJ 2 - PRIME1 - Prime Generator]]></title>
             <link>https://aguang.xyz/#/post/spoj/2</link>
             <guid>spoj/2</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[SPOJ 2 - PRIME1 - Prime Generator
+Peter wants to generate some prime numbers for his cryptosystem. Help him! Your task is to generate all prime numbers between two given numbers! 
+Input
+The input begins with the number t of test cases in a single line (t&amplt;=10). In each of the next t lines there are two numbers m and n (1 &amplt;= m &amplt;= n &amplt;= 1000000000, n-m&amplt;=100000) separated by a space. 
+Output
+For every test case print all prime numbers p such that m &amplt;= p &amplt;= n, one number per line, test cases separated by an empty line.
+Example
+Input:
+2
+1 10
+3 5
+
+Output:
+2
+3
+5
+7
+
+3
+5
+Solution
+First, use the Sieve of Eratosthenes Method to calculate all prime numbers under sqrt(n).
+For each composite number between m and n, it must have a prime factor small or equal then sqrt(n), so just enumerate each prime number to eliminate non-prime numbers.
+One important point: for each prime p, we have no need to check composite numbers less then p^2, it&amp#39;s quite an important way to accelerate the caculation.
+By the way, this method is usally called Segmented Sieve of Eratosthenes.
+And I use some bit operations for reducing memory use.
+Source Code
+#include &ltstdio.h&gt
+#include &ltstdlib.h&gt
+#include &ltstring.h&gt
+#include &ltmath.h&gt
+
+#define IS_PRIME(is_prime, n) ((is_prime[(n) &gt&gt 3] &gt&gt ((n) &amp 0x07)) &amp 0x01)
+
+#define SET_NOT_PRIME(is_prime, n) is_prime[(n) &gt&gt 3] &amp= 0xff ^ (1 &lt&lt ((n) &amp 0x07))
+
+/*
+ * Function: sieve
+ * -------------------------------
+ *  Use Sieve of Eratosthenes Method to compute all prime numbers small or equals given upper bound.
+ *
+ *  max_n: upper bound of prime numbers.
+ *  prime_count: will be assigned in this function representing the length of the result.
+ *
+ *  returns: an array of prime numbers or NULL.
+ */
+long *sieve(long max_n, long *prime_count) {
+
+  long i, j, sqrt_n = floor(sqrt(max_n)), length = (max_n &gt&gt 3) + 1;
+  long *prime_numbers;
+
+  unsigned char *is_prime = (unsigned char*) malloc(sizeof(unsigned char) * length);
+
+  memset(is_prime, 0xff, sizeof(unsigned char) * length);
+
+  for (i = 2; i &lt= sqrt_n; i++) {
+
+    if (IS_PRIME(is_prime, i)) {
+
+
+      for (j = i + i; j &lt= max_n; j += i) {
+
+        SET_NOT_PRIME(is_prime, j);
+      }
+    }
+  }
+
+  for (i = 2, *prime_count = 0; i &lt= max_n; i++) {
+
+    if (IS_PRIME(is_prime, i)) {
+
+      (*prime_count)++;
+    }
+  }
+
+  if (0 == *prime_count) {
+
+    free(is_prime);
+
+    return NULL;
+  }
+
+  prime_numbers = (long *)malloc(sizeof(long) * (*prime_count));
+
+  for (i = 0, j = 2; j &lt= max_n; j++) {
+
+    if (IS_PRIME(is_prime, j)) {
+
+      prime_numbers[i++] = j;
+    }
+  }
+
+  free(is_prime);
+
+  return prime_numbers;
+}
+
+/*
+ * Function: segmented_sieve
+ * -------------------------
+ *  Use Segmented Seive Method to compute all prime numbers with given closed interval.
+ *
+ *  m: lowwer bound of prime numbers.
+ *  n: upper bound of prime numbers.
+ *  prime_count: will be assigned in this function representing the length of the result.
+ *
+ *  returns: an array of prime numbers or NULL.
+ */
+long *segmented_sieve(long m, long n, long *prime_count) {
+
+  long small_prime_count;
+  long *small_prime_numbers = sieve(floor(sqrt(n)), &ampsmall_prime_count);
+
+  long length = n - m + 1, i, j, p;
+
+  unsigned char *is_prime = (unsigned char*) malloc(sizeof(unsigned char) * length);
+
+  long *prime_numbers;
+
+  memset(is_prime, 0xff, sizeof(unsigned char) * length);
+
+  if (small_prime_count &gt 0) {
+
+    for (i = 0; i &lt small_prime_count; i++) {
+
+      p = small_prime_numbers[i];
+
+      j = p * p;
+
+      if (m &gt= j) {
+
+        j = m;
+
+        if (j % p != 0) {
+
+          j += (p - j % p);
+        }
+      }
+
+      for (; j &lt= n; j += p) {
+
+        SET_NOT_PRIME(is_prime, j - m);
+      }
+    }
+
+    free(small_prime_numbers);
+  }
+
+  for (i = m, *prime_count = 0; i &lt= n; i++) {
+
+    if (i &gt= 2 &amp&amp IS_PRIME(is_prime, i - m)) {
+
+      (*prime_count)++;
+    }
+  }
+
+  if (0 == *prime_count) {
+
+    free(is_prime);
+
+    return NULL;
+  }
+
+  prime_numbers = (long *)malloc(sizeof(long) * (*prime_count));
+
+  for (i = 0, j = m; j &lt= n; j++) {
+
+    if (j &gt= 2 &amp&amp IS_PRIME(is_prime, j - m)) {
+
+      prime_numbers[i++] = j;
+    }
+  }
+
+  free(is_prime);
+
+  return prime_numbers;
+}
+
+int main(int argc, char **argv) {
+
+  long prime_count, *prime_numbers;
+
+  long t, m, n, i;
+
+  scanf(&quot%ld&quot, &ampt);
+
+  while (t--) {
+
+    scanf(&quot%ld%ld&quot, &ampm, &ampn);
+
+    prime_numbers = segmented_sieve(m, n, &ampprime_count);
+
+    if (prime_count &gt 0) {
+
+      for (i = 0; i &lt prime_count; i++) {
+
+        printf(&quot%ld\n&quot, prime_numbers[i]);
+      }
+
+      free(prime_numbers);
+    }
+
+    if (t) {
+
+      printf(&quot\n&quot);
+    }
+  }
+
+  return 0;
+}
+]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[SPOJ 1 - TEST - Life, the Universe, and Everything]]></title>
             <link>https://aguang.xyz/#/post/spoj/1</link>
             <guid>spoj/1</guid>
+            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <content:encoded><![CDATA[SPOJ 1 - TEST - Life, the Universe, and Everything
+Your program is to use the brute-force approach in order to find the Answer to Life, the Universe, and Everything. More precisely... rewrite small numbers from input to output. Stop processing input after reading in the number 42. All numbers at input are integers of one or two digits.
+Example
+Input:
+1
+2
+88
+42
+99
+
+Output:
+1
+2
+88
+Solution
+It&amp#39;s just for familiarizing yourself with this website.
+Source Code
+#include &ltstdio.h&gt
+
+int main(int argc, char **argv) {
+
+  int element;
+
+  while (scanf(&quot%d&quot, &ampelement) != EOF) {
+
+    if (42 == element) {
+      break;
+    }
+    printf(&quot%d\n&quot, element);
+  }
+
+ return 0;
+} 
+]]></content:encoded>
         </item>
     </channel>
 </rss>

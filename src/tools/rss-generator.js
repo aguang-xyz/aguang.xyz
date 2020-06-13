@@ -1,6 +1,7 @@
 import { Feed } from "feed";
 import { argv } from "yargs";
 import Yaml from "js-yaml";
+import { markdownToTxt } from "markdown-to-txt";
 import Fs from "fs";
 
 if (argv.yaml) {
@@ -24,11 +25,33 @@ if (argv.yaml) {
     },
   });
 
+  const getContent = (post) => {
+    const path = `./public/posts/${post.id}.md`;
+
+    if (Fs.existsSync(path)) {
+      return markdownToTxt(Fs.readFileSync(path, "utf8"));
+    } else {
+      return post.title;
+    }
+  };
+
+  const getDate = (post) => {
+    const path = `./public/posts/${post.id}.md`;
+
+    if (Fs.existsSync(path)) {
+      return new Date(Fs.statSync(path).mtimeMs);
+    } else {
+      return new Date();
+    }
+  };
+
   meta.posts.forEach((post) => {
     feed.addItem({
       title: post.title,
+      content: getContent(post),
       id: post.id,
       link: post.link || `https://aguang.xyz/#/post/${post.id}`,
+      date: getDate(post),
     });
   });
 
