@@ -8,7 +8,7 @@ if (argv.yaml) {
   const meta = Yaml.safeLoad(Fs.readFileSync(path, "utf8"));
 
   const categoryId = path
-    .replace(/^\.\/docs\/posts\//, "")
+    .replace(/^\.\/public\/posts\//, "")
     .replace(/\/index\.yaml$/, "");
 
   const feed = new Feed({
