@@ -7,7 +7,7 @@ posts:
     description: 'Yet another lightweight markdown editor.'
     stack:
       - Electron
-    link: 'https://aguang-xyz.github.io/aurora-editor/'
+    link: 'https://aguang-xyz.github.io/aurora-editor/dark.html'
     image: 'https://raw.githubusercontent.com/aguang-xyz/aurora-editor/master/resources/icons/icon.svg'
 
   - id: 'exchange-view'

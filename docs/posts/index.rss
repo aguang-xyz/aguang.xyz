@@ -4,7 +4,7 @@
         <title>Aguang's Blog</title>
         <link>https://aguang.xyz/#/post/index.yaml</link>
         <description>Aguang's Blog</description>
-        <lastBuildDate>Sat, 13 Jun 2020 09:28:09 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 14 Jun 2020 05:10:05 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
@@ -63,35 +63,35 @@ SKILLS
             <title><![CDATA[Competitive Programming]]></title>
             <link>#/post/competitive-programming</link>
             <guid>competitive-programming</guid>
-            <pubDate>Sat, 13 Jun 2020 09:28:09 GMT</pubDate>
+            <pubDate>Sun, 14 Jun 2020 05:10:05 GMT</pubDate>
             <content:encoded><![CDATA[Competitive Programming]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Software Development]]></title>
             <link>#/post/software-development</link>
             <guid>software-development</guid>
-            <pubDate>Sat, 13 Jun 2020 09:28:09 GMT</pubDate>
+            <pubDate>Sun, 14 Jun 2020 05:10:05 GMT</pubDate>
             <content:encoded><![CDATA[Software Development]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Algorithms]]></title>
             <link>#/post/algorithms</link>
             <guid>algorithms</guid>
-            <pubDate>Sat, 13 Jun 2020 09:28:09 GMT</pubDate>
+            <pubDate>Sun, 14 Jun 2020 05:10:05 GMT</pubDate>
             <content:encoded><![CDATA[Algorithms]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[My Projects]]></title>
             <link>#/projects</link>
             <guid>projects</guid>
-            <pubDate>Sat, 13 Jun 2020 09:28:09 GMT</pubDate>
+            <pubDate>Sun, 14 Jun 2020 05:10:05 GMT</pubDate>
             <content:encoded><![CDATA[My Projects]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Data Science]]></title>
             <link>#/post/data-science</link>
             <guid>data-science</guid>
-            <pubDate>Sat, 13 Jun 2020 09:28:09 GMT</pubDate>
+            <pubDate>Sun, 14 Jun 2020 05:10:05 GMT</pubDate>
             <content:encoded><![CDATA[Data Science]]></content:encoded>
         </item>
     </channel>
