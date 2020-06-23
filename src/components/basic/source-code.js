@@ -32,6 +32,7 @@ import "codemirror/theme/solarized.css";
 
 // Language Supports.
 import "codemirror/mode/clike/clike";
+import "codemirror/mode/python/python";
 import "codemirror/mode/shell/shell";
 import "codemirror/mode/javascript/javascript";
 
@@ -57,6 +58,7 @@ class SourceCode extends React.Component {
       "c++": "text/x-c++src",
       bash: "text/x-sh",
       javascript: "text/javascript",
+      python: "text/x-python",
     }[props.language];
   }
 

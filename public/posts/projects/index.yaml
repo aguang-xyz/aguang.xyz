@@ -10,6 +10,15 @@ posts:
     link: 'https://aguang-xyz.github.io/aurora-editor/dark.html'
     image: 'https://raw.githubusercontent.com/aguang-xyz/aurora-editor/master/resources/icons/icon.svg'
 
+  - id: 'auto-caption'
+    title: 'Auto-caption'
+    description: 'Automatic captioning for movies.'
+    badge:
+      - https://img.shields.io/pypi/v/auto-caption?style=plastic
+      - https://img.shields.io/pypi/dm/auto-caption?style=plastic
+    link: 'https://pypi.org/project/auto-caption/'
+    image: 'https://raw.githubusercontent.com/aguang-xyz/auto-caption/master/resources/icon.svg'
+
   - id: 'exchange-view'
     title: 'Exchange Rate Viewer'
     description: 'Exchange rate viewer.'

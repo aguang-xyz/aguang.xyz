@@ -1,3 +1,6 @@
 title: 'Software Development'
 
-posts: []
+posts:
+
+  - id: software-development/auto-captioning-in-python
+    title: 'Automatic Captioning in Python'
