@@ -5,8 +5,8 @@ posts:
   - id: 'aurora-editor'
     title: 'Aurora Editor'
     description: 'Yet another lightweight markdown editor.'
-    stack:
-      - Electron
+    badge:
+      - https://snapcraft.io/aurora-editor/badge.svg
     link: 'https://aguang-xyz.github.io/aurora-editor/dark.html'
     image: 'https://raw.githubusercontent.com/aguang-xyz/aurora-editor/master/resources/icons/icon.svg'
 
@@ -47,8 +47,8 @@ posts:
   - id: 'light-player'
     title: 'Light Player'
     description: 'Search for movies and play them.'
-    stack:
-      - Electron
+    badge:
+      - https://snapcraft.io/light-player/badge.svg
     link: 'https://github.com/aguang-xyz/light-player'
     image: 'https://raw.githubusercontent.com/aguang-xyz/light-player/master/resources/icons/icon.svg'
 
