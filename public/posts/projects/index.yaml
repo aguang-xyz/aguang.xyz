@@ -44,7 +44,7 @@ posts:
     image: https://www.kaggle.com/static/images/community/ic_comps_selected.svg
 
   - id: "leetcode-rust"
-    title: "Leetcode-Rust"
+    title: "Leetcode-rust"
     description: "Leetcode Solutions in Rust"
     stack:
       - Algorithm
