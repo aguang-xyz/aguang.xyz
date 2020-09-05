@@ -1,4 +1,5 @@
 :global(.CodeMirror) {
 
     height: auto;
+    margin-bottom: 1rem;
 }

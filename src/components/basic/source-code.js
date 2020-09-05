@@ -35,6 +35,8 @@ import "codemirror/mode/clike/clike";
 import "codemirror/mode/python/python";
 import "codemirror/mode/shell/shell";
 import "codemirror/mode/javascript/javascript";
+import "codemirror/mode/xml/xml";
+import "codemirror/mode/yaml/yaml";
 
 import "./source-code.module.css";
 
@@ -56,9 +58,12 @@ class SourceCode extends React.Component {
     return {
       c: "text/x-csrc",
       "c++": "text/x-c++src",
+      cs: "text/x-csharp",
       bash: "text/x-sh",
       javascript: "text/javascript",
       python: "text/x-python",
+      xml: "text/xml",
+      yaml: "text/yaml",
     }[props.language];
   }
 
