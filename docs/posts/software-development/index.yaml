@@ -1,9 +1,11 @@
-title: 'Software Development'
+title: "Software Development"
 
 posts:
-  
+  - id: software-development/publish-your-dotnet-library-with-nuget
+    title: Publish Your .NET Library with NuGet
+
   - id: software-development/file-associations-in-electron-apps
-    title: 'File Associations in Electron Apps'
-  
+    title: "File Associations in Electron Apps"
+
   - id: software-development/auto-captioning-in-python
-    title: 'Automatic Captioning in Python'
+    title: "Automatic Captioning in Python"

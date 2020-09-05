@@ -4,9 +4,160 @@
         <title>Software Development</title>
         <link>https://aguang.xyz/#/post/software-development</link>
         <description>Software Development</description>
-        <lastBuildDate>Sun, 16 Aug 2020 09:37:10 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 05 Sep 2020 11:00:48 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Publish Your .NET Library with NuGet]]></title>
+            <link>https://aguang.xyz/#/post/software-development/publish-your-dotnet-library-with-nuget</link>
+            <guid>software-development/publish-your-dotnet-library-with-nuget</guid>
+            <pubDate>Sat, 05 Sep 2020 10:54:48 GMT</pubDate>
+            <content:encoded><![CDATA[Publish Your .NET Library with NuGet
+What is NuGet?
+NuGet is a package manager for .NET platform. By using NuGet tools, we can easilly install and publish libraries. In this article, I&amp#39;m going to talk about how to initialize a .NET class library with Test Driven Development (TDD) and how to set up Github Actions to achieve Continuous Integration (CI) &ampamp; Continuous Deployment (CD).
+Prerequisites.
+First, we should make sure that .NET Core SDK has been sucessfully installed on our machine.
+And we need to register a free account on nuget.org.
+
+Initialize .NET class library.
+Now, we use dotnet CLI to create a class library project.
+dotnet new classlib -o SomeProject &amp&amp cd SomeProject
+Then, we should add package metadata to the project file (SomeProject/SomeProject.csproj).
+&ltProject Sdk=&quotMicrosoft.NET.Sdk&quot&gt
+  &ltPropertyGroup&gt
+    &ltTargetFramework&gtnetstandard2.0&lt/TargetFramework&gt
+
+    &ltPackageId&gtSomeProject&lt/PackageId&gt
+    &ltDescription&gtA sample .NET library&lt/Description&gt
+    &ltAuthors&gtGrey Wang&lt/Authors&gt
+    &ltRepositoryUrl&gthttps://github.com/aguang-xyz/some-project-dotnet&lt/RepositoryUrl&gt
+    &ltPackageLicenseExpression&gtMIT&lt/PackageLicenseExpression&gt
+
+    &ltEnableDefaultCompileItems&gtfalse&lt/EnableDefaultCompileItems&gt
+  &lt/PropertyGroup&gt
+
+  &ltItemGroup&gt
+    &ltCompile Include=&quotSomeProject.cs&quot /&gt
+  &lt/ItemGroup&gt
+&lt/Project&gt
+
+PackageId is the slug of your project showing on nuget.org.
+Description indicates a text descriping your project.
+Authors indicates the list of authors&amp#39; names (comma separated).
+RepositoryUrl is the url of the home page of your project.
+PackageLicenseExpression indicates the license of your project. And we can also use PackageLicenseFile or PackageLicenseUrl to indicate the license.
+Setting EnableDefaultCompileItems to false and adding a Compile/Include option indicate that the compiler will not import all source files automatically. Because we will create a subfolder as a test project later.
+
+Initialize test project.
+To make sure the reliability of your implementation, we should also add a test project to cover the functionalities. There are serveral choices of unit test frameworks in .NET platform (xUnit, NUnit, MSTest) to setup our test project.
+dotnet new mstest -o SomeProjectTest
+Since the main project will be used by the test project, we should make a reference from main project to test project.
+dotnet add SomeProjectTest/SomeProjectTest.csproj reference SomeProject.csproj
+Development.
+In this sample, we plant to implement a very simple class called SomeCounter. It contains only a method AddAndGet. Every time you call this method, it should increment the counter and return value after incrementation.
+Here is the test code (SomeProjectTest/SomeProjectTest.cs).
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SomeProject;
+
+namespace SomeProjectTest
+{
+    [TestClass]
+    public class SomeProjectTest
+    {
+        [TestMethod]
+        public void TestCounter()
+        {
+            var counter = new SomeCounter();
+
+            Assert.AreEqual(1, counter.AddAndGet());
+        }
+    }
+}
+Here is the source code (SomeProject.cs):
+namespace SomeProject
+{
+    public class SomeCounter
+    {
+        private int count = 0;
+
+        public int AddAndGet()
+        {
+            return ++count;
+        }
+    }
+}
+Run the unit tests.
+Now we can run the test cases to check the correcness of our code. By using the additional parameter logger, the logs (if we have) can be displayed on the terminal.
+dotnet test --logger &quotconsole;verbosity=detailed&quot SomeProjectTest
+Initialize Git repository.
+Now we initialize the git repository.
+git init
+To ignore the build output, we should create a .gitignore first.
+bin/
+obj/
+We commit the changes.
+git add -A
+git commit -m &quotInitialize SomeProject.&quot
+And we create a tag, the tag will used as the version in the next step.
+git tag -a v1.0.0
+Build &ampamp; publish the NuGet package manually.
+Now we can start to build the NuGet package by running the command above. After execution, we should find a NuGet package file (bin/Debug/SomeProject.1.0.0.nupkg).
+In this command, we take ${&ampquot;$(git describe --tags --abbrev=0)&ampquot;:1} to read the latest git tag (v1.0.0), skip the first character (&amp#39;v&amp#39;) and use the rest (&ampquot;1.0.0&ampquot;) as the automatic package version.
+dotnet pack -p:PackageVersion=${&quot$(git describe --tags --abbrev=0)&quot:1}
+To publish the NuGet package, we should prepare for the API key first. It can be created via NuGet&amp#39;s dashboard. And the we can run the following command to publish the package manually. HINT: Due to Microsoft&amp#39;s security strategy, it may take hours to do the package validation and indexing. 
+dotnet nuget push ./bin/Debug/SomeProject.1.0.0.nupkg \
+  --api-key {API_KEY} \
+  --source https://api.nuget.org/v3/index.json
+CI &ampamp; CD workflow.
+Now we want to combine the previous several steps (run test cases, build and deploy) together to setup up a Continuious Integration (CI) &ampamp; Continuous Deployment (CD) workflow based Github actions. The above yaml file (.github/workflows/build-dotnet.yml) is an example to show how the CI &ampamp; CD action works.
+name: build/dotnet
+
+on: [push, pull_request]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Git repository.
+        uses: actions/checkout@v1
+
+      - name: Set up dotnet CLI.
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.302
+
+      - name: Run unit tests.
+        run: |
+          dotnet test --logger &quotconsole;verbosity=detailed&quot SomeProjectTest
+
+      - name: Build a NuGet package.
+        if: github.event_name == &#39push&#39 &amp&amp startsWith(github.ref, &#39refs/tags&#39)
+        run: |
+          dotnet pack -p:PackageVersion=${GITHUB_REF#refs/tags/v}
+
+      - name: Publish the NuGet packge.
+        if: github.event_name == &#39push&#39 &amp&amp startsWith(github.ref, &#39refs/tags&#39)
+        run: |
+          dotnet nuget push ./bin/Debug/SomeProject.*.nupkg \
+            --api-key ${API_KEY} \
+            --source https://api.nuget.org/v3/index.json
+        env:
+          API_KEY: ${{secrets.NUGET_API_KEY}}
+        working-directory: ./dotnet
+We need to config a secret key NUGET_API_KEY via the Github dashboard. Then, every time after we push commits or submit a pull request, we will see if all the test cases can be passed. And after each time we push a new tag, it will build a NuGet package and deploy to nuget.org automatically.
+References.
+Create .NET apps faster with NuGet.
+Github Actions Document.
+Download .NET Core 3.1.
+Additions to the csproj format for .NET Core.
+Abount xUnit.net.
+What Is NUnit?.
+MSTest Test Framework 1.3.2.
+Package validation and indexing of NuGet platform.
+
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[File Associations in Electron Apps]]></title>
             <link>https://aguang.xyz/#/post/software-development/file-associations-in-electron-apps</link>
