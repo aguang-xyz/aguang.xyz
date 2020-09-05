@@ -4,14 +4,14 @@
         <title>Software Development</title>
         <link>https://aguang.xyz/#/post/software-development</link>
         <description>Software Development</description>
-        <lastBuildDate>Sat, 05 Sep 2020 11:00:48 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 05 Sep 2020 12:46:21 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Publish Your .NET Library with NuGet]]></title>
             <link>https://aguang.xyz/#/post/software-development/publish-your-dotnet-library-with-nuget</link>
             <guid>software-development/publish-your-dotnet-library-with-nuget</guid>
-            <pubDate>Sat, 05 Sep 2020 10:54:48 GMT</pubDate>
+            <pubDate>Sat, 05 Sep 2020 12:46:11 GMT</pubDate>
             <content:encoded><![CDATA[Publish Your .NET Library with NuGet
 What is NuGet?
 NuGet is a package manager for .NET platform. By using NuGet tools, we can easilly install and publish libraries. In this article, I&amp#39;m going to talk about how to initialize a .NET class library with Test Driven Development (TDD) and how to set up Github Actions to achieve Continuous Integration (CI) &ampamp; Continuous Deployment (CD).
@@ -144,7 +144,6 @@ jobs:
             --source https://api.nuget.org/v3/index.json
         env:
           API_KEY: ${{secrets.NUGET_API_KEY}}
-        working-directory: ./dotnet
 We need to config a secret key NUGET_API_KEY via the Github dashboard. Then, every time after we push commits or submit a pull request, we will see if all the test cases can be passed. And after each time we push a new tag, it will build a NuGet package and deploy to nuget.org automatically.
 References.
 Create .NET apps faster with NuGet.

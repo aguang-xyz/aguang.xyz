@@ -197,7 +197,6 @@ jobs:
             --source https://api.nuget.org/v3/index.json
         env:
           API_KEY: ${{secrets.NUGET_API_KEY}}
-        working-directory: ./dotnet
 ```
 
 We need to config a secret key `NUGET_API_KEY` via the Github dashboard. Then, every time after we push commits or submit a pull request, we will see if all the test cases can be passed. And after each time we push a new tag, it will build a NuGet package and deploy to [nuget.org](https://www.nuget.org/) automatically.
