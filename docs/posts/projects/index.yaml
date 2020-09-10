@@ -85,5 +85,7 @@ posts:
     badge:
       - https://img.shields.io/pypi/v/rnz-news?style=plastic
       - https://img.shields.io/pypi/dm/rnz-news?style=plastic
+      - https://img.shields.io/nuget/v/RnzNews?style=plastic
+      - https://img.shields.io/nuget/dt/RnzNews?style=plastic
     link: "https://pypi.org/project/rnz-news/"
     image: "https://pypi.org/static/images/logo-small.6eef541e.svg"
