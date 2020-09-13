@@ -4,9 +4,387 @@
         <title>Software Development</title>
         <link>https://aguang.xyz/#/post/software-development</link>
         <description>Software Development</description>
-        <lastBuildDate>Thu, 10 Sep 2020 05:49:20 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 13 Sep 2020 07:56:54 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Deploy Reproducible Infrastructure on AWS with Terraform]]></title>
+            <link>https://aguang.xyz/#/post/software-development/deploy-reproducible-infrastructure-on-aws-with-terraform</link>
+            <guid>software-development/deploy-reproducible-infrastructure-on-aws-with-terraform</guid>
+            <pubDate>Sun, 13 Sep 2020 07:54:06 GMT</pubDate>
+            <content:encoded><![CDATA[Deploy Reproducible Infrastructure on AWS with Terraform
+Terraform is an open-source infrastructure as code software tool created by HashiCorp. In this article, I&amp#39;m going to introduce how to deploy a scalable .NET Web Api Service on AWS with Terraform.
+Prerequisites.
+An AWS account.
+The AWS CLI installed.
+Your AWS credentials configured locally.
+The Terraform CLI installed.
+
+Overview.
+Basically, I want to deploy a .NET Web Api Service called comments-api on AWS. It will provide REST APIs to manage the comments of my blog. It has only one dependency: a MySQL database server. To make it scalable to face high concurrency scenario, we plan to have an Elastic Load Balancer (ELB) to load balance HTTP requests to multiple backend Elastic Container Services (ECS). And we will host a Relational Database Service (RDS) as the production MySQL database server.
+The digram above shows what our infrastructure will look like:
+digraph {
+    &quotFrontend&quot -&gt &quotELB Instance&quot
+    &quotELB Instance&quot -&gt &quotECS Instance 1&quot
+  &quotELB Instance&quot -&gt &quotECS Instance 2&quot
+  &quotELB Instance&quot -&gt &quot...&quot
+  &quotELB Instance&quot -&gt &quotECS Instance N&quot
+
+  &quotECS Instance 1&quot -&gt &quotRDS Instance&quot
+  &quotECS Instance 2&quot -&gt &quotRDS Instance&quot
+  &quot...&quot -&gt &quotRDS Instance&quot
+  &quotECS Instance N&quot -&gt &quotRDS Instance&quot
+}
+The terraform configuration for the deployment on AWS will be stored in the subfolder deploy/aws.
+.
+├── deploy
+│   └── aws
+│        ├── keys
+│        │   ├── ec2
+│        │   └── ec2.pub
+│        ├── scripts
+│        │   ├── build-project
+│        │   ├── execute-migrations
+│        │   └── generate-ssh-keys
+│        ├── main.tf
+│        ├── outputs.tf
+│        └── variables.tf
+├── src
+└── test
+With in this folder:
+keys/ec2 and keys/ec2.pub is the ssh key which will be used to connect with ECS instances.
+scripts folder contains several scripts to build .NET Core project, do database migrations and generate ssh key pairs.
+main.tf contians the most definition of our infrastructure.
+outputs.tf defines the result of a deployment (such as: ELB public address, public ips of the ECS instances and the connection string of the RDS instance).
+variables.tf defines some input parameters (such as: AWS region, ECS image id and the number of Instances).
+
+Define input variables.
+First, let&amp#39;s go into the file variables.tf. In terraform, we can use keyword variable to define serveral input variables. If there is no default value of some parameter, terraform will let us to input the value during the apply state. And we can override the default values by command line parameters such as -var=&ampquot;name=value&ampquot;.
+variables.tf:
+variable &quotaws_region&quot {
+  default = &quotap-southeast-1&quot
+}
+
+variable &quotaws_amis&quot {
+  default = {
+    &quotap-southeast-1&quot = &quotami-0b44582c8c5b24a49&quot
+  }
+}
+
+variable &quotaws_instances&quot {
+  default = 2
+}
+
+variable &quotapp_environment&quot {
+  default = &quotDevelopment&quot
+}
+Basically, we defined four input variables here:
+aws_region: The region we want to deploy our infrastructure, ap-southeast-1 indicates the Singapore region.
+aws_amis: ECS image id, ami-0b44582c8c5b24a49 indicates Ubuntu 18.04 LTS (x64). HINT: One thing we should know is that the same image have different ids in different regions.
+aws_instances: The number of ECS instances we want to have.
+app_environment: The environment in ASP.NET Core.
+
+Import providers.
+Now we start to focus on the main.tf which includes the most import part.
+At the begining, we import serveral providers. A provider is responsible for understanding API interactions and exposing resources. We have four required providers:
+Null Provider: which will be used to define virtual resources. 
+Random Provider: which will be used to generate random passwords of the database.
+Local Provider: which will be used to execute local scripts.
+AWS Provider: which exposes the ability to manage AWS resources.
+
+terraform {
+  required_providers {
+    null = {
+      source  = &quothashicorp/null&quot
+      version = &quot~&gt 2.1.2&quot
+    }
+
+    random = {
+      source = &quothashicorp/random&quot
+      version = &quot~&gt 2.3.0&quot
+    }
+
+    local = {
+      source = &quothashicorp/local&quot
+      version = &quot~&gt 1.4.0&quot
+    }
+
+    aws = {
+      source  = &quothashicorp/aws&quot
+      version = &quot~&gt 2.70&quot
+    }
+  }
+}
+Declare the AWS region.
+And then we declare the region that we plan to use.
+provider &quotaws&quot {
+  region  = var.aws_region
+}
+Deploy a RDS instance.
+To setup the RDS instance, first we randomly generate a password for the database.
+# Randomly generate a string as the RDS password.
+resource &quotrandom_string&quot &quotrds_password&quot {
+  length = 16
+}
+And then, we declare a security group for the RDS instance. It will allow incoming MySQL traffic (TCP, port: 3306).
+# Create a security group for the RDS instance.
+resource &quotaws_security_group&quot &quotrds&quot {
+  description = &quotAllow MySQL traffic&quot
+
+  ingress {
+    description = &quotMySQL&quot
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = &quottcp&quot
+    cidr_blocks = [&quot0.0.0.0/0&quot]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = &quot-1&quot
+    cidr_blocks = [&quot0.0.0.0/0&quot]
+  }
+}
+And finally, we declare the RDS instance (MySQL 5.7, storage 20GB).
+resource &quotaws_db_instance&quot &quotrds&quot {
+  allocated_storage    = 20
+  storage_type         = &quotgp2&quot
+  engine               = &quotmysql&quot
+  engine_version       = &quot5.7&quot
+  instance_class       = &quotdb.t2.micro&quot
+  name                 = &quotcomments&quot
+  username             = &quotroot&quot
+  password             = random_string.rds_password.result
+  parameter_group_name = &quotdefault.mysql5.7&quot
+
+  skip_final_snapshot  = true
+  publicly_accessible  = true
+
+    vpc_security_group_ids = [
+        aws_security_group.rds.id
+    ]
+}
+Build ASP.NET project.
+Before deploy ECS instances, we should prepare the appsettings.{Environment}.json and compile the source code to generate executable binary.
+# Generate appsettings.Production.json and compile the source project.
+resource &quotnull_resource&quot &quotbuild_project&quot {
+  provisioner &quotlocal-exec&quot {
+    command = &quot./scripts/build-project&quot
+
+    environment = {
+      APP_ENVIRONMENT = var.app_environment
+      RDS_HOST        = aws_db_instance.rds.address
+      RDS_PORT        = aws_db_instance.rds.port
+      RDS_DATABASE    = aws_db_instance.rds.name
+      RDS_USERNAME    = aws_db_instance.rds.username
+      RDS_PASSWORD    = aws_db_instance.rds.password
+    }
+  }
+}
+scripts/build-project:
+#!/usr/bin/env bash
+
+$(cat &lt&ltEOF &gt ../../src/appsettings.${APP_ENVIRONMENT}.json
+{
+  &quotDbContext&quot: {
+    &quotServer&quot: &quot${RDS_HOST}&quot,
+    &quotDatabase&quot: &quot${RDS_DATABASE}&quot,
+    &quotPort&quot: &quot${RDS_PORT}&quot,
+    &quotUser&quot: &quot${RDS_USERNAME}&quot,
+    &quotPassword&quot: &quot${RDS_PASSWORD}&quot
+  }
+}
+EOF
+)
+
+dotnet publish ../../src -c ${APP_ENVIRONMENT}
+
+Execute database migrations.
+After the appsettings.{Environment}.json has been ready, we should execute the migrations to make sure the structure of database is up-to-date.
+# Execute database migrations.
+resource &quotnull_resource&quot &quotexecute_migrations&quot {
+  provisioner &quotlocal-exec&quot {
+    command = &quot./scripts/execute-migrations&quot
+
+    environment = {
+      APP_ENVIRONMENT = var.app_environment
+    }
+  }
+
+  depends_on = [
+    null_resource.build_project
+  ]
+}
+scripts/execute-migrations:
+#!/usr/bin/env bash
+
+dotnet ef database update --project ../../src/CommentsApi.csproj --configuration ${APP_ENVIRONMENT}
+Deploy EC2 instances.
+After the source code has been compiled, we should start to deploy the application to EC2 instances. First, we should generate SSH key pairs. The following configuration will generate SSH key pair keys/ec2 and keys/ec2.pub if they do not exist.
+# Generate SSH keys locally.
+resource &quotnull_resource&quot &quotgenerate_ssh_keys&quot {
+  provisioner &quotlocal-exec&quot {
+    command = &quot./scripts/generate-ssh-keys&quot
+  }
+}
+
+# The local file &quotkeys/ec2&quot.
+data &quotlocal_file&quot &quotec2_private_key&quot {
+  filename   = &quot./keys/ec2&quot
+  depends_on = [null_resource.generate_ssh_keys]
+}
+
+# The local file &quotkeys/ec2.pub&quot.
+data &quotlocal_file&quot &quotec2_public_key&quot {
+  filename   = &quot./keys/ec2.pub&quot
+  depends_on = [null_resource.generate_ssh_keys]
+}
+
+# Create the AWS SSH key pair for EC2 instances.
+resource &quotaws_key_pair&quot &quotec2&quot {
+  key_name   = &quotec2&quot
+  public_key = data.local_file.ec2_public_key.content
+}
+scripts/generate-ssh-keys:
+#!/usr/bin/env bash
+
+if [ ! -f ./keys/ec2 ]
+then
+  ssh-keygen -t rsa -P &#39&#39 -f ./keys/ec2
+fi
+Then, we declare a security group for EC2 instances which allow incoming SSH traffic and HTTP traffic.
+# Create a security group for EC2 instances.
+resource &quotaws_security_group&quot &quotec2&quot {
+  description = &quotAllow HTTP, HTTPS and SSH traffic&quot
+
+  ingress {
+    description = &quotSSH&quot
+    from_port   = 22
+    to_port     = 22
+    protocol    = &quottcp&quot
+    cidr_blocks = [&quot0.0.0.0/0&quot]
+  }
+
+  ingress {
+    description = &quotHTTP&quot
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = &quottcp&quot
+    cidr_blocks = [&quot0.0.0.0/0&quot]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = &quot-1&quot
+    cidr_blocks = [&quot0.0.0.0/0&quot]
+  }
+}
+After that, we can deploy EC2 instances. Here, we use file provisioner to async binaries into EC2 instances. And we use remote-exec provisioner to install required dependencies and start the service process.
+# Create EC2 instances (with nginx installed).
+resource &quotaws_instance&quot &quotec2&quot {
+  count         = var.aws_instances
+  key_name      = aws_key_pair.ec2.key_name
+  ami           = var.aws_amis[var.aws_region]
+  instance_type = &quott2.micro&quot
+
+    vpc_security_group_ids = [
+        aws_security_group.ec2.id
+    ]
+
+    connection {
+    type        = &quotssh&quot
+    user        = &quotubuntu&quot
+    private_key = data.local_file.ec2_private_key.content
+    host        = self.public_ip
+    }
+
+  # Upload the executable binary.
+  provisioner &quotfile&quot {
+    source      = &quot../../src/bin/${var.app_environment}/netcoreapp3.1&quot
+    destination = &quot~/comments-api&quot
+  }
+
+  provisioner &quotremote-exec&quot {
+    inline = [
+      &quotsudo apt update&quot,
+      &quotsudo apt install -y wget apt-transport-https&quot,
+      &quotwget https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb&quot,
+      &quotsudo dpkg -i packages-microsoft-prod.deb&quot,
+      &quotrm packages-microsoft-prod.deb&quot,
+      &quotsudo apt update&quot,
+      &quotsudo apt install -y dotnet-sdk-3.1 aspnetcore-runtime-3.1&quot,
+      &quotsudo chmod +x ~/comments-api/CommentsApi&quot,
+      &quotcd ~/comments-api &amp&amp (ASPNETCORE_ENVIRONMENT=${var.app_environment} nohup ~/comments-api/CommentsApi &gt ~/comments-api.log &amp)&quot,
+      &quotsleep 5&quot
+    ]
+  }
+
+  # Deploy instances after the app settings and binaries have been built.
+  depends_on = [
+    null_resource.build_project
+  ]
+}
+Deploy a ELB instance.
+Finaly, we can setup the ELB instance which proxy HTTP requests to 8080 port of the EC2 instances.
+# Create a ELB instance.
+resource &quotaws_elb&quot &quotelb&quot {
+  availability_zones = aws_instance.ec2.*.availability_zone
+
+  listener {
+    instance_port     = 8080
+    instance_protocol = &quothttp&quot
+    lb_port           = 80
+    lb_protocol       = &quothttp&quot
+  }
+
+  instances = aws_instance.ec2.*.id
+}
+Define output variables.
+After every deployment, we may need to know the result. By using terraform, we can define output variables to retrive some useful information of the result.
+The following configuration shows how we retrive the deployment result:
+public_address: The ELB public address.
+ec2_public_ips: The public IPs of EC2 instances.
+rds_address: The connection string for the MySQL database.
+
+outputs.tf:
+output &quotpublic_address&quot {
+  value = &quothttp://${aws_elb.elb.dns_name}&quot
+}
+
+output &quotec2_public_ips&quot {
+  value = aws_instance.ec2.*.public_ip
+}
+
+output &quotrds_address&quot {
+  value = &quotmysql://${aws_db_instance.rds.endpoint}/comments?user=root&amppassword=${random_string.rds_password.result}&quot
+}
+Apply deployment.
+Now we&amp#39;ve finished the development of terraform configurations. Now we can run the command above to initialize the terraform project. It will record the initial state and download required provider libraries.
+terraform init
+Before we do the real deployment, we can run the plan command to see the changes going to be applied.
+terraform plan
+And finally, we can run apply command to do the full deployment.
+terraform apply
+References
+Terraform - Use Infrastructure as Code to provision and manage any cloud, infrastructure, or service.
+Amazone Web Services.
+AWS Command Line Interface.
+Amazone Elastic Load Balancing.
+Amazon Elastic Container Service.
+Amazon Relational Database Service (RDS).
+Terraform - Input Variables.
+Use multiple environments in ASP.NET Core.
+Terraform - Null Provider.
+Terraform - Random Provider.
+Terraform - Local Provider.
+Terraform - AWS Provider.
+AWS - Security groups for your VPC.
+Terraform - Output Variables.
+
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Publish Your .NET Library with NuGet]]></title>
             <link>https://aguang.xyz/#/post/software-development/publish-your-dotnet-library-with-nuget</link>
