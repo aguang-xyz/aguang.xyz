@@ -1,14 +1,11 @@
 ## PERSONAL PROFILE
 
-I'm Grey, a guy who enjoys programming since 13 yrs old.
+Enjoys computer programming since 13 years old. Has two years of full-time work experience focusing on software development. Now studying for a master degree in Auckland University.
 
 ## EDUCATION
 
-* Sep 2019 to Jan 2021 in **[University of Auckland](https://www.auckland.ac.nz/en.html)**
-  * **Master of Professional Studies in Data Science**
-
-* Sep 2013 to Jun 2017 in **[ZheJiang University](http://www.zju.edu.cn/)**
-  * **Bachelor of Engineering in Computer Science and Technology**
+* **[University of Auckland](https://www.auckland.ac.nz/en.html)**, Master of Professional Studies in Data Science - Expected in Dec, 2020.
+* **[ZheJiang University](http://www.zju.edu.cn/)**, Bachelor of Engineering in Computer Science and Technology, July 2017.
 
 ## WORK EXPERIENCE
 
@@ -18,6 +15,27 @@ I'm Grey, a guy who enjoys programming since 13 yrs old.
   * **DevOps Engineer**
 * Apr 2016 to Oct 2016 in **[Huawei](https://en.wikipedia.org/wiki/Huawei) Central Software Institute**
   * **Algorithm Engineer Intern**
+
+## SKILLS
+
+* Object oriented programming with **Java**, **C++** and **C#**.
+* Script programming with **Python** and **Bash**.
+* Experience of cloud services such **AWS** and **Azure**.
+* Experience of deploying reproducible intrastructure with **Terraform**.
+* **Docker** related skills.
+* Experience of **Microservice Architecture**.
+* Web Frontend Development with **HTML5**, **CSS5**, **Javascript** and **React**.
+* REST API Development with:
+  * **Spring Boot**
+  * **ASP .Net Core**
+  * **Node.js**, **Express** and **Koa**
+  * **Flask**
+  * **PHP**
+* Database experience with **MySQL**, **Redis**, **MongoDB** and **HBase**.
+* Experience of big data processing with **PySpark**.
+* Cross platform desktop Development with **Electron**.
+* Mobile development with **React Native**.
+* Other languages: **C**, **Rust** and **Pascal**.
 
 ## HONORS
 
@@ -36,9 +54,3 @@ I'm Grey, a guy who enjoys programming since 13 yrs old.
     * [Data Visualization Certification](/images/free-code-camp/data-visualization.png)
     * [APIs and Microservices Certification](/images/free-code-camp/apis-and-microservices.png)
     * [Information Security and Quality Assurance](/images/free-code-camp/information-security-and-quality-assurance.png)
-
-## SKILLS
-
-  * ** Used Programming Languages **: `Pascal` `C` `C++` `Go` `Java` `Javascript` `Python`
-  * ** Front-end Skills**: `React` `React Native`
-  * ** Back-end Skills**: `Redis` `MySQL` `HBase` `MongoDB` `Spring Framework` `Node.js`

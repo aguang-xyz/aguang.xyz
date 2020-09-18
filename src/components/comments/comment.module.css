@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid #d2d5da;
+    margin-bottom: 1rem;
+}
+
+.avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.2rem;
+}
+
+.nickname {
+    color: gray;
+}
+
+.datetime {
+    color: #ccc;
+    margin-left: 1rem;
+    font-size: 13px;
+}
+
+.right {
+    padding-left: 0.5rem;
+}
+
+.content {
+    margin-top: 0.5rem;
+}

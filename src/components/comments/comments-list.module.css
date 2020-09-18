@@ -1,0 +1,48 @@
+.container {
+    background-color: #fff;
+    padding: 1rem;
+
+    max-width: 60rem;
+    margin: auto;
+
+    box-sizing: border-box;
+
+    border-left: 1px solid #d2d5da;
+    border-right: 1px solid #d2d5da;
+    border-top: 1px solid #d2d5da;
+    border-bottom: 1px solid #d2d5da;
+
+    margin-top: 1rem;
+}
+
+.navbar {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar.second {
+    border-top: 1px solid #d2d5da;
+    padding-top: 1rem;
+    margin-bottom: 0;
+}
+
+.navbar>.title {
+    flex: 1;
+}
+
+.navbar>.link {
+    verticalAlign: middle;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.navbar>.pager {
+    font-size: 14px;
+}
+
+.navbar>.link[data-show=false] {
+    color: gray;
+    cursor: default;
+}
