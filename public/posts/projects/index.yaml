@@ -6,7 +6,7 @@ posts:
     description: "Yet another lightweight markdown editor."
     badge:
       - https://snapcraft.io/aurora-editor/badge.svg
-    link: "https://aguang-xyz.github.io/aurora-editor/dark.html"
+    link: "https://snapcraft.io/aurora-editor"
     image: "https://raw.githubusercontent.com/aguang-xyz/aurora-editor/master/resources/icons/icon.svg"
 
   - id: "auto-caption"
@@ -17,6 +17,16 @@ posts:
       - https://img.shields.io/pypi/dm/auto-caption?style=plastic
     link: "https://pypi.org/project/auto-caption/"
     image: "https://raw.githubusercontent.com/aguang-xyz/auto-caption/master/resources/icon.svg"
+
+  - id: "comments-api"
+    title: "Comments-Api"
+    description: '"Disqus like" comment function for this blog.'
+    stack:
+      - C#
+      - ASP.NET Core
+      - Terraform
+    link: "https://github.com/aguang-xyz/comments-api"
+    image: "https://github.com/aguang-xyz.png"
 
   - id: "exchange-view"
     title: "Exchange Rate Viewer"
@@ -87,5 +97,5 @@ posts:
       - https://img.shields.io/pypi/dm/rnz-news?style=plastic
       - https://img.shields.io/nuget/v/RnzNews?style=plastic
       - https://img.shields.io/nuget/dt/RnzNews?style=plastic
-    link: "https://pypi.org/project/rnz-news/"
+    link: "https://github.com/aguang-xyz/rnz-news"
     image: "https://pypi.org/static/images/logo-small.6eef541e.svg"
