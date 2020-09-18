@@ -4,25 +4,19 @@
         <title>Aguang's Blog</title>
         <link>https://aguang.xyz/#/post/index.yaml</link>
         <description>Aguang's Blog</description>
-        <lastBuildDate>Sun, 13 Sep 2020 07:56:51 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 18 Sep 2020 07:32:39 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[My Profile]]></title>
             <link>https://aguang.xyz/#/post/about/myself</link>
             <guid>about/myself</guid>
-            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <pubDate>Tue, 15 Sep 2020 11:22:33 GMT</pubDate>
             <content:encoded><![CDATA[PERSONAL PROFILE
-I&amp#39;m Grey, a guy who enjoys programming since 13 yrs old.
+Enjoys computer programming since 13 years old. Has two years of full-time work experience focusing on software development. Now studying for a master degree in Auckland University.
 EDUCATION
-Sep 2019 to Jan 2021 in University of Auckland
-Master of Professional Studies in Data Science
-
-
-Sep 2013 to Jun 2017 in ZheJiang University
-Bachelor of Engineering in Computer Science and Technology
-
-
+University of Auckland, Master of Professional Studies in Data Science - Expected in Dec, 2020.
+ZheJiang University, Bachelor of Engineering in Computer Science and Technology, July 2017.
 
 WORK EXPERIENCE
 Jul 2018 to July 2019 in Ant FinancialSoftware Engineer
@@ -34,6 +28,27 @@ Jul 2017 to Jun 2018 in Pinduoduo IncDevOps Engineer
 Apr 2016 to Oct 2016 in Huawei Central Software InstituteAlgorithm Engineer Intern
 
 
+
+SKILLS
+Object oriented programming with Java, C++ and C#.
+Script programming with Python and Bash.
+Experience of cloud services such AWS and Azure.
+Experience of deploying reproducible intrastructure with Terraform.
+Docker related skills.
+Experience of Microservice Architecture.
+Web Frontend Development with HTML5, CSS5, Javascript and React.
+REST API Development with:Spring Boot
+ASP .Net Core
+Node.js, Express and Koa
+Flask
+PHP
+
+
+Database experience with MySQL, Redis, MongoDB and HBase.
+Experience of big data processing with PySpark.
+Cross platform desktop Development with Electron.
+Mobile development with React Native.
+Other languages: C, Rust and Pascal.
 
 HONORS
 Feb 2018 Annual Excellent Employee in Pinduoduo Inc
@@ -52,46 +67,41 @@ Information Security and Quality Assurance
 
 
 
-SKILLS
-** Used Programming Languages **: Pascal C C++ Go Java Javascript Python
-** Front-end Skills**: React React Native
-** Back-end Skills**: Redis MySQL HBase MongoDB Spring Framework Node.js
-
 ]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Competitive Programming]]></title>
             <link>#/post/competitive-programming</link>
             <guid>competitive-programming</guid>
-            <pubDate>Sun, 13 Sep 2020 07:56:51 GMT</pubDate>
+            <pubDate>Fri, 18 Sep 2020 07:32:39 GMT</pubDate>
             <content:encoded><![CDATA[Competitive Programming]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Software Development]]></title>
             <link>#/post/software-development</link>
             <guid>software-development</guid>
-            <pubDate>Sun, 13 Sep 2020 07:56:51 GMT</pubDate>
+            <pubDate>Fri, 18 Sep 2020 07:32:39 GMT</pubDate>
             <content:encoded><![CDATA[Software Development]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Algorithms]]></title>
             <link>#/post/algorithms</link>
             <guid>algorithms</guid>
-            <pubDate>Sun, 13 Sep 2020 07:56:51 GMT</pubDate>
+            <pubDate>Fri, 18 Sep 2020 07:32:39 GMT</pubDate>
             <content:encoded><![CDATA[Algorithms]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[My Projects]]></title>
             <link>#/projects</link>
             <guid>projects</guid>
-            <pubDate>Sun, 13 Sep 2020 07:56:51 GMT</pubDate>
+            <pubDate>Fri, 18 Sep 2020 07:32:39 GMT</pubDate>
             <content:encoded><![CDATA[My Projects]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Data Science]]></title>
             <link>#/post/data-science</link>
             <guid>data-science</guid>
-            <pubDate>Sun, 13 Sep 2020 07:56:51 GMT</pubDate>
+            <pubDate>Fri, 18 Sep 2020 07:32:39 GMT</pubDate>
             <content:encoded><![CDATA[Data Science]]></content:encoded>
         </item>
     </channel>

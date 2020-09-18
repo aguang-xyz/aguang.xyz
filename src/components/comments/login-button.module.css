@@ -1,0 +1,11 @@
+.container {
+    text-align: center;
+}
+
+.link {
+    font-size: 2rem;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+}

@@ -11,6 +11,7 @@
 
     border-left: 1px solid #d2d5da;
     border-right: 1px solid #d2d5da;
+    border-bottom: 1px solid #d2d5da;
 }
 
 .container:global(.preview) {
