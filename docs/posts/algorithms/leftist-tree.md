@@ -4,7 +4,7 @@
 
 ## Template
 
-```{c++}
+```c++
 using namespace std;
 
 template<typename T>

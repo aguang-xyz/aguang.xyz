@@ -4,14 +4,70 @@
         <title>Algorithm Templates</title>
         <link>https://aguang.xyz/#/post/algorithms</link>
         <description>Algorithm Templates</description>
-        <lastBuildDate>Fri, 18 Sep 2020 08:57:22 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 27 Sep 2020 08:55:57 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Shortest Path Faster Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/algorithms/spfa</link>
+            <guid>algorithms/spfa</guid>
+            <pubDate>Sun, 27 Sep 2020 08:55:13 GMT</pubDate>
+            <content:encoded><![CDATA[Shortest Path Faster Algorithm.
+Shortest Path Faster Algorithm (SPFA) is an improved version of Bellman-Ford, which uses a FIFO queue to maintain the relexing vertices. Time complexity: $O(|V| \times |E|)$.
+SPFA terminates only if there is no negative circle in the graph. And if we add some additional check (whether some node has been pushed into the queue more than N times) to check if there is a negative circle in the graph.
+Comparing with Dijksra, SPFA can work with negative distance but the time complexity of Dijkstra is more stable.
+#include &ltqueue&gt
+#include &ltvector&gt
+
+using namespace std;
+
+struct edge {
+  int target, dist;
+};
+
+int spfa(int s, int t, int n, vector&ltedge&gt links[]) {
+
+  int dist[n];
+  bool visit[n];
+
+  queue&ltint&gt Q;
+
+  for (int i = 0; i &lt n; i++) {
+    dist[i] = __INT_MAX__;
+    visit[i] = false;
+  }
+
+  dist[s] = 0;
+  visit[s] = true;
+
+  Q.push(s);
+
+  while (Q.size() &gt 0) {
+
+    int src = Q.front();
+    Q.pop();
+
+    for (auto edge : links[src]) {
+      if (dist[src] + edge.dist &lt dist[edge.target]) {
+        dist[edge.target] = dist[src] + edge.dist;
+
+        if (!visit[edge.target]) {
+          Q.push(edge.target);
+          visit[edge.target] = true;
+        }
+      }
+    }
+  }
+
+  return dist[t];
+}
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[KMP - Pattern Searching Algorithm]]></title>
             <link>https://aguang.xyz/#/post/algorithms/kmp</link>
             <guid>algorithms/kmp</guid>
-            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <pubDate>Sun, 27 Sep 2020 08:27:49 GMT</pubDate>
             <content:encoded><![CDATA[KMP Pattern Searching Algorithm
 KMP is a pattern searching algorithm.
 For given searching string $s$ and pattern string $p$, it pre-caculates a partial match table of $s$. Through this
@@ -286,7 +342,7 @@ class ac_auto {
             <title><![CDATA[Quick Sort Algorithm]]></title>
             <link>https://aguang.xyz/#/post/algorithms/quick-sort</link>
             <guid>algorithms/quick-sort</guid>
-            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <pubDate>Sun, 27 Sep 2020 08:29:19 GMT</pubDate>
             <content:encoded><![CDATA[Quick Sort Algorithm
 Quick Sort is a sort algorithm of which the
 time complexity is $O(n \times log(n))$.
@@ -367,7 +423,7 @@ class quick_sort {
             <title><![CDATA[Trie - Preffix Search Tree for Strings]]></title>
             <link>https://aguang.xyz/#/post/algorithms/trie</link>
             <guid>algorithms/trie</guid>
-            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <pubDate>Sun, 27 Sep 2020 08:28:28 GMT</pubDate>
             <content:encoded><![CDATA[Trie Data Structure
 Trie is a kind of preffix search tree,
 by which we can map strings to any data type. For any given string $s$, the
@@ -444,7 +500,7 @@ class trie {
             <title><![CDATA[Leftist Tree - Mergeable Heap]]></title>
             <link>https://aguang.xyz/#/post/algorithms/leftist-tree</link>
             <guid>algorithms/leftist-tree</guid>
-            <pubDate>Fri, 12 Jun 2020 06:41:23 GMT</pubDate>
+            <pubDate>Sun, 27 Sep 2020 08:28:00 GMT</pubDate>
             <content:encoded><![CDATA[Leftist Tree Data Structure
 Leftist Tree is a kind of mergeable heap.
 Template

@@ -5,7 +5,7 @@ time complexity is $O(n \times log(n))$.
 
 ## Template
 
-```{c++}
+```c++
 #include<vector>
 
 using namespace std;
