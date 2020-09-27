@@ -26,7 +26,7 @@ strict digraph {
 
 ## Implementation
 
-```{c++}
+```c++
 #include <queue>
 #include <set>
 #include <map>

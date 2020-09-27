@@ -6,7 +6,7 @@ partial match table, it can find the matching positions in $O(|s| + |p|)$ time.
 
 ## Template
 
-```{c}
+```c++
 #include<string>
 #include<vector>
 
