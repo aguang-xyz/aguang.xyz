@@ -33,7 +33,7 @@ Here, $K$ is a small positive integer (compared to M or N). And $W \times H$ app
 
 ## Implement Recommendation using SK-Learn.
 
-For the rest of this article, I'll show an example using [scikit-learn](https://scikit-learn.org/stable/) to create recommendation result from a movie rating dataset. The data from [Kaggle's The Movies Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset).
+For the rest of this article, I'll show an example using [scikit-learn](https://scikit-learn.org/stable/) to create recommendation result from a movie rating dataset. The data is from [Kaggle's The Movies Dataset](https://www.kaggle.com/rounakbanik/the-movies-dataset).
 
 Basically, there are three columns in the given dataset:
 

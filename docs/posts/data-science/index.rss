@@ -4,14 +4,14 @@
         <title>Data Science</title>
         <link>https://aguang.xyz/#/post/data-science</link>
         <description>Data Science</description>
-        <lastBuildDate>Sat, 17 Oct 2020 09:42:31 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 17 Oct 2020 09:48:19 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Collaborative Filtering and Matrix Factorization]]></title>
             <link>https://aguang.xyz/#/post/data-science/collaborative-filtering-and-matrix-factorization</link>
             <guid>data-science/collaborative-filtering-and-matrix-factorization</guid>
-            <pubDate>Sat, 17 Oct 2020 09:41:29 GMT</pubDate>
+            <pubDate>Sat, 17 Oct 2020 09:48:10 GMT</pubDate>
             <content:encoded><![CDATA[Collaborative Filtering and Matrix Factorization
 For many online services (including E-commerce, online news and social media applications), the secret of recommendation system is in modelling users&amp#39; preference on items based on their past interactions (such as: ratings, clicks, purchases, likes, ...). It is as known as Collaborative Filtering.
 Interaction Matrix.
@@ -34,7 +34,7 @@ $W \times H \approx Y$.
 
 Here, $K$ is a small positive integer (compared to M or N). And $W \times H$ approximates the matrix $Y$. Since we reduced many dimensions ($K$ is much smaller than $M$ and $N$), many original information are lost now. The original zero-values become not zeros, and it can be seen as some kind of estimated values showing the hidden trend from the original matrix.
 Implement Recommendation using SK-Learn.
-For the rest of this article, I&amp#39;ll show an example using scikit-learn to create recommendation result from a movie rating dataset. The data from Kaggle&amp#39;s The Movies Dataset.
+For the rest of this article, I&amp#39;ll show an example using scikit-learn to create recommendation result from a movie rating dataset. The data is from Kaggle&amp#39;s The Movies Dataset.
 Basically, there are three columns in the given dataset:
 userId: integer starting from $1$.
 movieId: integer starting from $1$.
