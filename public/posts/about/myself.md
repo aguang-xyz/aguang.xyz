@@ -9,12 +9,10 @@ Enjoys computer programming since 13 years old. Has two years of full-time work 
 
 ## WORK EXPERIENCE
 
-* Jul 2018 to July 2019 in **[Ant Financial](https://en.wikipedia.org/wiki/Ant_Financial)**
-  * **Software Engineer**
-* Jul 2017 to Jun 2018 in **[Pinduoduo Inc](https://en.wikipedia.org/wiki/Pinduoduo)**
-  * **DevOps Engineer**
-* Apr 2016 to Oct 2016 in **[Huawei](https://en.wikipedia.org/wiki/Huawei) Central Software Institute**
-  * **Algorithm Engineer Intern**
+* Oct. 2020 - Now, **Cloud Engineer Intern** at **[Umbrellar](https://www.umbrellar.com/)**.
+* July 2018 - July 2019, **Software Engineer** at **[Ant Financial](https://en.wikipedia.org/wiki/Ant_Financial)**.
+* July 2017 - June 2018, **Devops Engineer** at **[Pinduoduo Inc](https://en.wikipedia.org/wiki/Pinduoduo)**.
+* Apr. 2016 - Oct. 2016, **Algorithm Engineer Intern** at **[Huawei](https://en.wikipedia.org/wiki/Huawei) Central Software Institute**.
 
 ## SKILLS
 
