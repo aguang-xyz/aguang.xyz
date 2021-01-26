@@ -4,84 +4,77 @@
         <title>Projects</title>
         <link>https://aguang.xyz/#/post/projects</link>
         <description>Projects</description>
-        <lastBuildDate>Sat, 17 Oct 2020 21:44:35 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 26 Jan 2021 23:38:23 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Aurora Editor]]></title>
             <link>https://snapcraft.io/aurora-editor</link>
             <guid>aurora-editor</guid>
-            <pubDate>Sat, 17 Oct 2020 21:44:35 GMT</pubDate>
+            <pubDate>Tue, 26 Jan 2021 23:38:23 GMT</pubDate>
             <content:encoded><![CDATA[Aurora Editor]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Auto-caption]]></title>
             <link>https://pypi.org/project/auto-caption/</link>
             <guid>auto-caption</guid>
-            <pubDate>Sat, 17 Oct 2020 21:44:35 GMT</pubDate>
+            <pubDate>Tue, 26 Jan 2021 23:38:23 GMT</pubDate>
             <content:encoded><![CDATA[Auto-caption]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Comments-Api]]></title>
             <link>https://github.com/aguang-xyz/comments-api</link>
             <guid>comments-api</guid>
-            <pubDate>Sat, 17 Oct 2020 21:44:35 GMT</pubDate>
+            <pubDate>Tue, 26 Jan 2021 23:38:23 GMT</pubDate>
             <content:encoded><![CDATA[Comments-Api]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Exchange Rate Viewer]]></title>
             <link>https://aguang-xyz.github.io/exchange-rate-viewer/</link>
             <guid>exchange-view</guid>
-            <pubDate>Sat, 17 Oct 2020 21:44:35 GMT</pubDate>
+            <pubDate>Tue, 26 Jan 2021 23:38:23 GMT</pubDate>
             <content:encoded><![CDATA[Exchange Rate Viewer]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[FDC]]></title>
             <link>https://github.com/aguang-xyz/fdc</link>
             <guid>fdc</guid>
-            <pubDate>Sat, 17 Oct 2020 21:44:35 GMT</pubDate>
+            <pubDate>Tue, 26 Jan 2021 23:38:23 GMT</pubDate>
             <content:encoded><![CDATA[FDC]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Kaggle Solutions]]></title>
             <link>https://aguang-xyz.github.io/kaggle-solutions/</link>
             <guid>kaggle-solutions</guid>
-            <pubDate>Sat, 17 Oct 2020 21:44:35 GMT</pubDate>
+            <pubDate>Tue, 26 Jan 2021 23:38:23 GMT</pubDate>
             <content:encoded><![CDATA[Kaggle Solutions]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Leetcode-rust]]></title>
             <link>https://github.com/aguang-xyz/leetcode-rust</link>
             <guid>leetcode-rust</guid>
-            <pubDate>Sat, 17 Oct 2020 21:44:35 GMT</pubDate>
+            <pubDate>Tue, 26 Jan 2021 23:38:23 GMT</pubDate>
             <content:encoded><![CDATA[Leetcode-rust]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[Light Player]]></title>
-            <link>https://github.com/aguang-xyz/light-player</link>
-            <guid>light-player</guid>
-            <pubDate>Sat, 17 Oct 2020 21:44:35 GMT</pubDate>
-            <content:encoded><![CDATA[Light Player]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Light MQ]]></title>
             <link>https://github.com/aguang-xyz/lightmq</link>
             <guid>lightmq</guid>
-            <pubDate>Sat, 17 Oct 2020 21:44:35 GMT</pubDate>
+            <pubDate>Tue, 26 Jan 2021 23:38:23 GMT</pubDate>
             <content:encoded><![CDATA[Light MQ]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[QRCP]]></title>
             <link>https://www.npmjs.com/package/@aguang/qrcp</link>
             <guid>qrcp</guid>
-            <pubDate>Sat, 17 Oct 2020 21:44:35 GMT</pubDate>
+            <pubDate>Tue, 26 Jan 2021 23:38:23 GMT</pubDate>
             <content:encoded><![CDATA[QRCP]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[RNZ News]]></title>
             <link>https://github.com/aguang-xyz/rnz-news</link>
             <guid>rnz-news</guid>
-            <pubDate>Sat, 17 Oct 2020 21:44:35 GMT</pubDate>
+            <pubDate>Tue, 26 Jan 2021 23:38:23 GMT</pubDate>
             <content:encoded><![CDATA[RNZ News]]></content:encoded>
         </item>
     </channel>

@@ -61,14 +61,6 @@ posts:
       - Rust
     link: "https://github.com/aguang-xyz/leetcode-rust"
 
-  - id: "light-player"
-    title: "Light Player"
-    description: "Search for movies and play them."
-    badge:
-      - https://snapcraft.io/light-player/badge.svg
-    link: "https://github.com/aguang-xyz/light-player"
-    image: "https://raw.githubusercontent.com/aguang-xyz/light-player/master/resources/icons/icon.svg"
-
   - id: "lightmq"
     title: "Light MQ"
     description: "An embeddable lightweight MQ implementation based on HTTP protocol."
