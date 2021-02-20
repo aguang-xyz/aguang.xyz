@@ -2,7 +2,6 @@ import React from "react";
 
 import Header from "../components/header";
 import PostView from "../components/post-view";
-import CommentsView from "../components/comments/comments-view";
 
 class PostPage extends React.Component {
   render() {
@@ -13,8 +12,6 @@ class PostPage extends React.Component {
         <Header />
 
         <PostView id={`${category}/${name}`} />
-
-        <CommentsView id={`${category}/${name}`} />
       </div>
     );
   }
