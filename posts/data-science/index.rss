@@ -1,0 +1,1627 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Data Science</title>
+        <link>https://aguang.xyz/#/post/data-science</link>
+        <description>Data Science</description>
+        <lastBuildDate>Mon, 15 Mar 2021 10:04:08 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Collaborative Filtering and Matrix Factorization]]></title>
+            <link>https://aguang.xyz/#/post/data-science/collaborative-filtering-and-matrix-factorization</link>
+            <guid>data-science/collaborative-filtering-and-matrix-factorization</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[Collaborative Filtering and Matrix Factorization
+For many online services (including E-commerce, online news and social media applications), the secret of recommendation system is in modelling users&amp#39; preference on items based on their past interactions (such as: ratings, clicks, purchases, likes, ...). It is as known as Collaborative Filtering.
+Interaction Matrix.
+The matrix shown below is a sample of user-item matrix (or called interaction matrix).
+
+Let&amp#39;s say we have $M$ users and $N$ items (products). $Y \in \mathbb{R}^{M \times N}$ is an interaction matrix from users&amp#39; implicit data where,
+$$
+y_{u, i} =
+  \begin{cases}
+    1 &ampamp; \text{if interaction between } \text{user}{u} \text{ and } \text{item}{i} \text{ is observed} ;\
+    0 &ampamp; \text{otherwise.}
+  \end{cases}
+$$
+And the problem of Collaborative Filtering is to estimate the unobserved entries (zero values) in the matrix $Y$.
+Matrix Factorization.
+Matrix Factorization is one of the most popular algorithms to solve Collaborative Filtering. Given a parameter $K$, Matrix Factorization converts the matrix $Y$ to a pair of matrices $W$ and $H$ where,
+$W \in \mathbb{R}^{M \times K}$.
+$H \in \mathbb{R}^{K \times N}$.
+$W \times H \approx Y$.
+
+Here, $K$ is a small positive integer (compared to M or N). And $W \times H$ approximates the matrix $Y$. Since we reduced many dimensions ($K$ is much smaller than $M$ and $N$), many original information are lost now. The original zero-values become not zeros, and it can be seen as some kind of estimated values showing the hidden trend from the original matrix.
+Implement Recommendation using SK-Learn.
+For the rest of this article, I&amp#39;ll show an example using scikit-learn to create recommendation result from a movie rating dataset. The data is from Kaggle&amp#39;s The Movies Dataset.
+Basically, there are three columns in the given dataset:
+userId: integer starting from $1$.
+movieId: integer starting from $1$.
+rating: float number, from $0.5$ to $5$.
+
+First, we load the dataset as a pandas data frame.
+import pandas as pd
+
+# Load rating dataset.
+ratings = pd.read_csv(&#39./data/ratings_small.csv&#39)
+And we convert the data frame into a sparse matrix.
+from scipy.sparse import coo_matrix
+
+# Create interaction matrix.
+def make_interaction_matrix(ratings):
+
+    # Retrieve row indexes (userId starting from 1).
+    rows = (ratings[&#39userId&#39] - 1).values
+
+    # Retrieve column indexes (movieId starting from 1).
+    cols = (ratings[&#39movieId&#39] - 1).values
+
+    # Retrieve implicit values.
+    vals = ratings[&#39rating&#39].values
+
+    return coo_matrix((vals, (rows, cols)), shape=(max(rows) + 1, max(cols) + 1))
+
+# Interaction matrix.
+Y = make_interaction_matrix(ratings)
+Then we use Scikit-Learn&amp#39;s Non-negative Matrix Factorization implementation to
+decompose the interaction matrix. Here we choose the vector size to be $10$.
+from sklearn.decomposition import NMF
+
+# Create matrix factorization model. 
+model = NMF(n_components=10)
+
+# Fit the data and retrieve the left matrix W.
+W = coo_matrix(model.fit_transform(Y))
+
+# Retrieve the right matrix H.
+H = coo_matrix(model.components_)
+After that, we use $W \times H$ to compute the prediction matrix $P$ and extract all the predicted ratings above $2.5$ where it does not exist in observed data.
+# Compute the predition matrix.
+P = W * H
+
+# Find non-zero ratings in the prediction.
+(I, J, V) = find(P &gt= 2.5)
+
+# Filter predictions where it does not exist in the implicit data.
+new_idxes = list(filter(lambda i : ((ratings[&#39userId&#39] == I[i] + 1) &amp
+                                   (ratings[&#39movieId&#39] == J[i] + 1)).sum() == 0,
+                       range(len(I))))
+
+# Recommandation ratings.
+rec_ratings = pd.DataFrame({
+    &#39userId&#39: I[new_idxes] + 1,
+    &#39movieId&#39: J[new_idxes] + 1,
+    &#39rating&#39: list(map(lambda i : P[I[i], J[i]], new_idxes)),
+})
+Finally, we can use the result rec_ratings as the recommendation for users. Show the top-x results for each user or show all the result for each user ordered by rating.
+References.
+Collaborative filtering.
+Matrix Factorization, Google Developers.
+Scikit-Learn, Machine Learning in Python.
+The Movies Dataset, Kaggle.
+Pandas project.
+Sparse matrices, Sci-Py.
+Non-negative matrix factorization, Scikit-Learn.
+
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[DBSCAN Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/data-science/density-based-spatial-clustering-of-applications-with-noise</link>
+            <guid>data-science/density-based-spatial-clustering-of-applications-with-noise</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[Density-based Spatial Clustering of Applications with Noise.
+Density-based spatial clustering of applications with noise (DBSCAN)
+is a clustering algorithm.
+Key Concepts
+Let&amp#39;s say $X$ is the sef of all data points, $dist(x, y) \in R$ is a function
+to measure the distance between any two data points, $\epsilon \in R^+$ is the
+distance limitation and $minPts \in Z^+$ is the density limitation.
+Given $\epsilon \in R^+$ and $p \in X$, the $\epsilon$ neighbors of $p$ is
+$N_{\epsilon}(x) = { y \in X \mid dist(x, y) \leq \epsilon }$.
+Given $x \in X$, the density of $x$ is $\rho(x) = \lvert N_{\epsilon}(x) \rvert $.
+Given $x, y \in X$, if $y \in N_{\epsilon}(x)$ and $\rho(x) \geq minPts$,
+then we say $y$ is directly density-reachable from $x$.
+Given $x, y \in X$, if there is a sequence $p_1,p_2,\cdots,p_n$, where $x = p_1$,
+$y = p_n$, and every $p_{i + 1}$ is directly density-reachable from $p_i$,
+then we say $y$ is density-reachable from $x$.
+Given $x, y \in X$, if there is a data point $o \in X$, where both $x$ and $y$
+are density-reachable from $o$, then we say $x$ and $y$ are density-connected.
+
+The data points $X$ will be divided by DBSCAN into several clusters (containing
+core points and density-reachable points) based on density-connectivity
+and outliers.
+Given $\epsilon \in R^+$, $minPts \in Z^+$ and $x \in X$, if
+$\rho(x) \geq minPts$ then we say $x$ is a core point.
+Given $x \in X$, if $x$ is not a core point but is density-reachable from
+any core points, then we say $x$ is a density-reachable point.
+Any other data points in $X$ are outliers.
+
+Pseudo Code
+$$
+\begin{aligned}
+  &ampamp; DBSCAN(X, minPts, \epsilon) :\
+  &ampamp; \quad Clusters \leftarrow \empty \
+  &ampamp; \quad \mathtt{for}\ x \in X: \
+  &ampamp; \quad \quad \mathtt{if}\ x \not \in \cup_{c \in Clusters} c \land N_{\epsilon}(x) \geq minPts :\
+  &ampamp; \quad \quad \quad \quad Clusters \leftarrow Clusters \cup Expand(X, x, minPts, \epsilon) \
+  &ampamp; \quad Outliers \leftarrow X - \cup_{c \in Clusters} c \
+  &ampamp; \quad \mathtt{return}\ Clusters, Outliers \
+\end{aligned}
+$$
+$$
+\begin{aligned}
+  &ampamp; Expand(X, x, minPts, \epsilon) :\
+  &ampamp; \quad Cluster \leftarrow { x } \
+  &ampamp; \quad \mathtt{for}\ y \in N_{\epsilon}(x) :\
+  &ampamp; \quad \quad \mathtt{if}\ \lvert N_{\epsilon}(y) \rvert \geq minPts:\
+  &ampamp; \quad \quad \quad Cluster \leftarrow Cluster \cup Expand(X, y, minPts, \epsilon) \
+  &ampamp; \quad \quad \mathtt{else} :\
+  &ampamp; \quad \quad \quad Cluster \leftarrow Cluster \cup { y } \
+  &ampamp; \quad \mathtt{return}\ Cluster
+\end{aligned}
+$$
+References
+Wikipedia contributors. (2020, April 17). DBSCAN. Wikipedia, The Free Encyclopedia.
+Retrieved from https://en.wikipedia.org/wiki/DBSCAN
+
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[K-Means Clustering]]></title>
+            <link>https://aguang.xyz/#/post/data-science/k-means-clustering</link>
+            <guid>data-science/k-means-clustering</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[K-Means Clustering
+K-Means is a clustering algorithm by which you can cluster data points into 
+specific number of groups.
+Given data points $X = {x_1, x_2, \cdots, x_n }$ where $x_i \in R^m$,
+we want to calculate a clustering ${S_1, S_2, \cdots, S_k}$ where,
+$\bigcap_{i = 1}^n S_i = \empty$ and $\bigcup_{i = 1}^n S_i = X$.
+WCSS (within-cluster sum of squares) $\sum_{i = 1}^k \sum_{x \in S_i}{\lvert \lvert x - u_i \rvert \rvert}^2$
+is minimum, where $u_i = \frac{1}{\lvert S_i \rvert} \sum_{x \in S_i} x$ is the center of the cluster $S_i$.
+
+Pseudo Code
+$$
+\begin{aligned}
+  &ampamp; \text{K-Means}(X, K) :\
+  &ampamp; \quad U = {u_1, u_2, \cdots, u_k } \leftarrow { x_1, x_2, \cdots, x_k } \
+  &ampamp; \quad \mathtt{do} : \
+  &ampamp; \quad \quad U^{&amp#39;} \leftarrow U \
+  &ampamp; \quad \quad {c_1, c_2, \cdots, c_n } \leftarrow { 1, 1, \cdots, 1 } \
+  &ampamp; \quad \quad \mathtt{for}\ u_i \in U, x_j \in X : \
+  &ampamp; \quad \quad \quad \mathtt{if}\ \lvert \lvert u_i - x_j \rvert \rvert &amplt; \lvert \lvert u_{c_j} - x_j \rvert \rvert : \
+  &ampamp; \quad \quad \quad \quad c_j \leftarrow i \
+  &ampamp; \quad \quad \mathtt{for}\ u_i \in U : \
+  &ampamp; \quad \quad \quad S_i \leftarrow { x_j \mid c_j = i } \
+  &ampamp; \quad \quad \quad u_i \leftarrow \frac{1}{S_i} \sum_{x_j \in S_i} x_j \
+  &ampamp; \quad \mathtt{util}\ \lvert \lvert U^{&amp#39;} - U \rvert \rvert &amplt; \sigma \
+\end{aligned}
+$$
+References
+Wikipedia contributors. (2020, April 27). K-means clustering. Wikipedia, The Free Encyclopedia. Retrieved
+from https://en.wikipedia.org/wiki/K-means_clustering
+
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Association Analysis and Apriori Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/data-science/association-rule-mining-and-apriori-algorithm</link>
+            <guid>data-science/association-rule-mining-and-apriori-algorithm</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[Association Analysis and Apriori Algorithm
+Association analysis is one of the common parts of unsupervised machine learning.
+In association analysis, our goal is briefly to find things happening together.
+Look at this table of people puchasing items:
+ID
+Items
+
+
+1
+Milk, Bread
+
+2
+Butter
+
+3
+Beer, Tissue
+
+4
+Milk, Bread, Butter
+
+5
+Bread
+
+
+You could probably find that milk and butter are always purchased together.
+$$
+{Milk} \to {\text{Butter}}
+$$
+This is what we are tring to do through associate rule mining: exploring a set
+of data (transactions) and output a kind of descriptive result (association rules).
+Basic Concepts
+Here are some basic concepts of associate rule mining:
+Item: a label which appears in some records, such as Milk, Bread,... 
+Itemset: a collection of items, like: ${\text{Milk}, \text{Bread}}$.
+Association rule: an ordered pair of itemsets, like: ${\text{Milk}} \to {\text{Butter}}$
+
+For given transactions $T = { t \mid \text{t is an itemset} }$ with $n$ distinct items, we define:
+Support count: $\sigma(x) = \lvert {t \in T \mid \text{t property contains x}} \rvert$,
+where $x$ is a itemset.
+
+And two metrics to evalute how significant a rule $r: x \to y$ is:
+Support: $s(x \to y) = \frac{\sigma(x \cup y)}{\lvert T \rvert}$
+Confidence: $c(x \to y) = \frac{\sigma(x \cup y)}{\sigma(x)}$
+
+Then, an Association Rule Mining Task could be defined as:
+For given transactions $T$ and thresholds $minSup$ and $minConf$, find a set of rules:
+$R = {x \to y \mid x \cap y = \empty \land s(x \to y) \geq \text{minSup} \land c(x \to y) \geq \text{minConf} }$
+
+
+There are
+$ 2^{n} \times 2^{n}$ possibilities of pair $x$ and $y$. Simply enumerating
+all possible rules could be expotential time complexity and it doesn&amp#39;t work
+with a growing size of transactions.
+As it&amp#39;s easy to know that:
+$\forall r:x \to y, \text{ if } s(x \to y) \geq \text{minSup}, \frac{\sigma(x \cup y)}{\lvert T \rvert} \geq \text{minSup}$
+
+For such kind of $a = x \cup y \mid \frac{\sigma(a)}{\lvert T \rvert} \geq \text{minSup}$,
+we say $a$ is a frequent itemset. And it could be better if we calculate all
+posible frequent itemsets first.
+Followed by this idea, the process of association rule mining could be divided
+into two steps:
+Find a collection of frequent itemsets $I = { a \mid \frac{\sigma(a)}{\lvert T \rvert} \geq \text{minSup}}$
+For each $a \in I$, find all rules ${r : x \to (a - x) \mid c(x \to y) \geq \text{minConf}}$
+
+digraph {
+
+  rankdir=&quotLR&quot;
+
+  x[label = &quotFrequent Itemset Generation&quot, shape = rect];
+  y[label = &quotRule Generation&quot, shape = rect];
+  z[label = &quotRule Evaluation&quot, shape = rect];
+
+  x -&gt y -&gt z
+}
+Frequent Itemset Generation
+There are many ways to calculate frequent itemsets. One of them is called
+Apriori algorithm.
+This algorithm is based on a pretty simple idea:
+$\forall x \subseteq y, \sigma(x) \geq \sigma(y)$, where $x$, $y$ are two itemsets
+
+So, if $x$ isn&amp#39;t a frequent itemset, any super set of $x$ could not be a frequent
+item set. Apriori algorithm
+uses this as prune strategy.
+This algorithm starts with an empty set candidate frequent itemsets. Every time,
+it expands one more item into candidate sets. And prune impossible candidates
+immediately.
+Flow Diagram
+digraph {
+
+  rankdir=&quotLR&quot;
+
+  a[label = &quotInit&quot, shape = rect];
+
+  x[label = &quotExpand x1&quot, shape = rect];
+  y[label = &quotCount&quot, shape = rect];
+  z[label = &quotPrune&quot, shape = rect];
+
+  p[label = &quotExpand xn&quot, shape = rect];
+  q[label = &quotCount&quot, shape = rect];
+  r[label = &quotPrune&quot, shape = rect];
+
+  b[label = &quotDone&quot, shape = rect];
+
+  a-&gtx -&gt y -&gt z
+
+  z -&gt p [style=dashed]
+
+  p -&gt q -&gt r -&gt b
+}
+Pseudo code
+$$
+\begin{aligned}
+  &ampamp; Apriori(T, \text{minSup}) \
+  &ampamp; \quad C \leftarrow \empty \
+  &ampamp; \quad \mathtt{for} \ x \in {\text{distinct items of T}} \
+  &ampamp; \quad \quad C \leftarrow {x} \cup I \cup { {x} \cup a \mid a \in I }\
+  &ampamp; \quad \quad C \leftarrow { a \mid a \in C \land \frac{\sigma(x)}{\lvert T \rvert}) \geq \text{minSup} } \
+  &ampamp; \quad \mathtt{return} \ C
+\end{aligned}
+$$
+Rule Generation
+Now, let&amp#39;s turn to the part of rule generation.
+As it&amp#39;s easy to know:
+$ \forall x, y \supseteq z, c(x \to y) = \frac{\sigma(x)}{\sigma(y)} \geq \frac{\sigma(x \cup z)}{\sigma(y - z)} \geq c(x \cap z, y - z) $
+
+So, for every $r : x \to y$, if $c(x \to y) \geq \text{minConf}$, moving more
+items from $y$ to $x$ doesn&amp#39;t  change the requirement of $\text{minConf}$.
+Using this as a prune strategy, we can get a simple rule generation algorithm.
+Pseudo Code
+$$
+\begin{aligned}
+  &ampamp; RuleGenerate(I) \
+  &ampamp; \quad R \leftarrow \empty \
+  &ampamp; \quad C \leftarrow {(\empty \to a) \mid a \in I} \
+  &ampamp; \quad \mathtt{while} \ \lvert C \rvert &ampgt; 0 \
+  &ampamp; \quad \quad C_{\text{next}} = \empty \
+  &ampamp; \quad \quad \mathtt{for} \ c: x \to y \in C \
+  &ampamp; \quad \quad \quad \mathtt{for} \ z \in y \
+  &ampamp; \quad \quad \quad \quad x_{\text{next}} = x \cup {z} \
+  &ampamp; \quad \quad \quad \quad y_{\text{next}} = y - {z} \
+  &ampamp; \quad \quad \quad \quad \mathtt{if} \ c(x_{\text{next}} \to y_{\text{next}}) \geq \text{minConf} \
+  &ampamp; \quad \quad \quad \quad \quad R \leftarrow R \cup {x_{\text{next}} \to y_{\text{next}}} \
+  &ampamp; \quad \quad \quad \quad \mathtt{else}\
+  &ampamp; \quad \quad \quad \quad \quad C_{\text{next}} \leftarrow C_{\text{next}} \cup {x_{\text{next}} \to y_{\text{next}}} \
+  &ampamp; \quad \quad C = C_{\text{next}}\
+  &ampamp; \quad \mathtt{return} \ R
+\end{aligned}
+$$
+Rule Evaluation
+Assogication rule mining could produce a huge number of rules. But not all of
+them could be meaningful. Mostly we need more metrics to evalute generate rueles,
+which are called interestingness measure.
+Drawback of Confidence
+Look at this example table of frequency:
+$$
+\begin{array}{c|ccc}
+ &ampamp; y &ampamp; \overline{y} \
+ \hline
+ x &ampamp; 15 &ampamp; 5 &ampamp; 20 \
+ \overline{x} &ampamp; 75 &ampamp; 5 &ampamp; 80 \
+ &ampamp; 90 &ampamp; 10 \
+\end{array}
+$$
+As we know,
+$$
+\begin{aligned}
+  c(x \to y) &ampamp; = \frac{\sigma(x \cup y)}{\sigma(x)} \
+             &ampamp; = \frac{15}{20} \
+             &ampamp; = 0.75
+\end{aligned}
+$$
+since $0.75$ is sufficienty high, rule $x \to y$ seems to be a pretty significant
+rule.
+But really? $P(y) = \frac{90}{100} = 0.9&ampgt; 0.75$, which means $X$ actually reduces
+the possibility of $Y$.
+Statistical Dependence
+For any $x$ and $y$:
+If $P(x, y) &ampgt; P(x) \times P(y)$, then we say $x$ and $y$ are positive related.
+If $P(x, y) &amplt; P(x) \times P(y)$, then we say $x$ and $y$ are negative related.
+
+Interestingness Measure
+There are actually manu ways to measure interestingness of association rules,
+but based on what we&amp#39;ve talked before, one simple measure could be
+($\phi\text{-coefficient}$):
+$$
+  \phi\text{-coefficient} = \frac{P(x, y) - P(x)P(y)}{P(x)[1-P(x)]P(y)[1-P(y)]}
+$$
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Multi-Layer Perceptron and Back-Propagation Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/data-science/multi-layer-perceptron</link>
+            <guid>data-science/multi-layer-perceptron</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[Multi-Layer Perceptron and Back-Propagation Algorithm
+Perceptron
+In machine learning, perceptron is a binary classifier, which calculates a
+linear combination and outputs 1 or -1.
+digraph {
+
+  rankdir=LR
+
+  x0 -&gt y [label = &quotw0&quot]
+  x1 -&gt y [label = &quotw[1]&quot]
+  xi -&gt y [label = &quotw[i]&quot]
+  xn -&gt y [label = &quotw[n]&quot]
+
+  x0[shape = none, label = &quotx[0] = 1&quot]
+  x1[shape = none, label = &quotx[1]&quot]
+  xi[shape = none, label = &quot...&quot]
+  xn[shape = none, label = &quotx[n]&quot]
+
+  y[label = &quot∑&quot]
+  o[shape = none]
+
+  y -&gt f
+  f -&gt o
+}
+The takes an vector $X = (x_1 \cdots x_n)$ as the input, and calculates
+$ o = f(\sum_{i = 0}^n w_i x_i) $, where $f$ is a threshold function.
+$$
+f(x) = \begin{cases}
+  +1 &ampamp; x &ampgt; 0 \
+  -1 &ampamp; \text{otherwise}.
+\end{cases}
+$$
+Another vector $W = (w_0 \cdots x_n)$ is the parameters. For any linearly
+separable problems, we can always find a suitable parameter $W$ to make the
+perceptron works.
+Gradient Descent
+Gradient descent is the key of how to find suitable parameters $W$ for the
+perceptron to solve a specific problem.
+For given multivariable function $f$, the gradient $\nabla f$ is a
+vector-valued function and the result includes all partial derivatives of $f$
+at current point.
+$$
+\nabla f = (
+  \frac{\partial F}{\partial x_0}
+  \cdots \frac{\partial F}{\partial x_n} 
+)
+$$
+Let&amp#39;s say $ \gamma $ is a small enough number. For any $a$ and
+$b = a - \gamma \nabla F(a)$, we have: $F(b) \leq F(a)$.
+Perceptron Learning Algorithm
+For a given trainning instance $X = (x_1 \cdots x_n)$ and the classification 
+$ t \in {-1, 1 }$.
+Let&amp#39;s say the current parameter is $W = (w_0 \cdots w_n)$.
+Using the current state of the perceptron, you can calculate a result:
+$y = \sum_{i = 0}^n w_i x_i$
+$o = f(y) \in { -1, 1 }$
+
+If $t = o$, that means the perceptron already works well for the given
+instance. Or, we&amp#39;ve already knew that whether we should make the calculated $y$
+bigger or smaller.
+Since $ \nabla y(w_0 \cdots w_n) = (x_0 \cdots x_n) $,
+If $o = -1$, then $y$ is expected to be greater and we can replace $w_i$
+with $\overline{w_i} = w_i + \gamma x_i$.
+
+If $o = +1$, then $y$ is expected to be smaller and we can replace $w_i$
+with $\overline{w_i} = w_i - \gamma x_i$.
+
+
+In general, we can always replace $w_i$ with
+$\overline{w_i} = w_i + \gamma (t - o) x_i$ to make the perceptron better.
+Multi-Layer Perceptron
+The single perceptron can only solve linearly separable problems. To deal with
+more complicated classification problems, we have multi-layer perceptron.
+digraph {
+
+  rankdir=LR
+
+  x1[shape=none]
+  x2[shape=none]
+
+  x1 -&gt y1
+  x1 -&gt y2
+  x1 -&gt y3
+
+  x2 -&gt y1
+  x2 -&gt y2
+  x2 -&gt y3
+
+  y1[label = &quotf1(∑)&quot]
+  y2[label = &quotf2(∑)&quot]
+  y3[label = &quotf3(∑)&quot]
+
+  y1 -&gt y4
+  y1 -&gt y5
+
+  y2 -&gt y4
+  y2 -&gt y5
+
+  y3 -&gt y4
+  y3 -&gt y5
+
+  y4[label = &quotf4(∑)&quot]
+  y5[label = &quotf5(∑)&quot]
+
+  y4 -&gt y6
+  y5 -&gt y6
+
+  y6[label = &quotf6(∑)&quot]
+
+  y6 -&gt o
+
+  o[shape = none]
+}
+The basic idea of multi-layer perception is just stacking a sort of perceptrons
+and make it as a network. For example, in the case showing above:
+$x_1$ and $x_2$ are called input layer.
+$(f_1, f_2, f_3)$ and $(f_4, f_5)$ are two hidden layers.
+$f6$ is called output layer.
+In each directed edge, there is a parameter $w_{i, j}$ as familiar as the
+single perceptron.
+
+Back-Propagation Algorithm
+In multi-layer perceptron, we use the same gradient decent strategy to update
+parameters, which is called backpropagation algorithm. And there are two
+steps:
+Familiar with $\Delta = t - o$ in perceptron learning algorithm, it
+reversely calculates the $\Delta f$ for each perceptron.
+Then, it uses the same strategy to update $\overline{w}$ for each edge.
+
+
+
+Example.
+Here is an example
+of digital recognizer based on multi-layer perceptron, of which the accuracy
+is about 98%.
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Adaptive Boosting Algorithm]]></title>
+            <link>https://aguang.xyz/#/post/data-science/adaptive-boosting-algorithm</link>
+            <guid>data-science/adaptive-boosting-algorithm</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[Adaptive Boosting Algorithm
+Adaptive Boosting (AdaBoost) is an
+ensembled machine learning algorithm. The key idea is:
+Improving the weights of mis-classified instances.
+Voting by a sort of weak classifiers can lead to a strong classifier.
+Better weak classifiers should have greater weights to vote.
+
+AdaBoost is sensitive to noisy data and outliers.
+Input
+Train instances: $T = { (x_1, y_1), (x_2, y_2),\cdots,(x_N, y_N) }$,
+where $N$ is the number of instances, $x_i \in R^n$, $y_i \in { -1, +1 }$,
+$i = 1,2,\cdots,N$, $n$ is the number of features.
+Weak binary classifiers: $H = { h_1, h_2,\cdots,h_M }$, where $M$ is the number of
+classifiers, $h_i(x) \in {-1, +1 }$, $i = 1,2,\cdots,M$.
+Max iteration times $K$.
+
+Output
+A strong  binary classifier $G(x) = sgn(\sum_{i = 1}^{N} a_{i} h_i(x))$,
+where
+$$
+sgn(x) = \begin{cases}
+  +1 &ampamp; x \geq 0 \
+  -1 &ampamp; x \geq 0 \
+\end{cases}
+$$
+$a_i$ is the weights of weak classifiers.
+
+
+Pseudo Code
+$$
+\begin{aligned}
+  &ampamp; AdaBoost(K, X, Y, H) \
+  &ampamp; \quad \mathtt{Initialize\ weights\ of\ instances\ } D = \begin{bmatrix}
+    d_{1, 1} &ampamp; d_{1, 2} &ampamp; \cdots &ampamp; d_{1, N} \
+    d_{2, 1} &ampamp; d_{2, 2} &ampamp; \cdots &ampamp; d_{2, N} \
+    \vdots   &ampamp; \vdots   &ampamp; \ddots &ampamp; \vdots   \
+    d_{M, 1} &ampamp; d_{M, 2} &ampamp; \cdots &ampamp; d_{M, N} \
+  \end{bmatrix} \leftarrow
+  \begin{bmatrix}
+    \frac{1}{N} &ampamp; \frac{1}{N} &ampamp; \cdots &ampamp; \frac{1}{N} \
+    \frac{1}{N} &ampamp; \frac{1}{N} &ampamp; \cdots &ampamp; \frac{1}{N} \
+    \vdots      &ampamp;     \vdots  &ampamp; \ddots &ampamp; \frac{1}{N} \
+    \frac{1}{N} &ampamp; \frac{1}{N} &ampamp; \cdots &ampamp; \frac{1}{N} \
+  \end{bmatrix}\
+  &ampamp; \quad \mathtt{Repeat}\ K\ \mathtt{times} :\
+  &ampamp; \quad \quad \mathtt{for}\ h_i \in H :\
+  &ampamp; \quad \quad \quad \mathtt{Train\ } h_i \mathtt{\ using\ } X, Y \mathtt{\ with\ } D\
+  &ampamp; \quad \quad \quad \mathtt{Error\ rate\ } e_i = \frac{1}{N} \sum_{j = 1}^N P(h_i(x_j) \neq y_j)\
+  &ampamp; \quad \quad \quad \mathtt{Weights\ of\ classifiers\ } a_i = \frac{1}{2} log \frac{1 - e_i}{e_i}\
+  &ampamp; \quad \quad \mathtt{Update\ weights\ of\ instances\ }d_{i,j} \leftarrow \begin{cases}
+                        d_{i,j} \times e^{-a_i} &ampamp; h_i(x_j) = y_j \
+                        d_{i,j} \times e^{a_i}  &ampamp; h_i(x_j) \neq y_j \
+                      \end{cases} \
+  &ampamp; \quad \quad \mathtt{Normalize\ weights\ of\ instances\ } d_{i,j} \leftarrow \frac{d_{i,j}}{\sum_{j = 1}^{N} d_{i,j}}\
+  &ampamp; \quad \mathtt{return }\ G(x) = sgn(\sum_{i = 1}^{N} a_{i} h_i(x)) \
+  &ampamp; 
+\end{aligned}
+$$
+References
+Wikipedia contributors. (2020, April 6). AdaBoost. Wikipedia, The Free Encyclopedia. Retrieved
+from https://en.wikipedia.org/wiki/AdaBoost
+
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Entropy and Information Gain]]></title>
+            <link>https://aguang.xyz/#/post/data-science/entropy-and-information-gain</link>
+            <guid>data-science/entropy-and-information-gain</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[Entropy and Information Gain
+1. Play golf or not?
+To begin with this topic, let&amp#39;s think about a question from the dataset given below.
+Outlook
+Temperature
+Humidity
+Windy
+Play Golf
+
+
+sunny
+warm
+low
+no
+yes
+
+sunny
+hot
+medium
+no
+no
+
+rainy
+warm
+low
+yes
+no
+
+overcast
+hot
+high
+no
+no
+
+sunny
+warm
+medium
+yes
+yes
+
+rainy
+hot
+medium
+yes
+no
+
+sunny
+warm
+low
+no
+yes
+
+overcast
+warm
+low
+yes
+yes
+
+rainy
+warm
+high
+no
+no
+
+overcast
+hot
+medium
+yes
+yes
+
+
+From the dataset of people playing golf or not in different conditions, which attribute do you think is most useful to predict wheather people play golf or not?
+2. What is entropy?
+To answer this question, one simple idea could be choosing the attribute of which the distribution is most complicated from the given dataset. 
+But, how to quantify the complexity of an attribute?
+Here, entropy could be useful.
+2.1 The definition of entropy.
+Entropy is a concept from information theory, which is used to measure the amount of uncertainty in a system.
+It measures the average number of bits required to represent the state of a system.
+$$ H(X) = -\sum_{x} P(X = x) \log_{2} P(X = x) $$
+We define:
+$$ 0 \log_{2} 0 = 0 $$
+Basically, higher entropy of a system indicates more information that the system has.
+Or, in other words, the system is more complicated.
+2.2 The entropy of Play.
+There are 5 yes instances and 5 no instances of attribute Play in this dataset.
+$$ P(Play = yes) = \frac{5}{10} = \frac{1}{2} $$
+$$ P(Play = no) = \frac{5}{10} = \frac{1}{2} $$
+The entropy of class attribute Play is:
+$$ H(Play) = - \frac{1}{2} \log_{2} \frac{1}{2} - \frac{1}{2} \log_{2} \frac{1}{2} = 1 $$
+2.3 The entropy of Temperature.
+There are  6 warm instances and 4 hot instances of attribute Temperature in this dataset.
+$$ P(Temperature = warm) = \frac{6}{10} = \frac{3}{5} $$
+$$ P(Temperature = hot) = \frac{4}{10} = \frac{2}{5} $$
+The entropy of attribute Temperature is:
+$$ H(Temperature) = - \frac{3}{5} \log_{2} \frac{3}{5} - \frac{2}{5} \log_{2} \frac{2}{5} \approx 0.97 $$
+2.4 The answer through compraing entropy.
+Similarly, we can caculate the entropies of each attribute:
+Attribute
+Entropy
+
+
+Outlook
+1.57
+
+Temperature
+0.97
+
+Humidity
+1.52
+
+Windy
+1
+
+
+By considering the entropies of different attributes, Outlook could be most useful to predict whether people play golf.
+3. What is information gain?
+So far, you&amp#39;ve got some kind of answer for the question given in section 1.
+But, as you might already concerned, what we really care is the complexity of relation between specific attribute and class attribute
+instead of the compexity of the attribute itself.
+Now, you need information gain.
+3.1 The definition of information gain.
+Basically, information gain measures how much does the relation between X and Y bring.
+$$ IG(Y, X) = H(Y) - H(Y | X) $$
+Where H(Y | X) is the entropy of Y when the attribute X has been given.
+$$ H(Y | X) = \sum_{x} P(X = x) H(Y | X = x) $$
+Based on the definition of entropy(section 2.1), we know:
+$$ H(Y | X = x) = - \sum_{y} P(Y = y | X = x) \log_{2} P(Y = y | X = x) $$
+To avoid zero value of P(Y = y | X = x) from given dataset, we should use additive smoothing here:
+$$ P(Y = y | X = x) = \frac{|{i \in D \mid i_X = x \land i_Y = y}|}{|{i \in D \mid i_X = x}|} \approx \frac{|{i \in D \mid i_X = x \land i_Y = y}| + 1}{|{i \in D \mid i_X = x}| + |Y|} $$
+3.2 The information gain from Temperature to Play.
+Conditional probabilities:
+$$ P(P = yes | T = warm) = \frac{4 + 1}{6 + 2} = \frac{5}{8} $$
+$$ P(P = no | T = warm) = \frac{3}{8} $$
+$$ P(P = yes | T = hot) = \frac{1 + 1}{4 + 2} = \frac{1}{3} $$
+$$ P(P = no | T = hot) = \frac{2}{3} $$
+Conditional entropies:
+$$ H(P | T = warm) = - P(P = yes | T = warm) \log_{2} P(P = yes | T = warm) - P(P = no | T = warm) \log_{2} P(P = no | T = warm) = - \frac{5}{8} \log_{2} \frac{5}{8} - \frac{3}{8} \log_{2} \frac{3}{8} \approx 0.954 $$
+$$ H(P | T = hot) = - P(P = yes | T = hot ) \log_{2} P(P = yes | T = hot) - P(P = no | T = hot) \log_{2} P(P = no | T = hot) = - \frac{1}{3} \log_{2} \frac{1}{3} - \frac{2}{3} \log_{2} \frac{2}{3} \approx 0.918 $$
+$$ H(P | T) = P(T = warm) H(P|T = warm) + P(T = hot) H(P | T = hot) \approx \frac{3}{5} \times 0.954 + \frac{2}{5} \times 0.918 \approx 0.94 $$
+The information gain between temperature to Play:
+$$ IG(P, T) = H(P) - H(P, T) \approx 1 - 0.94 = 0.06 $$
+3.3 The answer through comparing information gain.
+Similarly, we can caculate the information gains for each attribute:
+Attribute
+Information Gain
+
+
+Outlook
+0.13
+
+Temp
+0.06
+
+Humidity
+0.08
+
+Windy
+0.02
+
+
+By considering the information gains of different attributes, Outlook could also be most useful to predict whether people play gold.
+4. Drawbacks of multiple-valued attributes.
+So far, we know two approaches to meansure the complexity of a specific attribute and the compexity of the relationship between a specific attribute and the class attribute.
+Actually, they are the main ideas of how to select the attribute that best classifies examples in the algorithm ID3.
+Let&amp#39;s go back to the dataset of playing golf. At this time, we add an attribute RecordNo.
+RecordNo
+Outlook
+Temperature
+Humidity
+Windy
+Play Golf
+
+
+1
+sunny
+warm
+low
+no
+yes
+
+2
+sunny
+hot
+medium
+no
+no
+
+3
+rainy
+warm
+low
+yes
+no
+
+4
+overcast
+hot
+high
+no
+no
+
+5
+sunny
+warm
+medium
+yes
+yes
+
+6
+rainy
+hot
+medium
+yes
+no
+
+7
+sunny
+warm
+low
+no
+yes
+
+8
+overcast
+warm
+low
+yes
+yes
+
+9
+rainy
+warm
+high
+no
+no
+
+10
+overcast
+hot
+medium
+yes
+yes
+
+
+Now, we use the same approaches mentioned in section 2. and section 3 to evaluate attribute RecordNo.
+$$ H(RecordNo) = - 10 \times \frac{1}{10} \log_{2}(\frac{1}{10}) \approx 3.32 $$
+$$ IG(Play, RecordNo) = H(Play) - H(Play | RecordNo) = 1 - 10 \times \frac{1}{10} (- \frac{1}{3} \log_{2} \frac{1}{3} - \frac{2}{3} \log_{2} \frac{2}{3}) \approx 0.08$$
+Compared the extropy or information gain, attribute RecordNo could be quite useful to predict the result.
+But, obviously, RecordNo means nothing for the result of whether people play golf or not.
+5. What is Information Gain Ratio?
+Now, let&amp#39;s talk about information gain ratio, which has been used in the algorithm C4.5, a successor of ID3.
+The main idea of information gain ratio is basically considering both of the complexity of the attribute it self and the complexity between the attribute and the target classification.
+And the purpose is to reduce the bias that we mentioned in section 4. 
+5.1 The definition of information gain ratio.
+Information gain ratio is the ratio between the information gain and the entropy of given attribute:
+$$ GR(Y, X) = \frac{IG(Y, X)}{H(X)} $$
+5.2 The answer  through comparing information gain ratio.
+Attribute
+Information Gain
+Entropy
+Information Gain Ratio
+
+
+RecordNo
+0.08
+3.32
+0.02
+
+Outlook
+0.13
+1.57
+0.08
+
+Temperature
+0.06
+0.97
+0.06
+
+Humidity
+0.08
+1.52
+0.05
+
+Windy
+0.02
+1
+0.02
+
+
+By considering the information gain ratios of different attributs, Outlook could be most useful to predict whether people play golf now.
+References
+Wikipedia contributors. (2020, January 22). Additive smoothing. Wikipedia, The Free Encyclopedia. Retrieved from https://en.wikipedia.org/wiki/Additive_smoothing
+Wikipedia contributors. (2020, February 10). ID3 algorithm. Wikipedia, The Free Encyclopedia. Retrieved from https://en.wikipedia.org/wiki/ID3_algorithm
+Wikipedia contributors. (2020, February 29). C4.5 algorithm. Wikipedia, The Free Encyclopedia. Retrieved from https://en.wikipedia.org/wiki/C4.5_algorithm
+
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Graph Data Model]]></title>
+            <link>https://aguang.xyz/#/post/data-science/graph-data-model</link>
+            <guid>data-science/graph-data-model</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[Formal Description of Graph Data
+1. Graph Data Models
+1.1 PGM - Property Graph Model
+Property graph model is a kind of formal definition of graph data. In this
+model, data is reprensented as a directed, attributed multi-graph.
+Let&amp#39;s say:
+$\mathcal{O}$ is a set of objects.
+$\mathcal{K}$ is a set of property keys.
+$\mathcal{L}$ is a set of labels.
+$\mathcal{N}$ is a set of values.
+
+Then a property graph is a structure $(V, E, \eta, \lambda, \mu)$ where
+$V \subseteq \mathcal{O}$ is a set of objects, called vertices.
+$E \subseteq \mathcal{O}$ is a set of edges, called edges.
+$\eta : E \to V \times V$ is a function assigning each edge to an ordered
+pair of vertices.
+$\lambda : V \cup E \to \mathcal{P}(\mathcal{L})$ is a function assigning each object to a set
+of labels.
+$\mu : (V \cup E) \times \mathcal{K} \to \mathcal{N})$ is a function assigning each object and
+key to a value.
+
+Example.
+Here is an example property graph of three people and their relations:
+digraph {
+
+  1[label = &quot1 : Emily : Kiwi\noccupation = teacher\nage = 35&quot shape=rect]
+  2[label = &quot2 : Grey\noccupation = student\nage = 24&quot shape=rect]
+  3[label = &quot3 : Bob \noccupation = self-employed&quot shape=rect]
+
+  1 -&gt 2[label = &quot4 : teaches\nsubject = english&quot]
+  2 -&gt 3[label = &quot5 : knows\nsince = 2019&quot]
+
+  3 -&gt 3[label = &quot6 : worksFor\nsince = 2018&quot]
+}
+For this example:
+$V = {1, 2, 3}$
+
+$E = {4, 5, 6}$
+
+$\eta = E \to V \times V$ is:
+object
+vertices
+
+
+4
+1, 2
+
+5
+2, 3
+
+6
+3, 3
+
+
+
+$\lambda = V \cup E \to P(\mathcal{L})$ is:
+object
+labels
+
+
+1
+Emily, Kiwi
+
+2
+Grey
+
+3
+Bog
+
+4
+teaches
+
+5
+knows
+
+6
+worksFor
+
+
+
+$\mu = (V \cup E) \times \mathcal{K} \to \mathcal{N}$ is:
+object
+key
+value
+
+
+1
+occupation
+teacher
+
+1
+age
+35
+
+2
+occupation
+student
+
+2
+age
+25
+
+3
+occupation
+self-employed
+
+4
+subject
+English
+
+5
+since
+2019
+
+6
+since
+2018
+
+
+
+
+1.2 OPPGM - Objectified Paths Property Graph Model
+Based on PGM, if we turn paths into objects, we get objectified
+paths property graph model (OPPGM).
+An OPPGM is a structure $(V, E, P, \eta, \delta, \lambda, \mu)$ where
+$V \subseteq \mathcal{O}$ is a set of objects, called vertices.
+$E \subseteq \mathcal{O}$ is a set of objects, called edges.
+$P \subseteq \mathcal{O}$ is a set of objects, called paths.
+$\eta : E \to V \times V$ is a function assigning each edge to a pair of
+vertices.
+$\delta : P \to \cup_{n &ampgt;= 0} E^n$ is a function assgining each path to a
+sequence of edges.
+$\lambda : V \cup E \cup P \to \mathcal{P}(\mathcal{L})$ is a function assigning each object to
+a set of labels.
+$\mu : (V \cup E \cup P) \times \mathcal{K} \to \mathcal{N}$ is a function assigning each object
+and key to a value.
+
+1.3 OSPGM - Objectified Subgraph PGM
+Based on PGM, if we turn subgraphs into objects, we get objectified subgraph
+PGM (OSPGM).
+An OSPGM is a structure $(V, E, G, \eta, \gamma, \lambda, \mu)$ where
+$V \subseteq \mathcal{O}$ is a set of objects, called vertices.
+$E \subseteq \mathcal{O}$ is a set of objects, called edges.
+$G \subseteq \mathcal{O}$ is a set of objects, called subgraphs.
+$\eta : E \to V \times V$ is a function assigning each edge to a pair of
+vertices.
+$\gamma : G \to \mathcal{P}(V) \times \mathcal{P}(E)$ is a function assigning every subgraph to
+a pair of vetex set and edge set.
+$\lambda : V \cup E \cup G \to \mathcal{P}(\mathcal{L})$ is a function assigning each object to
+a set of labels.
+$\mu : (V \cup E \cup G) \times \mathcal{K} \to \mathcal{N}$ is a function assigning each object
+and key to a value.
+
+1.4 HVPGM - Hypervetex PGM
+Based on PGM, if we turn subgraphs into vertices, we get hypervetex PGM (HVPGM).
+An HVPGM is a structure $(V, E, \eta, \gamma, \lambda, \mu)$ where
+$V \subseteq \mathcal{O}$ is a set of objects, called vertices.
+$E \subseteq \mathcal{O}$ is a set of objects, called edges.
+$\eta : E \to V \times V$ is a function assigning each edge to a pair of
+vertices.
+$\gamma : V \to \mathcal{P}(V) \times \mathcal{P}(E)$ is a function assigning every subgraph to
+a pair of vetex set and edge set.
+$\lambda : V \cup E \to \mathcal{P}(\mathcal{L})$ is a function assigning each object to
+a set of labels.
+$\mu : (V \cup E) \times \mathcal{K} \to \mathcal{N}$ is a function assigning each object
+and key to a value.
+
+1.5 HEPGM - Hyper Edge Property Graph Model
+Based on HVPGM, if a edge can link to any non-empty sequence of vertices without
+repetitions (not only 2 vertices), we get hyper edge property graph model
+(HEPGM).
+Ans HEPGM is a structure $(V, E, \eta, \gamma, \lambda, \mu)$ where
+$V \subseteq \mathcal{O}$ is a set of objects, called vertices.
+$E \subseteq \mathcal{O}$ is a set of objects, called edges.
+$\eta : E \to \cup_{X \in \mathcal{P}(V) - \empty} {[\pi(1),...,\pi(|X|)]}$ is a
+function assigning each edge to a non-empty sequence of vertices without
+repetitions.
+$\gamma : V \to \mathcal{P}(V) \times \mathcal{P}(E)$ is a function assigning every subgraph to
+a pair of vetex set and edge set.
+$\lambda : V \cup E \to \mathcal{P}(\mathcal{L})$ is a function assigning each object to
+a set of labels.
+$\mu : (V \cup E) \times \mathcal{K} \to \mathcal{N}$ is a function assigning each object
+and key to a value.
+
+2. Graph Data Queries
+2.1 Regular Path Queries
+For any property graph $G = (V, E, \eta, \lambda, \mu)$, the regular path
+queries (PRQ) over $G$ are recursively generated as follows:
+$\forall a \in \mathcal{L}, a \in \text{PRQ}$
+$\forall e \in \text{PRQ}, (e)^- \in \text{PRQ}$
+$\forall e \in \text{PRQ}, (e)^+ \in \text{PRQ}$
+$\forall e, f \in \text{PRQ}, (e) / (f) \in \text{PRQ}$
+$\forall e, f \in \text{PRQ}, (e) + (f) \in \text{PRQ}$
+
+Let&amp#39;s say $[[g]]_G \subseteq V \times V$ is the result of query
+$g \in \text{PRQ}$, then:
+$\forall g = a \in \mathcal{L}, [[g]]_G = {(s, t) \mid \exist e \in E,
+\eta(e) = (s, t) \land a \in \lambda(e)}$
+$\forall g = (e)^- \in \text{PRQ}, [[g]]_G = {(t, s) \mid (s, t) \in
+[[e]]_G}$
+$\forall g = (e)^+ \in \text{PRQ}, [[g]]_G = \text{transitive closure for relation}
+[[e]]_G$
+$\forall g = (e) / (f) \in \text{PRQ}, [[g]]_G = {(s, t) \mid \exist \mu \in
+V, (s, u) \in [[e]]_G \land (u, t) \in [[f]]_G}$
+$\forall g = (e) + (f) \in \text{PRQ}, [[g]]_G = [[e]]_G \cup [[f]]_G$
+
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Mathjax Quick Reference]]></title>
+            <link>https://aguang.xyz/#/post/data-science/mathjax-introduction</link>
+            <guid>data-science/mathjax-introduction</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[A Brief Introduction of MathJax
+MathJax is a javascript display engine which can be
+easily integrated into web pages. In this article, I want to cover many common
+usage of MathJax.
+1. Basic Grammar
+There are two ways to insert a MathJax expression:
+Insert a inline expression.
+Insert a block expression.
+
+mode
+command
+example
+preview
+
+
+inline
+$...$
+$X^2$
+$X^2$
+
+block
+$$...$$
+$$X^2$$
+$$X^2$$
+
+
+1.1 Plain Text
+command
+preview
+
+
+\text{plain text}
+$\text{plain text}$
+
+
+1.2 Greek Letter
+command
+preview
+command
+preview
+command
+preview
+command
+preview
+
+
+A
+$ A        $
+\alpha
+$ \alpha   $
+N
+$ N        $
+\nu
+$ \nu      $
+
+B
+$ B        $
+\beta
+$ \beta    $
+\Xi
+$ \Xi      $
+\xi
+$ \xi      $
+
+\Gamma
+$ \Gamma   $
+\gamma
+$ \gamma   $
+O
+$ O        $
+\omicron
+$ \omicron $
+
+\Delta
+$ \Delta   $
+\delta
+$ \delta   $
+\Pi
+$ \Pi      $
+\pi
+$ \pi      $
+
+E
+$ E        $
+\epsilon
+$ \epsilon $
+P
+$ P        $
+\rho
+$ \rho     $
+
+Z
+$ Z        $
+\zeta
+$ \zeta    $
+\Sigma
+$ \Sigma   $
+\sigma
+$ \sigma   $
+
+H
+$ H        $
+\eta
+$ \eta     $
+T
+$ T        $
+\tau
+$ \tau     $
+
+\Theta
+$ \Theta   $
+\theta
+$ \theta   $
+\Upsilon
+$ \Upsilon $
+\upsilon
+$ \upsilon $
+
+I
+$ I        $
+\iota
+$ \iota    $
+\Phi
+$ \Phi     $
+\phi
+$ \phi     $
+
+K
+$ K        $
+\kappa
+$ \kappa   $
+X
+$ X        $
+\chi
+$ \chi     $
+
+\Lambda
+$ \Lambda  $
+\lambda
+$ \lambda  $
+\Psi
+$ \Psi     $
+\psi
+$ \psi     $
+
+M
+$ M        $
+\mu
+$ \mu      $
+\Omega
+$ \Omega   $
+\omega
+$ \omega   $
+
+
+1.3 Spacing
+command
+preview
+command
+preview
+command
+preview
+
+
+a\qquad b
+$a\qquad b$
+a\quad b
+$a\quad b$
+a\ b
+$a\ b$
+
+
+1.4 Font
+command
+preview
+command
+preview
+
+
+\mathsf{ABC123}+
+$     \mathsf{ABC123} $
+\mathrm{ABC123}+
+$     \mathrm{ABC123} $
+
+\mathbf{ABC123}+
+$     \mathbf{ABC123} $
+\mathcal{ABC123}+
+$    \mathcal{ABC123} $
+
+\mathtt{ABC123}+
+$     \mathtt{ABC123} $
+\mathscr{ABC123}+
+$    \mathscr{ABC123} $
+
+\mathbb{ABC123}+
+$     \mathbb{ABC123} $
+\mathfrak{ABC123}+
+$   \mathfrak{ABC123} $
+
+\mathit{ABC123}+
+$     \mathit{ABC123} $
+\boldsymbol{ABC123}+
+$ \boldsymbol{ABC123} $
+
+
+1.5 Color
+command
+preview
+command
+preview
+
+
+\color{black}{text}+
+$   \color{black}{text} $
+\color{olive}{text}+
+$   \color{olive}{text} $
+
+\color{gray}{text}+
+$    \color{gray}{text} $
+\color{green}{text}+
+$   \color{green}{text} $
+
+\color{silver}{text}+
+$  \color{silver}{text} $
+\color{teal}{text}+
+$    \color{teal}{text} $
+
+\color{white}{text}+
+$   \color{white}{text} $
+\color{aqua}{text}+
+$    \color{aqua}{text} $
+
+\color{maroon}{text}+
+$  \color{maroon}{text} $
+\color{blue}{text}+
+$    \color{blue}{text} $
+
+\color{red}{text}+
+$     \color{red}{text} $
+\color{navy}{text}+
+$    \color{navy}{text} $
+
+\color{yellow}{text}+
+$  \color{yellow}{text} $
+\color{purple}{text}+
+$  \color{purple}{text} $
+
+\color{lime}{text}+
+$    \color{lime}{text} $
+\color{fuchsia}{text}+
+$ \color{fuchsia}{text} $
+
+
+2. Operator
+2.1 Subscript &ampamp; Superscript
+command
+preview
+command
+preview
+
+
+A^{x}+
+$ A^{x} $
+A_{x}+
+$ A_{x} $
+
+\overline{x}
+$\overline{x}$
+\overrightarrow{x}
+$\overrightarrow{x}$
+
+\overbrace{x_1 \dots x_n}^n
+$\overbrace{x_1 \dots x_n}^n$
+\underbrace{x_1 \dots x_n}_n
+$\underbrace{x_1 \dots x_n}_n$
+
+
+2.2 Relational Operator
+command
+preview
+command
+preview
+command
+preview
+
+
+&ampgt;
+$&ampgt;$
+&amplt;
+$&amplt;$
+=
+$=$
+
+\le
+$\le$
+\ge
+$\ge$
+\ne
+$\ne$
+
+\ll
+$\ll$
+\gg
+$\gg$
+\equiv
+$\equiv$
+
+:
+$:$
+\approx
+$\approx$
+\mid
+$\mid$
+
+\subset
+$\subset$
+\supset
+$\supset$
+\in
+$\in$
+
+\subseteq
+$\subseteq$
+\supseteq
+$\supseteq$
+\notin
+$\notin$
+
+
+2.3 Arithmetic Operator
+command
+preview
+command
+preview
+command
+preview
+
+
++
+$+$
+-
+$-$
+\pm
+$\pm$
+
+\cdot
+$\cdot$
+\times
+$\times$
+\div
+$\div$
+
+\cup
+$\cup$
+\vee
+$\vee$
+\sqrt[n]{A}
+$\sqrt[n]{A}$
+
+\cap
+$\cap$
+\wedge
+$\wedge$
+\frac{x}{y}
+$\frac{x}{y}$
+
+
+2.4 Accumulational Operator
+command
+preview
+command
+preview
+command
+preview
+
+
+\sum
+$     \sum$
+\bigcup
+$  \bigcup$
+\bigcap
+$  \bigcap$
+
+\prod
+$    \prod$
+\bigvee
+$  \bigvee$
+\bigwedge
+$\bigwedge$
+
+\int
+$     \int$
+\lim
+$     \lim$
+
+
+
+
+2.5 Brackets
+command
+preview
+command
+preview
+
+
+( x )
+$( x )$
+\lvert x \rvert
+$\lvert x \rvert$
+
+[ x ]
+$[ x ]$
+\lfloor x \rfloor
+$\lfloor x \rfloor$
+
+\{ x\}
+${ x}$
+\lceil x \rceil
+$\lceil x \rceil$
+
+\langle x\rangle
+$\langle x\rangle$
+
+
+
+
+3. Layout
+3.1 Cases
+abs(x) =
+  \begin{cases}
+     x &amp x  &gt 0 \\
+    -x &amp x &lt= 0 \\
+  \end{cases}
+$$
+abs(x) =
+  \begin{cases}
+     x &ampamp; x  &ampgt; 0 \
+    -x &ampamp; x &amplt;= 0 \
+  \end{cases}
+$$
+3.2 Array
+\begin{array}
+  {c|lcr}
+  n &amp \text{Left} &amp \text{Center} &amp \text{Right} \\
+  \hline
+  1 &amp 1 &amp 2 &amp 3 \\
+  2 &amp 4 &amp 5 &amp 6 \\
+  3 &amp 7 &amp 8 &amp 9 \\
+\end{array}
+$$
+\begin{array}
+  {c|lcr}
+  n &ampamp; \text{left} &ampamp; \text{center} &ampamp; \text{right} \
+  \hline
+  1 &ampamp; 1 &ampamp; 2 &ampamp; 3 \
+  2 &ampamp; 4 &ampamp; 5 &ampamp; 6 \
+  3 &ampamp; 7 &ampamp; 8 &ampamp; 9 \
+\end{array}
+$$
+3.3 Matrix
+Here is the basic format of defining a matrix:
+\begin{matrix}
+  1 &amp 0 \\
+  0 &amp 1 \\
+\end{matrix}
+The command matrix can be replaced with pmatrix, bmatrix, Bmatrix,
+vmatrix and Vmatrix to change the brackets of the matrix:
+mode
+preview
+mode
+preview
+mode
+preview
+
+
+matrix
+$\begin{matrix} 1 &ampamp; 0 \ 0 &ampamp; 1 \ \end{matrix}$
+bmatrix
+$\begin{bmatrix} 1 &ampamp; 0 \ 0 &ampamp; 1 \ \end{bmatrix}$
+vmatrix
+$\begin{vmatrix} 1 &ampamp; 0 \ 0 &ampamp; 1 \ \end{vmatrix}$
+
+pmatrix
+$\begin{pmatrix} 1 &ampamp; 0 \ 0 &ampamp; 1 \ \end{pmatrix}$
+Bmatrix
+$\begin{Bmatrix} 1 &ampamp; 0 \ 0 &ampamp; 1 \ \end{Bmatrix}$
+Vmatrix
+$\begin{Vmatrix} 1 &ampamp; 0 \ 0 &ampamp; 1 \ \end{Vmatrix}$
+
+
+]]></content:encoded>
+        </item>
+    </channel>
+</rss>

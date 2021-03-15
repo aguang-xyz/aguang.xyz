@@ -1,0 +1,812 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Software Development</title>
+        <link>https://aguang.xyz/#/post/software-development</link>
+        <description>Software Development</description>
+        <lastBuildDate>Mon, 15 Mar 2021 10:04:06 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Deploy Reproducible Infrastructure on AWS with Terraform]]></title>
+            <link>https://aguang.xyz/#/post/software-development/deploy-reproducible-infrastructure-on-aws-with-terraform</link>
+            <guid>software-development/deploy-reproducible-infrastructure-on-aws-with-terraform</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[Deploy Reproducible Infrastructure on AWS with Terraform
+Terraform is an open-source infrastructure as code software tool created by HashiCorp. In this article, I&amp#39;m going to introduce how to deploy a scalable .NET Web Api Service on AWS with Terraform.
+Prerequisites.
+An AWS account.
+The AWS CLI installed.
+Your AWS credentials configured locally.
+The Terraform CLI installed.
+
+Overview.
+Basically, I want to deploy a .NET Web Api Service called comments-api on AWS. It will provide REST APIs to manage the comments of my blog. It has only one dependency: a MySQL database server. To make it scalable to face high concurrency scenario, we plan to have an Elastic Load Balancer (ELB) to load balance HTTP requests to multiple backend Elastic Container Services (ECS). And we will host a Relational Database Service (RDS) as the production MySQL database server.
+The digram above shows what our infrastructure will look like:
+digraph {
+    &quotFrontend&quot -&gt &quotELB Instance&quot
+    &quotELB Instance&quot -&gt &quotECS Instance 1&quot
+  &quotELB Instance&quot -&gt &quotECS Instance 2&quot
+  &quotELB Instance&quot -&gt &quot...&quot
+  &quotELB Instance&quot -&gt &quotECS Instance N&quot
+
+  &quotECS Instance 1&quot -&gt &quotRDS Instance&quot
+  &quotECS Instance 2&quot -&gt &quotRDS Instance&quot
+  &quot...&quot -&gt &quotRDS Instance&quot
+  &quotECS Instance N&quot -&gt &quotRDS Instance&quot
+}
+The terraform configuration for the deployment on AWS will be stored in the subfolder deploy/aws.
+.
+├── deploy
+│   └── aws
+│        ├── keys
+│        │   ├── ec2
+│        │   └── ec2.pub
+│        ├── scripts
+│        │   ├── build-project
+│        │   ├── execute-migrations
+│        │   └── generate-ssh-keys
+│        ├── main.tf
+│        ├── outputs.tf
+│        └── variables.tf
+├── src
+└── test
+With in this folder:
+keys/ec2 and keys/ec2.pub is the ssh key which will be used to connect with ECS instances.
+scripts folder contains several scripts to build .NET Core project, do database migrations and generate ssh key pairs.
+main.tf contians the most definition of our infrastructure.
+outputs.tf defines the result of a deployment (such as: ELB public address, public ips of the ECS instances and the connection string of the RDS instance).
+variables.tf defines some input parameters (such as: AWS region, ECS image id and the number of Instances).
+
+Define input variables.
+First, let&amp#39;s go into the file variables.tf. In terraform, we can use keyword variable to define serveral input variables. If there is no default value of some parameter, terraform will let us to input the value during the apply state. And we can override the default values by command line parameters such as -var=&ampquot;name=value&ampquot;.
+variables.tf:
+variable &quotaws_region&quot {
+  default = &quotap-southeast-1&quot
+}
+
+variable &quotaws_amis&quot {
+  default = {
+    &quotap-southeast-1&quot = &quotami-0b44582c8c5b24a49&quot
+  }
+}
+
+variable &quotaws_instances&quot {
+  default = 2
+}
+
+variable &quotapp_environment&quot {
+  default = &quotDevelopment&quot
+}
+Basically, we defined four input variables here:
+aws_region: The region we want to deploy our infrastructure, ap-southeast-1 indicates the Singapore region.
+aws_amis: ECS image id, ami-0b44582c8c5b24a49 indicates Ubuntu 18.04 LTS (x64). HINT: One thing we should know is that the same image have different ids in different regions.
+aws_instances: The number of ECS instances we want to have.
+app_environment: The environment in ASP.NET Core.
+
+Import providers.
+Now we start to focus on the main.tf which includes the most import part.
+At the begining, we import serveral providers. A provider is responsible for understanding API interactions and exposing resources. We have four required providers:
+Null Provider: which will be used to define virtual resources. 
+Random Provider: which will be used to generate random passwords of the database.
+Local Provider: which will be used to execute local scripts.
+AWS Provider: which exposes the ability to manage AWS resources.
+
+terraform {
+  required_providers {
+    null = {
+      source  = &quothashicorp/null&quot
+      version = &quot~&gt 2.1.2&quot
+    }
+
+    random = {
+      source = &quothashicorp/random&quot
+      version = &quot~&gt 2.3.0&quot
+    }
+
+    local = {
+      source = &quothashicorp/local&quot
+      version = &quot~&gt 1.4.0&quot
+    }
+
+    aws = {
+      source  = &quothashicorp/aws&quot
+      version = &quot~&gt 2.70&quot
+    }
+  }
+}
+Declare the AWS region.
+And then we declare the region that we plan to use.
+provider &quotaws&quot {
+  region  = var.aws_region
+}
+Deploy a RDS instance.
+To setup the RDS instance, first we randomly generate a password for the database.
+# Randomly generate a string as the RDS password.
+resource &quotrandom_string&quot &quotrds_password&quot {
+  length = 16
+}
+And then, we declare a security group for the RDS instance. It will allow incoming MySQL traffic (TCP, port: 3306).
+# Create a security group for the RDS instance.
+resource &quotaws_security_group&quot &quotrds&quot {
+  description = &quotAllow MySQL traffic&quot
+
+  ingress {
+    description = &quotMySQL&quot
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = &quottcp&quot
+    cidr_blocks = [&quot0.0.0.0/0&quot]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = &quot-1&quot
+    cidr_blocks = [&quot0.0.0.0/0&quot]
+  }
+}
+And finally, we declare the RDS instance (MySQL 5.7, storage 20GB).
+resource &quotaws_db_instance&quot &quotrds&quot {
+  allocated_storage    = 20
+  storage_type         = &quotgp2&quot
+  engine               = &quotmysql&quot
+  engine_version       = &quot5.7&quot
+  instance_class       = &quotdb.t2.micro&quot
+  name                 = &quotcomments&quot
+  username             = &quotroot&quot
+  password             = random_string.rds_password.result
+  parameter_group_name = &quotdefault.mysql5.7&quot
+
+  skip_final_snapshot  = true
+  publicly_accessible  = true
+
+    vpc_security_group_ids = [
+        aws_security_group.rds.id
+    ]
+}
+Build ASP.NET project.
+Before deploy ECS instances, we should prepare the appsettings.{Environment}.json and compile the source code to generate executable binary.
+# Generate appsettings.Production.json and compile the source project.
+resource &quotnull_resource&quot &quotbuild_project&quot {
+  provisioner &quotlocal-exec&quot {
+    command = &quot./scripts/build-project&quot
+
+    environment = {
+      APP_ENVIRONMENT = var.app_environment
+      RDS_HOST        = aws_db_instance.rds.address
+      RDS_PORT        = aws_db_instance.rds.port
+      RDS_DATABASE    = aws_db_instance.rds.name
+      RDS_USERNAME    = aws_db_instance.rds.username
+      RDS_PASSWORD    = aws_db_instance.rds.password
+    }
+  }
+}
+scripts/build-project:
+#!/usr/bin/env bash
+
+$(cat &lt&ltEOF &gt ../../src/appsettings.${APP_ENVIRONMENT}.json
+{
+  &quotDbContext&quot: {
+    &quotServer&quot: &quot${RDS_HOST}&quot,
+    &quotDatabase&quot: &quot${RDS_DATABASE}&quot,
+    &quotPort&quot: &quot${RDS_PORT}&quot,
+    &quotUser&quot: &quot${RDS_USERNAME}&quot,
+    &quotPassword&quot: &quot${RDS_PASSWORD}&quot
+  }
+}
+EOF
+)
+
+dotnet publish ../../src -c ${APP_ENVIRONMENT}
+
+Execute database migrations.
+After the appsettings.{Environment}.json has been ready, we should execute the migrations to make sure the structure of database is up-to-date.
+# Execute database migrations.
+resource &quotnull_resource&quot &quotexecute_migrations&quot {
+  provisioner &quotlocal-exec&quot {
+    command = &quot./scripts/execute-migrations&quot
+
+    environment = {
+      APP_ENVIRONMENT = var.app_environment
+    }
+  }
+
+  depends_on = [
+    null_resource.build_project
+  ]
+}
+scripts/execute-migrations:
+#!/usr/bin/env bash
+
+dotnet ef database update --project ../../src/CommentsApi.csproj --configuration ${APP_ENVIRONMENT}
+Deploy EC2 instances.
+After the source code has been compiled, we should start to deploy the application to EC2 instances. First, we should generate SSH key pairs. The following configuration will generate SSH key pair keys/ec2 and keys/ec2.pub if they do not exist.
+# Generate SSH keys locally.
+resource &quotnull_resource&quot &quotgenerate_ssh_keys&quot {
+  provisioner &quotlocal-exec&quot {
+    command = &quot./scripts/generate-ssh-keys&quot
+  }
+}
+
+# The local file &quotkeys/ec2&quot.
+data &quotlocal_file&quot &quotec2_private_key&quot {
+  filename   = &quot./keys/ec2&quot
+  depends_on = [null_resource.generate_ssh_keys]
+}
+
+# The local file &quotkeys/ec2.pub&quot.
+data &quotlocal_file&quot &quotec2_public_key&quot {
+  filename   = &quot./keys/ec2.pub&quot
+  depends_on = [null_resource.generate_ssh_keys]
+}
+
+# Create the AWS SSH key pair for EC2 instances.
+resource &quotaws_key_pair&quot &quotec2&quot {
+  key_name   = &quotec2&quot
+  public_key = data.local_file.ec2_public_key.content
+}
+scripts/generate-ssh-keys:
+#!/usr/bin/env bash
+
+if [ ! -f ./keys/ec2 ]
+then
+  ssh-keygen -t rsa -P &#39&#39 -f ./keys/ec2
+fi
+Then, we declare a security group for EC2 instances which allow incoming SSH traffic and HTTP traffic.
+# Create a security group for EC2 instances.
+resource &quotaws_security_group&quot &quotec2&quot {
+  description = &quotAllow HTTP, HTTPS and SSH traffic&quot
+
+  ingress {
+    description = &quotSSH&quot
+    from_port   = 22
+    to_port     = 22
+    protocol    = &quottcp&quot
+    cidr_blocks = [&quot0.0.0.0/0&quot]
+  }
+
+  ingress {
+    description = &quotHTTP&quot
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = &quottcp&quot
+    cidr_blocks = [&quot0.0.0.0/0&quot]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = &quot-1&quot
+    cidr_blocks = [&quot0.0.0.0/0&quot]
+  }
+}
+After that, we can deploy EC2 instances. Here, we use file provisioner to async binaries into EC2 instances. And we use remote-exec provisioner to install required dependencies and start the service process.
+# Create EC2 instances (with nginx installed).
+resource &quotaws_instance&quot &quotec2&quot {
+  count         = var.aws_instances
+  key_name      = aws_key_pair.ec2.key_name
+  ami           = var.aws_amis[var.aws_region]
+  instance_type = &quott2.micro&quot
+
+    vpc_security_group_ids = [
+        aws_security_group.ec2.id
+    ]
+
+    connection {
+    type        = &quotssh&quot
+    user        = &quotubuntu&quot
+    private_key = data.local_file.ec2_private_key.content
+    host        = self.public_ip
+    }
+
+  # Upload the executable binary.
+  provisioner &quotfile&quot {
+    source      = &quot../../src/bin/${var.app_environment}/netcoreapp3.1&quot
+    destination = &quot~/comments-api&quot
+  }
+
+  provisioner &quotremote-exec&quot {
+    inline = [
+      &quotsudo apt update&quot,
+      &quotsudo apt install -y wget apt-transport-https&quot,
+      &quotwget https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb&quot,
+      &quotsudo dpkg -i packages-microsoft-prod.deb&quot,
+      &quotrm packages-microsoft-prod.deb&quot,
+      &quotsudo apt update&quot,
+      &quotsudo apt install -y dotnet-sdk-3.1 aspnetcore-runtime-3.1&quot,
+      &quotsudo chmod +x ~/comments-api/CommentsApi&quot,
+      &quotcd ~/comments-api &amp&amp (ASPNETCORE_ENVIRONMENT=${var.app_environment} nohup ~/comments-api/CommentsApi &gt ~/comments-api.log &amp)&quot,
+      &quotsleep 5&quot
+    ]
+  }
+
+  # Deploy instances after the app settings and binaries have been built.
+  depends_on = [
+    null_resource.build_project
+  ]
+}
+Deploy a ELB instance.
+Finaly, we can setup the ELB instance which proxy HTTP requests to 8080 port of the EC2 instances.
+# Create a ELB instance.
+resource &quotaws_elb&quot &quotelb&quot {
+  availability_zones = aws_instance.ec2.*.availability_zone
+
+  listener {
+    instance_port     = 8080
+    instance_protocol = &quothttp&quot
+    lb_port           = 80
+    lb_protocol       = &quothttp&quot
+  }
+
+  instances = aws_instance.ec2.*.id
+}
+Define output variables.
+After every deployment, we may need to know the result. By using terraform, we can define output variables to retrive some useful information of the result.
+The following configuration shows how we retrive the deployment result:
+public_address: The ELB public address.
+ec2_public_ips: The public IPs of EC2 instances.
+rds_address: The connection string for the MySQL database.
+
+outputs.tf:
+output &quotpublic_address&quot {
+  value = &quothttp://${aws_elb.elb.dns_name}&quot
+}
+
+output &quotec2_public_ips&quot {
+  value = aws_instance.ec2.*.public_ip
+}
+
+output &quotrds_address&quot {
+  value = &quotmysql://${aws_db_instance.rds.endpoint}/comments?user=root&amppassword=${random_string.rds_password.result}&quot
+}
+Apply deployment.
+Now we&amp#39;ve finished the development of terraform configurations. Now we can run the command above to initialize the terraform project. It will record the initial state and download required provider libraries.
+terraform init
+Before we do the real deployment, we can run the plan command to see the changes going to be applied.
+terraform plan
+And finally, we can run apply command to do the full deployment.
+terraform apply
+References
+Terraform - Use Infrastructure as Code to provision and manage any cloud, infrastructure, or service.
+Amazone Web Services.
+AWS Command Line Interface.
+Amazone Elastic Load Balancing.
+Amazon Elastic Container Service.
+Amazon Relational Database Service (RDS).
+Terraform - Input Variables.
+Use multiple environments in ASP.NET Core.
+Terraform - Null Provider.
+Terraform - Random Provider.
+Terraform - Local Provider.
+Terraform - AWS Provider.
+AWS - Security groups for your VPC.
+Terraform - Output Variables.
+
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Publish Your .NET Library with NuGet]]></title>
+            <link>https://aguang.xyz/#/post/software-development/publish-your-dotnet-library-with-nuget</link>
+            <guid>software-development/publish-your-dotnet-library-with-nuget</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[Publish Your .NET Library with NuGet
+What is NuGet?
+NuGet is a package manager for .NET platform. By using NuGet tools, we can easilly install and publish libraries. In this article, I&amp#39;m going to talk about how to initialize a .NET class library with Test Driven Development (TDD) and how to set up Github Actions to achieve Continuous Integration (CI) &ampamp; Continuous Deployment (CD).
+Prerequisites.
+First, we should make sure that .NET Core SDK has been sucessfully installed on our machine.
+And we need to register a free account on nuget.org.
+
+Initialize .NET class library.
+Now, we use dotnet CLI to create a class library project.
+dotnet new classlib -o SomeProject &amp&amp cd SomeProject
+Then, we should add package metadata to the project file (SomeProject/SomeProject.csproj).
+&ltProject Sdk=&quotMicrosoft.NET.Sdk&quot&gt
+  &ltPropertyGroup&gt
+    &ltTargetFramework&gtnetstandard2.0&lt/TargetFramework&gt
+
+    &ltPackageId&gtSomeProject&lt/PackageId&gt
+    &ltDescription&gtA sample .NET library&lt/Description&gt
+    &ltAuthors&gtGrey Wang&lt/Authors&gt
+    &ltRepositoryUrl&gthttps://github.com/aguang-xyz/some-project-dotnet&lt/RepositoryUrl&gt
+    &ltPackageLicenseExpression&gtMIT&lt/PackageLicenseExpression&gt
+
+    &ltEnableDefaultCompileItems&gtfalse&lt/EnableDefaultCompileItems&gt
+  &lt/PropertyGroup&gt
+
+  &ltItemGroup&gt
+    &ltCompile Include=&quotSomeProject.cs&quot /&gt
+  &lt/ItemGroup&gt
+&lt/Project&gt
+
+PackageId is the slug of your project showing on nuget.org.
+Description indicates a text descriping your project.
+Authors indicates the list of authors&amp#39; names (comma separated).
+RepositoryUrl is the url of the home page of your project.
+PackageLicenseExpression indicates the license of your project. And we can also use PackageLicenseFile or PackageLicenseUrl to indicate the license.
+Setting EnableDefaultCompileItems to false and adding a Compile/Include option indicate that the compiler will not import all source files automatically. Because we will create a subfolder as a test project later.
+
+Initialize test project.
+To make sure the reliability of your implementation, we should also add a test project to cover the functionalities. There are serveral choices of unit test frameworks in .NET platform (xUnit, NUnit, MSTest) to setup our test project.
+dotnet new mstest -o SomeProjectTest
+Since the main project will be used by the test project, we should make a reference from main project to test project.
+dotnet add SomeProjectTest/SomeProjectTest.csproj reference SomeProject.csproj
+Development.
+In this sample, we plant to implement a very simple class called SomeCounter. It contains only a method AddAndGet. Every time you call this method, it should increment the counter and return value after incrementation.
+Here is the test code (SomeProjectTest/SomeProjectTest.cs).
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SomeProject;
+
+namespace SomeProjectTest
+{
+    [TestClass]
+    public class SomeProjectTest
+    {
+        [TestMethod]
+        public void TestCounter()
+        {
+            var counter = new SomeCounter();
+
+            Assert.AreEqual(1, counter.AddAndGet());
+        }
+    }
+}
+Here is the source code (SomeProject.cs):
+namespace SomeProject
+{
+    public class SomeCounter
+    {
+        private int count = 0;
+
+        public int AddAndGet()
+        {
+            return ++count;
+        }
+    }
+}
+Run the unit tests.
+Now we can run the test cases to check the correcness of our code. By using the additional parameter logger, the logs (if we have) can be displayed on the terminal.
+dotnet test --logger &quotconsole;verbosity=detailed&quot SomeProjectTest
+Initialize Git repository.
+Now we initialize the git repository.
+git init
+To ignore the build output, we should create a .gitignore first.
+bin/
+obj/
+We commit the changes.
+git add -A
+git commit -m &quotInitialize SomeProject.&quot
+And we create a tag, the tag will used as the version in the next step.
+git tag -a v1.0.0
+Build &ampamp; publish the NuGet package manually.
+Now we can start to build the NuGet package by running the command above. After execution, we should find a NuGet package file (bin/Debug/SomeProject.1.0.0.nupkg).
+In this command, we take ${&ampquot;$(git describe --tags --abbrev=0)&ampquot;:1} to read the latest git tag (v1.0.0), skip the first character (&amp#39;v&amp#39;) and use the rest (&ampquot;1.0.0&ampquot;) as the automatic package version.
+dotnet pack -p:PackageVersion=${&quot$(git describe --tags --abbrev=0)&quot:1}
+To publish the NuGet package, we should prepare for the API key first. It can be created via NuGet&amp#39;s dashboard. And the we can run the following command to publish the package manually. HINT: Due to Microsoft&amp#39;s security strategy, it may take hours to do the package validation and indexing. 
+dotnet nuget push ./bin/Debug/SomeProject.1.0.0.nupkg \
+  --api-key {API_KEY} \
+  --source https://api.nuget.org/v3/index.json
+CI &ampamp; CD workflow.
+Now we want to combine the previous several steps (run test cases, build and deploy) together to setup up a Continuious Integration (CI) &ampamp; Continuous Deployment (CD) workflow based Github actions. The above yaml file (.github/workflows/build-dotnet.yml) is an example to show how the CI &ampamp; CD action works.
+name: build/dotnet
+
+on: [push, pull_request]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Git repository.
+        uses: actions/checkout@v1
+
+      - name: Set up dotnet CLI.
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.302
+
+      - name: Run unit tests.
+        run: |
+          dotnet test --logger &quotconsole;verbosity=detailed&quot SomeProjectTest
+
+      - name: Build a NuGet package.
+        if: github.event_name == &#39push&#39 &amp&amp startsWith(github.ref, &#39refs/tags&#39)
+        run: |
+          dotnet pack -p:PackageVersion=${GITHUB_REF#refs/tags/v}
+
+      - name: Publish the NuGet packge.
+        if: github.event_name == &#39push&#39 &amp&amp startsWith(github.ref, &#39refs/tags&#39)
+        run: |
+          dotnet nuget push ./bin/Debug/SomeProject.*.nupkg \
+            --api-key ${API_KEY} \
+            --source https://api.nuget.org/v3/index.json
+        env:
+          API_KEY: ${{secrets.NUGET_API_KEY}}
+We need to config a secret key NUGET_API_KEY via the Github dashboard. Then, every time after we push commits or submit a pull request, we will see if all the test cases can be passed. And after each time we push a new tag, it will build a NuGet package and deploy to nuget.org automatically.
+References.
+Create .NET apps faster with NuGet.
+Github Actions Document.
+Download .NET Core 3.1.
+Additions to the csproj format for .NET Core.
+Abount xUnit.net.
+What Is NUnit?.
+MSTest Test Framework 1.3.2.
+Package validation and indexing of NuGet platform.
+
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[File Associations in Electron Apps]]></title>
+            <link>https://aguang.xyz/#/post/software-development/file-associations-in-electron-apps</link>
+            <guid>software-development/file-associations-in-electron-apps</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[File Associations in Electron Applications.
+Electron is widely used framework by which we
+can build cross-platform apps with Javascript, HTML and css. In this article,
+I want to introduce a simple way to implement file associations.
+Initialize a new Electron Application.
+Electron-builder is a
+complete solution to package and build a ready-for-distribution Electron app.
+A recommended way to create a new Electron application is to clone the template
+repository called electron-webpack-quick-start.
+git clone https://github.com/electron-userland/electron-webpack-quick-start.git
+cd electron-webpack-quick-start
+rm -rf .git
+File Association Configs.
+Electron-builder configuration can be defined in the package.json file of
+your project using the build key. And in the common configuration
+ section, we can find the definition of key fileAssociations.
+fileAssociations Array&ltFileAssociation&gt | FileAssociation - The file associations.
+ext String | Array&ltString&gt - The extension (minus the leading period). e.g. png.
+
+name String - The name. e.g. PNG. Defaults to ext.
+
+description String - windows-only. The description.
+
+mimeType String - linux-only. The mime-type.
+
+icon String - The path to icon (.icns for MacOS and .ico for Windows), relative to build (build resources directory). Defaults to ${firstExt}.icns/${firstExt}.ico (if several extensions specified, first is used) or to application icon.
+Not supported on Linux, file issue if need (default icon will be `x-office-document`).
+
+role = Editor String - macOS-only The app’s role with respect to the type. The value can be Editor, Viewer, Shell, or None. Corresponds to CFBundleTypeRole.
+
+isPackage Boolean - macOS-only Whether the document is distributed as a bundle. If set to true, the bundle directory is treated as a file. Corresponds to LSTypeIsPackage.
+
+protocols Array&ltProtocol&gt | Protocol - The URL protocol schemes.
+
+name String - The name. e.g. IRC server URL.
+
+schemes Array&ltString&gt - The schemes. e.g. [&ampquot;irc&ampquot;, &ampquot;ircs&ampquot;].
+
+role = Editor “Editor” | “Viewer” | “Shell” | “None” - macOS-only The app’s role with respect to the type.
+
+
+
+
+
+The above is an example to support file association of markdown files.
+By this, electron-builder will automatically:
+Write related configs into window registry for Windows. 
+Generate related configs into Info.plist for macOS. 
+Generate field MimeType = text/markdown in your application.desktop for Linux.
+
+&quotbuild&quot: {
+    &quotfileAssociations&quot: [{
+        &quotext&quot: &quotmd&quot,
+        &quotdescription&quot: &quotMarkdown File&quot,
+        &quotmimeType&quot: &quottext/markdown&quot,
+        &quotname&quot: &quotMarkdown File&quot,
+        &quotrole&quot: &quotEditor&quot
+    }]
+},
+Handle File Opening.
+There are different ways to trigger file opening via your application:
+On macOS, an open-file event will be triggered as mentioned here;
+and to successfully handle this event, we should call event.preventDefault().
+
+On Linux or Windows, a new process will be executed and we can get the file path via process.argv.
+
+
+The code above shows how to handle file opening for all platforms.
+import { app } from &quotelectron&quot;
+
+// Handle file opening for macOS.
+app.on(&quotopen-file&quot, (event, path) =&gt {
+
+    // Notify the framework, this event has been handled.
+    event.preventDefault();
+
+    handleOpen(path);
+});
+
+app.on(&quotready&quot, () =&gt {
+
+    // TODO: Initialize your application.
+
+    // Handle file opening for Windows and Linux.
+    if (process.argv[1]) {
+
+        // Since we may have extra parameters (e.g. app --sanbox), process.argv[1]
+        // may not be an existed file path, we should catch potential exceptions
+        // here.    
+        try {
+            handleOpen(process.argv[1]);
+        }    catch (err) {
+            console.warn(`Failed to open ${path}: ${err.message}`);
+        }
+    }
+});
+References.
+Electron: build cross-platform desktop apps with JavaScript, HTML, and CSS.
+Electron-builder: a complete solution to package and build a ready for distribution Electron.
+Electron-webpack-quick-start: a bare minimum project structure to get started developing Electron app.
+Windows Registry. In Wikipedia, The Free Encyclopedia.
+
+]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Automatic Captioning in Python]]></title>
+            <link>https://aguang.xyz/#/post/software-development/auto-captioning-in-python</link>
+            <guid>software-development/auto-captioning-in-python</guid>
+            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <content:encoded><![CDATA[Automatic Captioning in Python.
+System: Ubuntu 18.04
+Python: 3.6
+
+There are many cloud-based speech recognization services available
+(etc. Google Cloud, IBM Watson, Microsoft Azure, Wit.ai). But in this article, I&amp#39;m gonna introduce the way how to achieve auto-captioning fully offline step by step.
+
+Briefly, this program contains several parts:
+Extracting the audio from the input video.
+Converting from stereo waveforms to single mono waveform.
+Speech recognization based on vosk, extracting words and their positions (start time and end time) from the mono waveform.
+Segment words into sentences based on NNSplit.
+
+Vosk is an offline speech recognition library based on Kaldi. And NNSplit is a library by which we can split words into sentences without punctuations based on a sequence labeling LSTM.
+Audio Extracting.
+The first step is quite simple, we can import the library moviepy which provides the API to extract audios from videos based on ffmpeg.
+Install ffmpeg and moviepy.
+sudo apt install ffmpeg
+pip3 install moviepy
+Extract audio.
+from moviepy.editor import VideoFileClip
+
+def extract_audio(video_path, wav_path):  
+    video = VideoFileClip(video_path)
+  video.audio.write_audiofile(wav_path)
+Stereo Waveforms Combining.
+The wav file written by moviepy may contain multiple stereo channels. Now we use pydub to combine these channels to a single mono channel.
+
+Install pydub.
+pip3 install pydub
+Combine stereo channels.
+from pydub import AudioSegment
+
+def combine_stereos(wav_path):
+    audio = AudioSegment.from_file(wav_path)
+    channels = audio.split_to_mono()
+    sum(channels).export(wav_path, format=&quotwav&quot)
+Speech Recognization.
+Vosk is a speech recognization library which supports 9 languages and works offline based on kaldi. By default, it takes small model to work on lightweight devices. To achive higher accuracy, we can download bigger server models from here. We use wave to parse the wav file and read binary frames to feed vosk. Since the speech recognization may take a quite long time, we use tqdm to show a progress bar.
+Install [vosk][https://alphacephei.com/vosk/] and tqdm.
+pip3 install vosk tqdm
+Recognize speech.
+def recognize_speech(wav_path, lang=&quoten&quot, buffer_size=4000):
+
+  vosk.SetLogLevel(-1)
+
+  wav_file = wave.open(wav_path, &quotrb&quot)
+  recognizer = vosk.KaldiRecognizer(vosk.Model(&quotmodel/{}&quot.format(lang)),
+                                    wav_file.getframerate())
+  words = []
+
+  for index in tqdm(range(0, wav_file.getnframes(), buffer_size)):
+      frames = wav_file.readframes(buffer_size)
+
+      if recognizer.AcceptWaveform(frames):
+          result = json.loads(recognizer.Result())
+
+          if len(result[&quottext&quot]) &gt 0:
+            for token in result[&quotresult&quot]:
+              words.append({
+                  &quotstart&quot: token[&quotstart&quot],
+                  &quotend&quot: token[&quotend&quot],
+                  &quottext&quot: token[&quotword&quot],
+              })
+
+  return words
+After speech recognization, we can get a sort of words and their positions (start time and end time) in the given, like this:
+
+Sentence Segmentation.
+Now the next problem is that we don&amp#39;t have punctuations to split the words into sentences easily. This problem is as known as Sentence boundary disambiguation (SBD). NNSplit is such a library that aims split words into sentences without punctuations based on a sequence labeling LSTM.
+Words to Sentences.
+yeah but you just got out of prison /
+i mean how much of a step up from that /
+you don&#39t get out of the booth
+Install NNSplit.
+pip3 install nnsplit
+Segment sentences.
+def segment_setences(words, lang=&quoten&quot):
+
+    content = &quot &quot.join(map(lambda word: word[&quottext&quot], words))
+  sentences = []
+
+  left = 0
+
+  for tokens2d in tqdm(nnsplit.NNSplit(lang).split([content])):
+    for tokens in tokens2d:
+
+      text = &quot&quot.join(
+        map(lambda token: token.text + token.whitespace, tokens)).strip()
+
+      right = min(len(words), left + len(tokens)) - 1
+
+      while right &gt 0 and not text.endswith(words[right][&quottext&quot]):
+        right -= 1
+
+      sentences.append({
+        &quotstart&quot: words[left][&quotstart&quot],
+        &quotend&quot: words[right][&quotend&quot],
+        &quottext&quot: text
+      })
+
+      left = right + 1
+
+  return sentences
+Example result of sentence segmentation:
+
+SRT File Generation.
+The final step is quite easy. Now we want to write the result into a format which can detected by video player automatically. SubRip Subtitle Format could be a good chioce.
+A .srt file is a pure text file with sequence numbers starting from 1, timestamps and caption texts. The content below shows what a .srt file looks like:
+1
+00:00:00,210 --&gt 00:00:01,650
+yeah but you just got out of prison
+
+2
+00:00:01,650 --&gt 00:00:03,870
+i mean how much of a step up from that
+
+3
+00:00:03,930 --&gt 00:00:04,830
+you don&#39t get out of the booth
+
+...
+
+Generate SRT file.
+def time2str(x):
+
+  return &quot{hour:02d}:{minute:02d}:{second:02d},{millisecond}&quot.format(
+    hour=int(x) // 3600,
+    minute=(int(x) // 60) % 60,
+    second=int(x) % 60,
+    millisecond=int(x * 1000) % 1000)
+
+def write_srt_file(captions, srt_path):
+
+  with open(srt_path, &quotw&quot) as srt_file:
+    for index, caption in enumerate(captions):
+      srt_file.write(&quot{}\n{} --&gt {}\n{}\n\n&quot.format(
+        index + 1, time2str(caption[&quotstart&quot]),
+        time2str(caption[&quotend&quot]), caption[&quottext&quot]))
+Conclusion.
+In this article I&amp#39;ve introduced a way to implement a fully offline program automatically generating captions from videos.
+This sample shows the captions generated from my program. And I&amp#39;ve published the implementation as a Python package called auto-caption.
+References.
+Build Natural Language Expeiences with Wit.ai.
+FFMpeg - A complete, cross-platform solution to record, convert and stream audio and video.
+Fast, robust sentence splitting with bindings for Python, Rust and Javascript.
+Kaldi Speech Recognization Toolkit.
+MoviePy - A python module for movie editing.
+Pydub - Manipulate audio with a simple and easy high level interface.
+Sentence boundary disambiguation.
+Speech to Text with Google Cloud.
+Speech to Text with IBM Watson.
+Speech to Text with Microsoft Azure.
+SubRip Subtitle Format.
+TQDM - A Fast, Extensible Progress Bar for Python and CLI.
+VOSK Speech Recognization API.
+
+]]></content:encoded>
+        </item>
+    </channel>
+</rss>

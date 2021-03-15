@@ -1,0 +1,34 @@
+title: Aguang's Blog
+
+posts:
+
+  - id: 'about/myself'
+    title: 'My Profile'
+
+  - id: 'competitive-programming'
+    title: 'Competitive Programming'
+    link: '#/post/competitive-programming'
+    image: '/images/competitive-programming/index.jpg'
+  
+  - id: 'software-development'
+    title: 'Software Development'
+    link: '#/post/software-development'
+    image: '/images/software-development/index.jpg'
+
+  - id: 'algorithms'
+    title: 'Algorithms'
+    link: '#/post/algorithms'
+    image: '/images/algorithms/index.jpg'
+
+  - id: 'projects'
+    title: 'My Projects'
+    link: '#/projects'
+    image: '/images/projects/index.jpg'
+
+  - id: 'data-science'
+    title: 'Data Science'
+    link: '#/post/data-science'
+    image: '/images/data-science/index.jpg'
+
+
+
