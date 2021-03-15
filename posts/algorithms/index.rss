@@ -4,14 +4,14 @@
         <title>Algorithm Templates</title>
         <link>https://aguang.xyz/#/post/algorithms</link>
         <description>Algorithm Templates</description>
-        <lastBuildDate>Mon, 15 Mar 2021 10:31:06 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 15 Mar 2021 10:36:45 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Shortest Path Faster Algorithm]]></title>
             <link>https://aguang.xyz/#/post/algorithms/spfa</link>
             <guid>algorithms/spfa</guid>
-            <pubDate>Mon, 15 Mar 2021 10:30:09 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 10:35:53 GMT</pubDate>
             <content:encoded><![CDATA[Shortest Path Faster Algorithm.
 Shortest Path Faster Algorithm (SPFA) is an improved version of Bellman-Ford, which uses a FIFO queue to maintain the relexing vertices. Time complexity: $O(|V| \times |E|)$.
 SPFA terminates only if there is no negative circle in the graph. And if we add some additional check (whether some node has been pushed into the queue more than N times) to check if there is a negative circle in the graph.
@@ -67,7 +67,7 @@ int spfa(int s, int t, int n, vector&ltedge&gt links[]) {
             <title><![CDATA[KMP - Pattern Searching Algorithm]]></title>
             <link>https://aguang.xyz/#/post/algorithms/kmp</link>
             <guid>algorithms/kmp</guid>
-            <pubDate>Mon, 15 Mar 2021 10:30:09 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 10:35:53 GMT</pubDate>
             <content:encoded><![CDATA[KMP Pattern Searching Algorithm
 KMP is a pattern searching algorithm.
 For given searching string $s$ and pattern string $p$, it pre-caculates a partial match table of $s$. Through this
@@ -153,7 +153,7 @@ class kmp {
             <title><![CDATA[AC Automaton Multi-Pattern Searching Algorithm]]></title>
             <link>https://aguang.xyz/#/post/algorithms/ac-auto</link>
             <guid>algorithms/ac-auto</guid>
-            <pubDate>Mon, 15 Mar 2021 10:30:09 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 10:35:53 GMT</pubDate>
             <content:encoded><![CDATA[AC-Automaton Multi-Pattern Searching Algorithm
 AC is a
 multi-pattern searching algorithm. For a given set of pattern strings $S$, it
@@ -342,7 +342,7 @@ class ac_auto {
             <title><![CDATA[Quick Sort Algorithm]]></title>
             <link>https://aguang.xyz/#/post/algorithms/quick-sort</link>
             <guid>algorithms/quick-sort</guid>
-            <pubDate>Mon, 15 Mar 2021 10:30:09 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 10:35:53 GMT</pubDate>
             <content:encoded><![CDATA[Quick Sort Algorithm
 Quick Sort is a sort algorithm of which the
 time complexity is $O(n \times log(n))$.
@@ -423,7 +423,7 @@ class quick_sort {
             <title><![CDATA[Trie - Preffix Search Tree for Strings]]></title>
             <link>https://aguang.xyz/#/post/algorithms/trie</link>
             <guid>algorithms/trie</guid>
-            <pubDate>Mon, 15 Mar 2021 10:30:09 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 10:35:53 GMT</pubDate>
             <content:encoded><![CDATA[Trie Data Structure
 Trie is a kind of preffix search tree,
 by which we can map strings to any data type. For any given string $s$, the
@@ -500,7 +500,7 @@ class trie {
             <title><![CDATA[Leftist Tree - Mergeable Heap]]></title>
             <link>https://aguang.xyz/#/post/algorithms/leftist-tree</link>
             <guid>algorithms/leftist-tree</guid>
-            <pubDate>Mon, 15 Mar 2021 10:30:09 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 10:35:53 GMT</pubDate>
             <content:encoded><![CDATA[Leftist Tree Data Structure
 Leftist Tree is a kind of mergeable heap.
 Template
@@ -651,7 +651,7 @@ class leftist_tree {
             <title><![CDATA[Fenwick Tree - Binary Indexed Tree]]></title>
             <link>https://aguang.xyz/#/post/algorithms/fenwick-tree</link>
             <guid>algorithms/fenwick-tree</guid>
-            <pubDate>Mon, 15 Mar 2021 10:30:09 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 10:35:53 GMT</pubDate>
             <content:encoded><![CDATA[Fenwick Tree
 A fenwick tree or binary indexed
 tree is a kind of data structure used to maintain the preffix sums of an
