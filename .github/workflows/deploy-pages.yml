@@ -1,9 +1,10 @@
-name: Deploy to Github Pages
+name: Build and Deploy to Github Pages
 on:
   push:
     branches:
       - master
-build-and-deploy:
+jobs:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
