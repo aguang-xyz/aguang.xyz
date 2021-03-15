@@ -4,14 +4,14 @@
         <title>Software Development</title>
         <link>https://aguang.xyz/#/post/software-development</link>
         <description>Software Development</description>
-        <lastBuildDate>Mon, 15 Mar 2021 10:04:06 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 15 Mar 2021 10:31:02 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Deploy Reproducible Infrastructure on AWS with Terraform]]></title>
             <link>https://aguang.xyz/#/post/software-development/deploy-reproducible-infrastructure-on-aws-with-terraform</link>
             <guid>software-development/deploy-reproducible-infrastructure-on-aws-with-terraform</guid>
-            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 10:30:09 GMT</pubDate>
             <content:encoded><![CDATA[Deploy Reproducible Infrastructure on AWS with Terraform
 Terraform is an open-source infrastructure as code software tool created by HashiCorp. In this article, I&amp#39;m going to introduce how to deploy a scalable .NET Web Api Service on AWS with Terraform.
 Prerequisites.
@@ -389,7 +389,7 @@ Terraform - Output Variables.
             <title><![CDATA[Publish Your .NET Library with NuGet]]></title>
             <link>https://aguang.xyz/#/post/software-development/publish-your-dotnet-library-with-nuget</link>
             <guid>software-development/publish-your-dotnet-library-with-nuget</guid>
-            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 10:30:09 GMT</pubDate>
             <content:encoded><![CDATA[Publish Your .NET Library with NuGet
 What is NuGet?
 NuGet is a package manager for .NET platform. By using NuGet tools, we can easilly install and publish libraries. In this article, I&amp#39;m going to talk about how to initialize a .NET class library with Test Driven Development (TDD) and how to set up Github Actions to achieve Continuous Integration (CI) &ampamp; Continuous Deployment (CD).
@@ -539,7 +539,7 @@ Package validation and indexing of NuGet platform.
             <title><![CDATA[File Associations in Electron Apps]]></title>
             <link>https://aguang.xyz/#/post/software-development/file-associations-in-electron-apps</link>
             <guid>software-development/file-associations-in-electron-apps</guid>
-            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 10:30:09 GMT</pubDate>
             <content:encoded><![CDATA[File Associations in Electron Applications.
 Electron is widely used framework by which we
 can build cross-platform apps with Javascript, HTML and css. In this article,
@@ -648,7 +648,7 @@ Windows Registry. In Wikipedia, The Free Encyclopedia.
             <title><![CDATA[Automatic Captioning in Python]]></title>
             <link>https://aguang.xyz/#/post/software-development/auto-captioning-in-python</link>
             <guid>software-development/auto-captioning-in-python</guid>
-            <pubDate>Mon, 15 Mar 2021 10:03:26 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 10:30:09 GMT</pubDate>
             <content:encoded><![CDATA[Automatic Captioning in Python.
 System: Ubuntu 18.04
 Python: 3.6
