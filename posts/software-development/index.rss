@@ -4,14 +4,59 @@
         <title>Software Development</title>
         <link>https://aguang.xyz/#/post/software-development</link>
         <description>Software Development</description>
-        <lastBuildDate>Mon, 15 Mar 2021 10:36:41 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 15 Mar 2021 11:46:33 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Deploy Your React App as Github Pages]]></title>
+            <link>https://aguang.xyz/#/post/software-development/deploy-your-react-app-to-github-pages</link>
+            <guid>software-development/deploy-your-react-app-to-github-pages</guid>
+            <pubDate>Mon, 15 Mar 2021 11:45:44 GMT</pubDate>
+            <content:encoded><![CDATA[Deploy Your React App as Github Pages.
+Github Pages is a convenient way to publish a website for your project hosted on Github. In this article I&amp#39;ll introduce how to set up the Continuous Deployment Workflow based on Github Actions to build and deploy your React App to Github Pages.
+Develop Your React App.
+First, we use create-react-app tool to initialize a new project.
+npx create-react-app example-app
+Setup Github Workflow.
+Then we create a Github Workflow File .github/workflows/deploy-pages.yml. Every time we merge a pull request into master or push commits into master, it will trigger a Github Action to build and publish the build folder into branch gh-pages.
+name: Github Pages
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+
+      - name: Install and Build 🔧
+        run: |
+          yarn 
+          yarn build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: build
+Config Github Pages Source.
+Now, we need to go project settings page and change the Github Pages Source from the branch gh-pages.
+
+After that, we can visit the Github Pages of this project.
+References.
+GitHub: Where the world builds software.
+Github Pages: Websites for you and your projects.
+Create React App: Create React apps with no build configuration.
+
+]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Deploy Reproducible Infrastructure on AWS with Terraform]]></title>
             <link>https://aguang.xyz/#/post/software-development/deploy-reproducible-infrastructure-on-aws-with-terraform</link>
             <guid>software-development/deploy-reproducible-infrastructure-on-aws-with-terraform</guid>
-            <pubDate>Mon, 15 Mar 2021 10:35:53 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 11:45:44 GMT</pubDate>
             <content:encoded><![CDATA[Deploy Reproducible Infrastructure on AWS with Terraform
 Terraform is an open-source infrastructure as code software tool created by HashiCorp. In this article, I&amp#39;m going to introduce how to deploy a scalable .NET Web Api Service on AWS with Terraform.
 Prerequisites.
@@ -389,7 +434,7 @@ Terraform - Output Variables.
             <title><![CDATA[Publish Your .NET Library with NuGet]]></title>
             <link>https://aguang.xyz/#/post/software-development/publish-your-dotnet-library-with-nuget</link>
             <guid>software-development/publish-your-dotnet-library-with-nuget</guid>
-            <pubDate>Mon, 15 Mar 2021 10:35:53 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 11:45:44 GMT</pubDate>
             <content:encoded><![CDATA[Publish Your .NET Library with NuGet
 What is NuGet?
 NuGet is a package manager for .NET platform. By using NuGet tools, we can easilly install and publish libraries. In this article, I&amp#39;m going to talk about how to initialize a .NET class library with Test Driven Development (TDD) and how to set up Github Actions to achieve Continuous Integration (CI) &ampamp; Continuous Deployment (CD).
@@ -539,7 +584,7 @@ Package validation and indexing of NuGet platform.
             <title><![CDATA[File Associations in Electron Apps]]></title>
             <link>https://aguang.xyz/#/post/software-development/file-associations-in-electron-apps</link>
             <guid>software-development/file-associations-in-electron-apps</guid>
-            <pubDate>Mon, 15 Mar 2021 10:35:53 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 11:45:44 GMT</pubDate>
             <content:encoded><![CDATA[File Associations in Electron Applications.
 Electron is widely used framework by which we
 can build cross-platform apps with Javascript, HTML and css. In this article,
@@ -648,7 +693,7 @@ Windows Registry. In Wikipedia, The Free Encyclopedia.
             <title><![CDATA[Automatic Captioning in Python]]></title>
             <link>https://aguang.xyz/#/post/software-development/auto-captioning-in-python</link>
             <guid>software-development/auto-captioning-in-python</guid>
-            <pubDate>Mon, 15 Mar 2021 10:35:53 GMT</pubDate>
+            <pubDate>Mon, 15 Mar 2021 11:45:44 GMT</pubDate>
             <content:encoded><![CDATA[Automatic Captioning in Python.
 System: Ubuntu 18.04
 Python: 3.6

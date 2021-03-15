@@ -1,6 +1,9 @@
 title: "Software Development"
 
 posts:
+  - id: software-development/deploy-your-react-app-to-github-pages
+    title: Deploy Your React App as Github Pages
+
   - id: software-development/deploy-reproducible-infrastructure-on-aws-with-terraform
     title: Deploy Reproducible Infrastructure on AWS with Terraform
 
