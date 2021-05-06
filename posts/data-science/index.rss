@@ -4,14 +4,14 @@
         <title>Data Science</title>
         <link>https://aguang.xyz/#/post/data-science</link>
         <description>Data Science</description>
-        <lastBuildDate>Thu, 06 May 2021 08:46:53 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 06 May 2021 09:38:46 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Collaborative Filtering and Matrix Factorization]]></title>
             <link>https://aguang.xyz/#/post/data-science/collaborative-filtering-and-matrix-factorization</link>
             <guid>data-science/collaborative-filtering-and-matrix-factorization</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[Collaborative Filtering and Matrix Factorization
 For many online services (including E-commerce, online news and social media applications), the secret of recommendation system is in modelling users&amp#39; preference on items based on their past interactions (such as: ratings, clicks, purchases, likes, ...). It is as known as Collaborative Filtering.
 Interaction Matrix.
@@ -110,7 +110,7 @@ Non-negative matrix factorization, Scikit-Learn.
             <title><![CDATA[DBSCAN Algorithm]]></title>
             <link>https://aguang.xyz/#/post/data-science/density-based-spatial-clustering-of-applications-with-noise</link>
             <guid>data-science/density-based-spatial-clustering-of-applications-with-noise</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[Density-based Spatial Clustering of Applications with Noise.
 Density-based spatial clustering of applications with noise (DBSCAN)
 is a clustering algorithm.
@@ -172,7 +172,7 @@ Retrieved from https://en.wikipedia.org/wiki/DBSCAN
             <title><![CDATA[K-Means Clustering]]></title>
             <link>https://aguang.xyz/#/post/data-science/k-means-clustering</link>
             <guid>data-science/k-means-clustering</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[K-Means Clustering
 K-Means is a clustering algorithm by which you can cluster data points into 
 specific number of groups.
@@ -209,7 +209,7 @@ from https://en.wikipedia.org/wiki/K-means_clustering
             <title><![CDATA[Association Analysis and Apriori Algorithm]]></title>
             <link>https://aguang.xyz/#/post/data-science/association-rule-mining-and-apriori-algorithm</link>
             <guid>data-science/association-rule-mining-and-apriori-algorithm</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[Association Analysis and Apriori Algorithm
 Association analysis is one of the common parts of unsupervised machine learning.
 In association analysis, our goal is briefly to find things happening together.
@@ -403,7 +403,7 @@ $$
             <title><![CDATA[Multi-Layer Perceptron and Back-Propagation Algorithm]]></title>
             <link>https://aguang.xyz/#/post/data-science/multi-layer-perceptron</link>
             <guid>data-science/multi-layer-perceptron</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[Multi-Layer Perceptron and Back-Propagation Algorithm
 Perceptron
 In machine learning, perceptron is a binary classifier, which calculates a
@@ -545,7 +545,7 @@ is about 98%.
             <title><![CDATA[Adaptive Boosting Algorithm]]></title>
             <link>https://aguang.xyz/#/post/data-science/adaptive-boosting-algorithm</link>
             <guid>data-science/adaptive-boosting-algorithm</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[Adaptive Boosting Algorithm
 Adaptive Boosting (AdaBoost) is an
 ensembled machine learning algorithm. The key idea is:
@@ -614,7 +614,7 @@ from https://en.wikipedia.org/wiki/AdaBoost
             <title><![CDATA[Entropy and Information Gain]]></title>
             <link>https://aguang.xyz/#/post/data-science/entropy-and-information-gain</link>
             <guid>data-science/entropy-and-information-gain</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[Entropy and Information Gain
 1. Play golf or not?
 To begin with this topic, let&amp#39;s think about a question from the dataset given below.
@@ -917,7 +917,7 @@ Wikipedia contributors. (2020, February 29). C4.5 algorithm. Wikipedia, The Free
             <title><![CDATA[Graph Data Model]]></title>
             <link>https://aguang.xyz/#/post/data-science/graph-data-model</link>
             <guid>data-science/graph-data-model</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[Formal Description of Graph Data
 1. Graph Data Models
 1.1 PGM - Property Graph Model
@@ -1130,7 +1130,7 @@ $\forall g = (e) + (f) \in \text{PRQ}, [[g]]_G = [[e]]_G \cup [[f]]_G$
             <title><![CDATA[Mathjax Quick Reference]]></title>
             <link>https://aguang.xyz/#/post/data-science/mathjax-introduction</link>
             <guid>data-science/mathjax-introduction</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[A Brief Introduction of MathJax
 MathJax is a javascript display engine which can be
 easily integrated into web pages. In this article, I want to cover many common

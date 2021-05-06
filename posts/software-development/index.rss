@@ -4,14 +4,14 @@
         <title>Software Development</title>
         <link>https://aguang.xyz/#/post/software-development</link>
         <description>Software Development</description>
-        <lastBuildDate>Thu, 06 May 2021 08:46:55 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 06 May 2021 09:38:48 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Deploy Your React App as Github Pages]]></title>
             <link>https://aguang.xyz/#/post/software-development/deploy-your-react-app-to-github-pages</link>
             <guid>software-development/deploy-your-react-app-to-github-pages</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[Deploy Your React App as Github Pages.
 Github Pages is a convenient way to publish a website for your project hosted on Github. In this article I&amp#39;ll introduce how to set up the Continuous Deployment Workflow based on Github Actions to build and deploy your React App to Github Pages.
 Develop Your React App.
@@ -56,7 +56,7 @@ Create React App: Create React apps with no build configuration.
             <title><![CDATA[Deploy Reproducible Infrastructure on AWS with Terraform]]></title>
             <link>https://aguang.xyz/#/post/software-development/deploy-reproducible-infrastructure-on-aws-with-terraform</link>
             <guid>software-development/deploy-reproducible-infrastructure-on-aws-with-terraform</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[Deploy Reproducible Infrastructure on AWS with Terraform
 Terraform is an open-source infrastructure as code software tool created by HashiCorp. In this article, I&amp#39;m going to introduce how to deploy a scalable .NET Web Api Service on AWS with Terraform.
 Prerequisites.
@@ -434,7 +434,7 @@ Terraform - Output Variables.
             <title><![CDATA[Publish Your .NET Library with NuGet]]></title>
             <link>https://aguang.xyz/#/post/software-development/publish-your-dotnet-library-with-nuget</link>
             <guid>software-development/publish-your-dotnet-library-with-nuget</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[Publish Your .NET Library with NuGet
 What is NuGet?
 NuGet is a package manager for .NET platform. By using NuGet tools, we can easilly install and publish libraries. In this article, I&amp#39;m going to talk about how to initialize a .NET class library with Test Driven Development (TDD) and how to set up Github Actions to achieve Continuous Integration (CI) &ampamp; Continuous Deployment (CD).
@@ -584,7 +584,7 @@ Package validation and indexing of NuGet platform.
             <title><![CDATA[File Associations in Electron Apps]]></title>
             <link>https://aguang.xyz/#/post/software-development/file-associations-in-electron-apps</link>
             <guid>software-development/file-associations-in-electron-apps</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[File Associations in Electron Applications.
 Electron is widely used framework by which we
 can build cross-platform apps with Javascript, HTML and css. In this article,
@@ -693,7 +693,7 @@ Windows Registry. In Wikipedia, The Free Encyclopedia.
             <title><![CDATA[Automatic Captioning in Python]]></title>
             <link>https://aguang.xyz/#/post/software-development/auto-captioning-in-python</link>
             <guid>software-development/auto-captioning-in-python</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[Automatic Captioning in Python.
 System: Ubuntu 18.04
 Python: 3.6

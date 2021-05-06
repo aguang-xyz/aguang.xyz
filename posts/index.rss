@@ -4,22 +4,23 @@
         <title>Aguang's Blog</title>
         <link>https://aguang.xyz/#/post/index.yaml</link>
         <description>Aguang's Blog</description>
-        <lastBuildDate>Thu, 06 May 2021 08:46:57 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 06 May 2021 09:38:44 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[My Profile]]></title>
             <link>https://aguang.xyz/#/post/about/myself</link>
             <guid>about/myself</guid>
-            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:02 GMT</pubDate>
             <content:encoded><![CDATA[PERSONAL PROFILE
-Enjoys computer programming since 13 years old. Has two years of full-time work experience focusing on software development. Now studying for a master degree in Auckland University.
+Enjoys programming since 13 years old. A software engineer in New Zealand.
 EDUCATION
 University of Auckland, Master of Professional Studies in Data Science - Expected in Dec, 2020.
 ZheJiang University, Bachelor of Engineering in Computer Science and Technology, July 2017.
 
 WORK EXPERIENCE
-Oct. 2020 - Now, Cloud Engineer Intern at Umbrellar.
+Apr. 2021 - Now, Software Engineer at Plexure.
+Oct. 2020 - Mar. 2021, Cloud Engineer Intern at Umbrellar.
 July 2018 - July 2019, Software Engineer at Ant Financial.
 July 2017 - June 2018, Devops Engineer at Pinduoduo Inc.
 Apr. 2016 - Oct. 2016, Algorithm Engineer Intern at Huawei Central Software Institute.
@@ -46,6 +47,7 @@ Mobile development with React Native.
 Other languages: C, Rust and Pascal.
 
 HONORS
+Sep 2020 5th Place of NZPC 2020
 Feb 2018 Annual Excellent Employee in Pinduoduo Inc
 May 2016 Huawei Software Elite Challenge 2016, Top 32 in China
 Apr 2012 China Silver Medal in APIO 2012
@@ -68,35 +70,35 @@ Information Security and Quality Assurance
             <title><![CDATA[Competitive Programming]]></title>
             <link>#/post/competitive-programming</link>
             <guid>competitive-programming</guid>
-            <pubDate>Thu, 06 May 2021 08:46:57 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:44 GMT</pubDate>
             <content:encoded><![CDATA[Competitive Programming]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Software Development]]></title>
             <link>#/post/software-development</link>
             <guid>software-development</guid>
-            <pubDate>Thu, 06 May 2021 08:46:57 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:44 GMT</pubDate>
             <content:encoded><![CDATA[Software Development]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Algorithms]]></title>
             <link>#/post/algorithms</link>
             <guid>algorithms</guid>
-            <pubDate>Thu, 06 May 2021 08:46:57 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:44 GMT</pubDate>
             <content:encoded><![CDATA[Algorithms]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[My Projects]]></title>
             <link>#/projects</link>
             <guid>projects</guid>
-            <pubDate>Thu, 06 May 2021 08:46:57 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:44 GMT</pubDate>
             <content:encoded><![CDATA[My Projects]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Data Science]]></title>
             <link>#/post/data-science</link>
             <guid>data-science</guid>
-            <pubDate>Thu, 06 May 2021 08:46:57 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 09:38:44 GMT</pubDate>
             <content:encoded><![CDATA[Data Science]]></content:encoded>
         </item>
     </channel>
