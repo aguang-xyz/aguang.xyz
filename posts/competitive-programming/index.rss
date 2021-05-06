@@ -4,14 +4,14 @@
         <title>Competitive Programming</title>
         <link>https://aguang.xyz/#/post/competitive-programming</link>
         <description>Competitive Programming</description>
-        <lastBuildDate>Thu, 06 May 2021 08:46:54 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 06 May 2021 08:46:56 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Leet Code Weekly Contest 191]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-191</link>
             <guid>leet-code/weekly-contest-191</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 191
 1. Maximum Product of Two Elements in an Array
 Naive.
@@ -99,7 +99,7 @@ TODO
             <title><![CDATA[Leet Code Weekly Contest 190]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-190</link>
             <guid>leet-code/weekly-contest-190</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 190
 1. Check If a Word Occurs As a Prefix of Any Word in a Sentence
 Naive.
@@ -193,7 +193,7 @@ var maxDotProduct = function(nums1, nums2) {
             <title><![CDATA[Leet Code Weekly Contest 189]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-189</link>
             <guid>leet-code/weekly-contest-189</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 189
 1. Number of Students Doing Homework at a Given Time
 No need to talk.
@@ -287,7 +287,7 @@ var numPoints = function(points, r) {
             <title><![CDATA[Leet Code Weekly Contest 188]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-188</link>
             <guid>leet-code/weekly-contest-188</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 188
 1. Build an Array With Stack Operations
 Stack is a FIFO container. Pop all useless elements before pushing the next
@@ -495,7 +495,7 @@ public:
             <title><![CDATA[Leet Code Weekly Contest 187]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-187</link>
             <guid>leet-code/weekly-contest-187</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 187
 1. Destination City
 Let&amp#39;s say,
@@ -696,7 +696,7 @@ public:
             <title><![CDATA[Leet Code Weekly Contest 186]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-186</link>
             <guid>leet-code/weekly-contest-186</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 186
 1. Maximum Score After Splitting a String
 Preffix-sum.
@@ -852,7 +852,7 @@ public:
             <title><![CDATA[Leet Code Weekly Contest 185]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-185</link>
             <guid>leet-code/weekly-contest-185</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 185
 1. Reformat The String
 Divide the characters into two groups: digits and letters, just try
@@ -1149,7 +1149,7 @@ public:
             <title><![CDATA[Leet Code Weekly Contest 184]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-184</link>
             <guid>leet-code/weekly-contest-184</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 184
 1. String Matching in an Array
 KMP.
@@ -1411,7 +1411,7 @@ public:
             <title><![CDATA[Leet Code Weekly Contest 183]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-183</link>
             <guid>leet-code/weekly-contest-183</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 183
 1. Minimum Subsequence in Non-Increasing Order
 Just sort.
@@ -1840,7 +1840,7 @@ public:
             <title><![CDATA[Leet Code Weekly Contest 182]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-182</link>
             <guid>leet-code/weekly-contest-182</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 182
 1. Find Lucky Integer in an Array
 $O(n)$, just show the code.
@@ -2313,7 +2313,7 @@ class Solution {
             <title><![CDATA[Leet Code Weekly Contest 181]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-181</link>
             <guid>leet-code/weekly-contest-181</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 181
 1. Create Target Array in the Given Order
 Naive, no need to talk.
@@ -2488,7 +2488,7 @@ char * longestPrefix(char * s){
             <title><![CDATA[Leet Code Weekly Contest 180]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-180</link>
             <guid>leet-code/weekly-contest-180</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 180
 1. Lucky Numbers in a Matrix
 Saddle point of a matrix.
@@ -2878,7 +2878,7 @@ public:
             <title><![CDATA[Leet Code Weekly Contest 179]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-179</link>
             <guid>leet-code/weekly-contest-179</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 179
 1. Generate a String With Characters That Have Odd Counts
 One simple solution could be:
@@ -3096,7 +3096,7 @@ public:
             <title><![CDATA[Leet Code Weekly Contest 178]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-178</link>
             <guid>leet-code/weekly-contest-178</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 178
 1. How Many Numbers Are Smaller Than the Current Number
 Brute force.
@@ -3428,7 +3428,7 @@ public:
             <title><![CDATA[Leet Code Weekly Contest 177]]></title>
             <link>https://aguang.xyz/#/post/leet-code/weekly-contest-177</link>
             <guid>leet-code/weekly-contest-177</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[Leet Code Weekly Contest 177
 1. Number of Days Between Two Dates
 To save time, I use javascript for this problem.
@@ -3645,7 +3645,7 @@ public:
             <title><![CDATA[SPOJ 4061 - MPOLY - Polygon]]></title>
             <link>https://aguang.xyz/#/post/spoj/4061</link>
             <guid>spoj/4061</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[SPOJ 4061 - MPOLY - Polygon
 There are N points in a plane whose coordinates are natural numbers. A convex polygon with maximal number of vertices is a convex polygon whose vertices are some of given points and the origin having maximal possible number of vertices. Origin, i.e. point with coordinates (0,0), must be one of vertices of a convex polygon with maximal number of vertices.
 Write a program that will determine number of vertices in such polygon.
@@ -3860,7 +3860,7 @@ int main(int argc, char **argv) {
             <title><![CDATA[SPOJ 34409 - DISGRAPH - Disconnected country]]></title>
             <link>https://aguang.xyz/#/post/spoj/34409</link>
             <guid>spoj/34409</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[SPOJ 34409 - DISGRAPH - Disconnected country
 Cities of the ancient country GRAPH connected by two-way (bidirectional) roads so that from any city you can get to any other city. The Sultan wants to destroy some roads and divide the country into two separate (disconnected) areas, so that from the city of one area it was impossible to get to the city of another area. You are the Minister of transportation and your task is to minimize the number of roads that need to be destroyed. You have a lot of time and the Sultan hopes :-) that you will solve this task.
 Input
@@ -4088,7 +4088,7 @@ int main(int argc, char **argv) {
             <title><![CDATA[SPOJ 5732 - PARADOX - Paradox]]></title>
             <link>https://aguang.xyz/#/post/spoj/5732</link>
             <guid>spoj/5732</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[SPOJ 5732 - PARADOX - Paradox
 A paradox is a statement or group of statements that leads to a contradiction. Consider the following two statements.
 &ampquot;The statement below is false.&ampquot;
@@ -4269,7 +4269,7 @@ int main(int argc, char **argv) {
             <title><![CDATA[SPOJ 10394 - ABA12C - Buying Apples!]]></title>
             <link>https://aguang.xyz/#/post/spoj/10394</link>
             <guid>spoj/10394</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[SPOJ 10394 - ABA12C - Buying Apples!
 Harish went to a supermarket to buy exactly ‘k’ kilograms apples for his ‘n’ friends. The supermarket was really weird. The pricing of items was very different. He went to the Apples section and enquired about the prices. The salesman gave him a card in which he found that the prices of apples were not per kg. The apples were packed into covers, each containing ‘x’ kg of apples, x &ampgt; 0 and ‘x’ is an integer. An ‘x’ kg packet would be valued at ‘y’ rupees. So, the placard contained a table with an entry ‘y’ denoting the price of an ‘x’ kg packet. If ‘y’ is -1 it means that the corresponding packet is not available. Now as apples are available only in packets, he decides to buy atmost ‘n’ packets for his ‘n’ friends i.e he will not buy more than n packets of apples.
 Harish likes his friends a lot and so he does not want to disappoint his friends. So now, he will tell you how many friends he has and you have to tell him the minimum amount of money he has to spend for his friends.
@@ -4372,7 +4372,7 @@ int main(int argc, char **argv) {
             <title><![CDATA[SPOJ 5 - PALIN - The Next Palindrome]]></title>
             <link>https://aguang.xyz/#/post/spoj/5</link>
             <guid>spoj/5</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[SPOJ 5 - PALIN - The Next Palindrome
 A positive integer is called a palindrome if its representation in the decimal system is the same when read from left to right and from right to left. For a given positive integer K of not more than 1000000 digits, write the value of the smallest palindrome larger than K to output. Numbers are always displayed without leading zeros.
 Input
@@ -4477,7 +4477,7 @@ int main(int argc, char **argv) {
             <title><![CDATA[SPOJ 4 - ONP - Transform the Expression]]></title>
             <link>https://aguang.xyz/#/post/spoj/4</link>
             <guid>spoj/4</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[SPOJ 4 - ONP - Transform the Expression
 Transform the algebraic expression with brackets into RPN form (Reverse Polish Notation). Two-argument operators: +, -, *, /, ^ (priority from the lowest to the highest), brackets ( ). Operands: only letters: a,b,...,z. Assume that there is only one RPN form (no expressions like a*b*c).
 Input
@@ -4847,7 +4847,7 @@ int main(int argc, char **argv) {
             <title><![CDATA[SPOJ 2 - PRIME1 - Prime Generator]]></title>
             <link>https://aguang.xyz/#/post/spoj/2</link>
             <guid>spoj/2</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[SPOJ 2 - PRIME1 - Prime Generator
 Peter wants to generate some prime numbers for his cryptosystem. Help him! Your task is to generate all prime numbers between two given numbers! 
 Input
@@ -5064,7 +5064,7 @@ int main(int argc, char **argv) {
             <title><![CDATA[SPOJ 1 - TEST - Life, the Universe, and Everything]]></title>
             <link>https://aguang.xyz/#/post/spoj/1</link>
             <guid>spoj/1</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[SPOJ 1 - TEST - Life, the Universe, and Everything
 Your program is to use the brute-force approach in order to find the Answer to Life, the Universe, and Everything. More precisely... rewrite small numbers from input to output. Stop processing input after reading in the number 42. All numbers at input are integers of one or two digits.
 Example

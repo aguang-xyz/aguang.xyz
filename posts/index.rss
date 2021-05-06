@@ -4,14 +4,14 @@
         <title>Aguang's Blog</title>
         <link>https://aguang.xyz/#/post/index.yaml</link>
         <description>Aguang's Blog</description>
-        <lastBuildDate>Thu, 06 May 2021 08:46:55 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 06 May 2021 08:46:57 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[My Profile]]></title>
             <link>https://aguang.xyz/#/post/about/myself</link>
             <guid>about/myself</guid>
-            <pubDate>Thu, 06 May 2021 08:46:10 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:04 GMT</pubDate>
             <content:encoded><![CDATA[PERSONAL PROFILE
 Enjoys computer programming since 13 years old. Has two years of full-time work experience focusing on software development. Now studying for a master degree in Auckland University.
 EDUCATION
@@ -68,35 +68,35 @@ Information Security and Quality Assurance
             <title><![CDATA[Competitive Programming]]></title>
             <link>#/post/competitive-programming</link>
             <guid>competitive-programming</guid>
-            <pubDate>Thu, 06 May 2021 08:46:55 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:57 GMT</pubDate>
             <content:encoded><![CDATA[Competitive Programming]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Software Development]]></title>
             <link>#/post/software-development</link>
             <guid>software-development</guid>
-            <pubDate>Thu, 06 May 2021 08:46:55 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:57 GMT</pubDate>
             <content:encoded><![CDATA[Software Development]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Algorithms]]></title>
             <link>#/post/algorithms</link>
             <guid>algorithms</guid>
-            <pubDate>Thu, 06 May 2021 08:46:55 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:57 GMT</pubDate>
             <content:encoded><![CDATA[Algorithms]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[My Projects]]></title>
             <link>#/projects</link>
             <guid>projects</guid>
-            <pubDate>Thu, 06 May 2021 08:46:55 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:57 GMT</pubDate>
             <content:encoded><![CDATA[My Projects]]></content:encoded>
         </item>
         <item>
             <title><![CDATA[Data Science]]></title>
             <link>#/post/data-science</link>
             <guid>data-science</guid>
-            <pubDate>Thu, 06 May 2021 08:46:55 GMT</pubDate>
+            <pubDate>Thu, 06 May 2021 08:46:57 GMT</pubDate>
             <content:encoded><![CDATA[Data Science]]></content:encoded>
         </item>
     </channel>
