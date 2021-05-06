@@ -1,6 +1,6 @@
 ## PERSONAL PROFILE
 
-Enjoys computer programming since 13 years old. Has two years of full-time work experience focusing on software development. Now studying for a master degree in Auckland University.
+Enjoys programming since 13 years old. A software engineer in New Zealand.
 
 ## EDUCATION
 
@@ -9,7 +9,8 @@ Enjoys computer programming since 13 years old. Has two years of full-time work 
 
 ## WORK EXPERIENCE
 
-* Oct. 2020 - Now, **Cloud Engineer Intern** at **[Umbrellar](https://www.umbrellar.com/)**.
+* Apr. 2021 - Now, **Software Engineer** at **[Plexure](https://www.plexure.com/)**.
+* Oct. 2020 - Mar. 2021, **Cloud Engineer Intern** at **[Umbrellar](https://www.umbrellar.com/)**.
 * July 2018 - July 2019, **Software Engineer** at **[Ant Financial](https://en.wikipedia.org/wiki/Ant_Financial)**.
 * July 2017 - June 2018, **Devops Engineer** at **[Pinduoduo Inc](https://en.wikipedia.org/wiki/Pinduoduo)**.
 * Apr. 2016 - Oct. 2016, **Algorithm Engineer Intern** at **[Huawei](https://en.wikipedia.org/wiki/Huawei) Central Software Institute**.
@@ -37,6 +38,7 @@ Enjoys computer programming since 13 years old. Has two years of full-time work 
 
 ## HONORS
 
+  * Sep 2020 **5th Place** of **NZPC 2020**
   * Feb 2018 **Annual Excellent Employee** in **[Pinduoduo Inc](https://en.wikipedia.org/wiki/Pinduoduo)**
   * May 2016 **[Huawei Software Elite Challenge 2016](https://codecraft.huawei.com/)**, **Top 32** in **China**
   * Apr 2012 **China Silver Medal** in **[APIO 2012](http://apio-olympiad.org/)**
